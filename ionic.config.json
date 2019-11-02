@@ -1,7 +1,0 @@
-{
-  "name": "KiddieCare",
-  "integrations": {
-    "cordova": {}
-  },
-  "type": "ionic-angular"
-}
