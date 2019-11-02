@@ -1,5 +1,7 @@
 {
-  "name": "kc",
-  "integrations": {},
+  "name": "KiddieCare",
+  "integrations": {
+    "cordova": {}
+  },
   "type": "ionic-angular"
 }
