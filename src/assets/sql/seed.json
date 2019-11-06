@@ -1,0 +1,33 @@
+{
+  "structure": {
+    "tables": {
+      "child": "([child_id] INTEGER PRIMARY KEY AUTOINCREMENT,[first_name] TEXT NOT NULL, [middle_name] TEXT NOT NULL, [last_name] TEXT NOT NULL, [birth_date] TEXT NOT NULL)",
+      "parent": "([parent_id] INTEGER PRIMARY KEY AUTOINCREMENT,[first_name] TEXT NOT NULL,[middle_name] TEXT NOT NULL,[last_name] TEXT NOT NULL, [passcode] TEXT NOT NULL)",
+      "schedule": "([schedule_id] INTEGER PRIMARY KEY AUTOINCREMENT,[schedule_date] DATETIME NOT NULL)",
+      "consultation": "([consultation_id] INTEGER PRIMARY KEY AUTOINCREMENT, [consultation_type] TEXT NOT NULL, [consultation_description] TEXT NOT NULL, [consultation_date] DATETIME NOT NULL, [consultation_location] TEXT NOT NULL)",
+      "child_schedule": "([child_id] INTEGER,[schedule_id] INTEGER)",
+      "child_consultation": "([child_id] INTEGER,[consultation_id] INTEGER)"
+    }
+  },
+  "data": {
+    "inserts": {
+      "child": [
+        {
+          "first_name": "Baby",
+          "middle_name": "x",
+          "last_name": "Boy"
+        },
+        {
+          "first_name": "Baby",
+          "middle_name": "x",
+          "last_name": "Test"
+        },
+        {
+          "first_name": "Baby",
+          "middle_name": "x",
+          "last_name": "Girl"
+        }
+      ]
+    }
+  }
+}
