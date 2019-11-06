@@ -22,17 +22,6 @@ export class HomePage {
 
   ionViewDidLoad() {
     this.readChildren();
-    this.checkJson();
-  }
-
-  checkJson(){
-    this.childRecordsProvider.checkJson()
-    .subscribe(data => {
-      console.log(data);
-    }, err => {
-      console.log(err);
-    })
-    
   }
 
   readChildren() {

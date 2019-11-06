@@ -19,10 +19,6 @@ export class ChildRecordsProvider {
     });
   }
 
-  checkJson(){
-    return this.http.get('assets/sql/seed.json');
-  }
-
   readChildren() {
     return this.database.executeSql('SELECT * FROM child', [])
       .then((data) => {
@@ -30,11 +26,11 @@ export class ChildRecordsProvider {
         if (data.rows.length > 0) {
           for (let i = 0; i < data.rows.length; i++) {
             children.push({
-              child_id: data.rows.item[i].child_id,
-              first_name: data.rows.item[i].first_name,
-              middle_name: data.rows.item[i].middle_name,
-              last_name: data.rows.item[i].last_name,
-              birth_date: data.rows.item[i].birth_date
+              child_id: data.rows.item(i).child_id,
+              first_name: data.rows.item(i).first_name,
+              middle_name: data.rows.item(i).middle_name,
+              last_name: data.rows.item(i).last_name,
+              birth_date: data.rows.item(i).birth_date
             })
           }
         }
