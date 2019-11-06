@@ -1,41 +1,57 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
-import { babyData } from '../../data/sample-data';
-import { HttpClient } from '@angular/common/http';
-import {ChildRecordsProvider} from '../../providers/child-records/child-records';
+import { NavController, ModalController } from 'ionic-angular';
+import { DatabaseProvider } from '../../providers/database/database';
+import { ChildRecordsProvider } from '../../providers/child-records/child-records';
+import { AddChildPage } from '../add-child/add-child';
+import { ViewChildPage } from '../view-child/view-child';
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage {
-  baby = babyData;
-  comments: any;
   children: any = [];
 
-  constructor(public navCtrl: NavController, private http:HttpClient, private childProvider:ChildRecordsProvider) {
-    this.getData();
+  constructor(public navCtrl: NavController, public childRecordsProvider: ChildRecordsProvider, private modalCtrl: ModalController, private dbProvider: DatabaseProvider) {
+    this.dbProvider.getDatabaseState().subscribe(ready => {
+      if (ready) {
+        this.readChildren();
+      }
+    })
   }
 
-  ionViewDidLoad(){
-
+  ionViewDidLoad() {
+    this.readChildren();
   }
 
-  getData(){
-    this.http.get('http://jsonplaceholder.typicode.com/comments')
-    .subscribe(data=>{
-      this.comments = data;
+  readChildren() {
+    this.childRecordsProvider.readChildren()
+      .then(data => {
+        this.children = data;
+      })
+      .catch(err => console.log(err));
+  }
+
+  addChild() {
+    let modal = this.modalCtrl.create(AddChildPage);
+    modal.present();
+
+    modal.onDidDismiss(data => {
+      if (data) {
+        console.log(data);
+        this.childRecordsProvider.addChild(data)
+          .then(res => {
+            console.log(res);
+            this.readChildren();
+          }).catch(err => {
+            console.log(err);
+          })
+      }
     });
   }
 
-  // deleteData(comment){
-  //   this.http.post(`http://jsonplaceholder.typicode.com/comments/delete/${comment.id}`)
-  // }
-
-  // getData(){
-  //   this.childProvider.getData().then(data =>{
-  //     this.children = data;
-  //   })
-  // }
-
+  viewChild(id) {
+    let modal = this.modalCtrl.create(ViewChildPage, { child_id: id });
+    modal.present();
+  }
 }
