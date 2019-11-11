@@ -9,53 +9,72 @@ import { HttpClientModule } from '@angular/common/http';
 import { SQLitePorter } from '@ionic-native/sqlite-porter';
 
 import { AboutPage } from '../pages/about/about';
-import { ContactPage } from '../pages/contact/contact';
-import { HomePage } from '../pages/home/home';
+import { ProfilePage } from '../pages/profile/profile';
+import { ChildrenPage } from '../pages/children/children';
 import { TabsPage } from '../pages/tabs/tabs';
-import { PlaygroundPage } from '../pages/playground/playground';
 import { AddChildPage } from '../pages/add-child/add-child';
 import { ViewChildPage } from '../pages/view-child/view-child';
-import { SchedulePage } from '../pages/schedule/schedule';
+import { CalendarPage } from '../pages/calendar/calendar';
 import { AddSchedulePage } from '../pages/add-schedule/add-schedule';
+import { RegisterPage } from '../pages/register/register';
+import { EditChildPage } from '../pages/edit-child/edit-child';
+import { ChildRecordsProvider } from '../providers/child-records/child-records';
+import { AddChildRecordPage } from '../pages/add-child-record/add-child-record';
+import { AddProfilePage } from '../pages/add-profile/add-profile';
+import { EditProfilePage } from '../pages/edit-profile/edit-profile';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
-import { ChildRecordsProvider } from '../providers/child-records/child-records';
+
 import { DatabaseProvider } from '../providers/database/database';
+import { from } from 'rxjs/observable/from';
+import { ConsultationProvider } from '../providers/consultation/consultation';
+import { ProfileProvider } from '../providers/profile/profile';
+//import { LockScreenModule, LockScreenComponent } from 'ionic-simple-lockscreen';
 
 @NgModule({
   declarations: [
     MyApp,
     AboutPage,
-    ContactPage,
-    HomePage,
+    ProfilePage,
+    ChildrenPage,
     TabsPage,
-    PlaygroundPage,
-    SchedulePage,
+    CalendarPage,
     AddSchedulePage,
     AddChildPage,
-    ViewChildPage
+    ViewChildPage,
+    RegisterPage,
+    EditChildPage,
+    AddChildRecordPage,
+    AddProfilePage,
+    EditProfilePage/*,
+    LockScreenComponent*/
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
     IonicStorageModule.forRoot(),
     NgCalendarModule,
-    HttpClientModule
+    HttpClientModule/*,
+    LockScreenModule*/
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
     AboutPage,
-    ContactPage,
-    HomePage,
+    ProfilePage,
+    ChildrenPage,
     TabsPage,
-    PlaygroundPage,
-    SchedulePage,
+    CalendarPage,
     AddSchedulePage,
     AddChildPage,
-    ViewChildPage
+    ViewChildPage,
+    RegisterPage,
+    EditChildPage,
+    AddChildRecordPage,
+    AddProfilePage,
+    EditProfilePage
   ],
   providers: [
     StatusBar,
@@ -64,7 +83,9 @@ import { DatabaseProvider } from '../providers/database/database';
     SQLite,
     SQLitePorter,
     ChildRecordsProvider,
-    DatabaseProvider
+    DatabaseProvider,
+    ConsultationProvider,
+    ProfileProvider
   ]
 })
 export class AppModule { }

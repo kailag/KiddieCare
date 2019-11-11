@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-navbar color="secondary">
+    <ion-title>Edit Child</ion-title>
+    <ion-buttons end>
+      <button ion-button clear icon-only (click)="cancel()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-item hidden>
+      <ion-label floating>ID</ion-label>
+      <ion-input type="text" value="{{child.child_id}}" #child_id></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>First Name</ion-label>
+      <ion-input type="text" value="{{child.first_name}}" #first_name></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Middle Name</ion-label>
+      <ion-input type="text" value="{{child.middle_name}}" #middle_name></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Last Name</ion-label>
+      <ion-input type="text" value="{{child.last_name}}" #last_name></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Birthdate</ion-label>
+      <ion-datetime displayFormat="MMMM D YYYY" pickerFormat="MMMM DD YYYY"></ion-datetime>
+    </ion-item>
+  </ion-list>
+  
+  <button ion-button block icon-start type="submit" color="secondary" (click)="updateChild(child_id.value,first_name.value,middle_name.value,last_name.value)">
+    <ion-icon name="create"></ion-icon> UPDATE
+  </button>
+
+</ion-content>

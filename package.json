@@ -37,6 +37,7 @@
     "cordova-sqlite-storage": "^3.4.0",
     "intl": "^1.2.5",
     "ionic-angular": "3.9.5",
+    "ionic-simple-lockscreen": "0.0.4",
     "ionic2-calendar": "^0.4.0",
     "ionicons": "3.0.0",
     "moment": "^2.24.0",
@@ -47,6 +48,7 @@
   },
   "devDependencies": {
     "@ionic/app-scripts": "3.2.2",
+    "@ionic/lab": "2.0.13",
     "typescript": "~2.6.2"
   },
   "description": "An Ionic project",

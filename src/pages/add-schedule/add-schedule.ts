@@ -8,7 +8,7 @@ import * as moment from 'moment';
   templateUrl: 'add-schedule.html',
 })
 export class AddSchedulePage {
-  event = {
+  /*event = {
     title: '',
     startTime: new Date().toISOString(),
     endTime: new Date().toISOString(),
@@ -56,6 +56,23 @@ export class AddSchedulePage {
     });
     alert.present();
 
+  }*/
+
+  event = { startTime: new Date().toISOString(), endTime: new Date().toISOString(), allDay: false };
+  minDate = new Date().toISOString();
+ 
+  constructor(public navCtrl: NavController, private navParams: NavParams, public viewCtrl: ViewController) {
+    let preselectedDate = moment(this.navParams.get('selectedDay')).format();
+    this.event.startTime = preselectedDate;
+    this.event.endTime = preselectedDate;
+  }
+ 
+  cancel() {
+    this.viewCtrl.dismiss();
+  }
+ 
+  save() {
+    this.viewCtrl.dismiss(this.event);
   }
 
 }

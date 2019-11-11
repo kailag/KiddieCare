@@ -1,16 +1,17 @@
 <ion-header>
-  <ion-navbar color="lb">
-    <ion-title>Child Details</ion-title>
-  </ion-navbar>
-</ion-header>
+    <ion-navbar color="primary">
+      <ion-title>{{child.first_name}} {{child.middle_name}} {{child.last_name}}</ion-title>
+    </ion-navbar>
+  </ion-header>
+  
+  <ion-content padding>
 
-<ion-content padding>
-  <ion-card>
-    <ion-card-header>{{child.first_name}}</ion-card-header>
-    <ion-card-content>
-      <p>Detail 1</p>
-      <p>Detail 2</p>
-      <p>Detail N</p>
-    </ion-card-content>
-  </ion-card>
-</ion-content>
+    
+    
+    <!-- FLOATING BUTTON TO ADD NEW CHILD -->
+    <ion-fab right bottom>
+      <button ion-fab color="secondary" (click)="addChildRecord()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-fab>
+  </ion-content>
