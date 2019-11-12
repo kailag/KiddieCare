@@ -20,13 +20,13 @@ export class ConsultationProvider {
     });
   }
 
-  readChildrenRecord() {
-    return this.database.executeSql('SELECT * FROM consultation', [])
+  readAllRecords() {
+    return this.database.executeSql('SELECT * FROM consultation ORDER BY consultation_id DESC', [])
       .then((data) => {
-        let consultation = [];
+        let consultations = [];
         if (data.rows.length > 0) {
           for (let i = 0; i < data.rows.length; i++) {
-            consultation.push({
+            consultations.push({
               consultation_id: data.rows.item(i).consultation_id,
               consultation_type: data.rows.item(i).consultation_type,
               consultation_description: data.rows.item(i).consultation_description,
@@ -35,27 +35,29 @@ export class ConsultationProvider {
             })
           }
         }
-        return consultation;
+        return consultations;
       }, err => {
         console.log(err);
         return [];
       });
   }
 
-  readChildRecord(consultation_id) {
-    return this.database.executeSql('SELECT * FROM consultation WHERE consultation_id=?', [consultation_id])
+  readChildRecords(child_id) {
+    return this.database.executeSql('SELECT * FROM consultation WHERE child_id=?', [child_id])
       .then((data) => {
-        let consultation;
+        let consultations;
         if (data.rows.length > 0) {
-          consultation = {
-            consultation_id: data.rows.item(0).consultation_id,
-            consultation_type: data.rows.item(0).consultation_type,
-            consultation_description: data.rows.item(0).consultation_description,
-            consultation_date: data.rows.item(0).consultation_date,
-            consultation_location: data.rows.item(0).consultation_location
+          for (let i = 0; i < data.rows.length; i++) {
+            consultations.push({
+              consultation_id: data.rows.item(i).consultation_id,
+              consultation_type: data.rows.item(i).consultation_type,
+              consultation_description: data.rows.item(i).consultation_description,
+              consultation_date: data.rows.item(i).consultation_date,
+              consultation_location: data.rows.item(i).consultation_location
+            })
           }
         }
-        return consultation;
+        return consultations;
       }, err => {
         console.log(err);
         return [];
@@ -84,7 +86,7 @@ export class ConsultationProvider {
   }
 
   deleteChildRecord(id) {
-    return this.database.executeSql('DELETE FROM consultation WHERE child_id=?', [id])
+    return this.database.executeSql('DELETE FROM consultation WHERE consultation_id=?', [id])
       .then(data => {
         return data;
       }, err => {

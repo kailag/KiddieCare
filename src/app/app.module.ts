@@ -7,6 +7,7 @@ import { NgCalendarModule } from 'ionic2-calendar';
 import { IonicStorageModule } from '@ionic/storage';
 import { HttpClientModule } from '@angular/common/http';
 import { SQLitePorter } from '@ionic-native/sqlite-porter';
+import { NgPipesModule } from 'ngx-pipes';
 
 import { AboutPage } from '../pages/about/about';
 import { ProfilePage } from '../pages/profile/profile';
@@ -56,8 +57,9 @@ import { ProfileProvider } from '../providers/profile/profile';
     IonicModule.forRoot(MyApp),
     IonicStorageModule.forRoot(),
     NgCalendarModule,
-    HttpClientModule/*,
-    LockScreenModule*/
+    HttpClientModule,
+    NgPipesModule,
+    // LockScreenModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

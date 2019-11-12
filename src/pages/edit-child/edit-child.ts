@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { ChildRecordsProvider } from '../../providers/child-records/child-records';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+
 import { ChildrenPage } from '../children/children';
 
 @IonicPage()
@@ -10,40 +12,31 @@ import { ChildrenPage } from '../children/children';
 })
 export class EditChildPage {
 
-  child;
-  results: Array<any>;
-  data: any;
+  editForm: FormGroup;
+  child: any
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private viewCtrl: ViewController, private childRecordsProvider: ChildRecordsProvider) {
-    this.child = navParams.data.child;
+  constructor(public navCtrl: NavController, public navParams: NavParams, private viewCtrl: ViewController, private fb: FormBuilder) {
+    this.child = this.navParams.get('child');
+    this.editForm = this.fb.group({
+      first_name: ['', Validators.required],
+      middle_name: ['', Validators.required],
+      last_name: ['', Validators.required],
+      birth_date: ['', Validators.required]
+    });
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad EditChildPage');
-  }
-
-  cancel(){
+  cancel() {
     this.viewCtrl.dismiss();
   }
 
-  updateChild(id:string,first_name: string, middle_name: string,last_name: string,birth_date: string)
-  {
-    this.data.updateChild(id,first_name,middle_name,last_name,birth_date).subscribe(
-        data => {
-          this.results = data;
-          console.log(data);
-          if(this.results[0].result =="success")
-          {
-            this.navCtrl.popTo(ChildrenPage);
-          }
-        },
-        err => {
-          console.log(err);
-        },
-        () => console.log('Successfully updated!')
-        
-    );
+  get f() { return this.editForm.controls }
 
+  updateChild() {
+    if (this.editForm.invalid) {
+      return;
+    }
+    let updateData = this.child;
+    this.viewCtrl.dismiss(updateData);
   }
 
 }

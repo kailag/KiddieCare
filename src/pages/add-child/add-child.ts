@@ -54,16 +54,6 @@ export class AddChildPage {
 
     //toast
     this.viewCtrl.dismiss(this.child);
-    let toast = this.toastCtrl.create({
-      message: 'Child was added successfully',
-      duration: 5000,
-    });
-  
-    toast.onDidDismiss(() => {
-      console.log('Dismissed toast');
-    });
-  
-    toast.present();
   }
 
   cancel(){
