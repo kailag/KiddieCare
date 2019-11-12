@@ -1,6 +1,6 @@
 <ion-header>
-  <ion-navbar color="primary">
-    <ion-title>Add Child</ion-title>
+  <ion-navbar color="secondary">
+    <ion-title>Edit Child</ion-title>
     <ion-buttons end>
       <button ion-button clear icon-only (click)="cancel()">
         <ion-icon name="close"></ion-icon>
@@ -10,7 +10,8 @@
 </ion-header>
 
 <ion-content padding>
-  <form [formGroup]="addForm" autocomplete="off" (ngSubmit)="addChild()">
+
+  <form [formGroup]="editForm" autocomplete="off" (ngSubmit)="updateChild()">
     <ion-list>
       <ion-item>
         <ion-label floating>First Name</ion-label>
@@ -30,13 +31,15 @@
       <ion-item>
         <ion-label floating>Birthdate</ion-label>
         <ion-datetime displayFormat="MMMM D YYYY" pickerFormat="MMMM DD YYYY" formControlName="birth_date"
-          [(ngModel)]="child.birth_date"></ion-datetime>
+          [(ngModel)]="child.birth_date">
+        </ion-datetime>
       </ion-item>
-
     </ion-list>
-    <button ion-button block icon-start type="submit">
-      <ion-icon name="add"></ion-icon> ADD
-    </button>
 
+    <button ion-button block icon-start type="submit" color="secondary">
+      <ion-icon name="create"></ion-icon> UPDATE
+    </button>
   </form>
+
+
 </ion-content>

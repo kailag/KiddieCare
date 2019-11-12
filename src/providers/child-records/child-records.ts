@@ -20,7 +20,7 @@ export class ChildRecordsProvider {
   }
 
   readChildren() {
-    return this.database.executeSql('SELECT * FROM child', [])
+    return this.database.executeSql('SELECT * FROM child ORDER BY first_name', [])
       .then((data) => {
         let children = [];
         if (data.rows.length > 0) {
@@ -41,8 +41,8 @@ export class ChildRecordsProvider {
       });
   }
 
-  readChild(id) {
-    return this.database.executeSql('SELECT * FROM child WHERE child_id=?', [id])
+  readChild(child_id) {
+    return this.database.executeSql('SELECT * FROM child WHERE child_id=?', [child_id])
       .then((data) => {
         let child;
         if (data.rows.length > 0) {
@@ -73,7 +73,7 @@ export class ChildRecordsProvider {
   }
 
   updateChild(child) {
-    return this.database.executeSql('UPDATE CHILD (first_name, middle_name, last_name, birth_date) VALUES(?, ?, ?, ?) WHERE child_id = ?', [child.first_name, child.middle_name, child.last_name, child.birth_date, child.id])
+    return this.database.executeSql('UPDATE child SET first_name=?, middle_name=?, last_name=?, birth_date=? WHERE child_id=?', [child.first_name, child.middle_name, child.last_name, child.birth_date, child.child_id])
       .then(data => {
         return data;
       }, err => {
@@ -83,7 +83,7 @@ export class ChildRecordsProvider {
   }
 
   deleteChild(id) {
-    return this.database.executeSql('DELETE FROM CHILD WHERE child_id=?', [id])
+    return this.database.executeSql('DELETE FROM child WHERE child_id=?', [id])
       .then(data => {
         return data;
       }, err => {
@@ -92,5 +92,5 @@ export class ChildRecordsProvider {
       });
   }
 
-
+  
 }

@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar color="lb">
+  <ion-navbar color="primary">
     <ion-buttons start>
       <button ion-button icon-only (click)="cancel()">
         <ion-icon name="close"></ion-icon>
@@ -10,24 +10,32 @@
 </ion-header>
  
 <ion-content padding>
-  <ion-list>
-    <ion-item>
-      <ion-label>Event</ion-label>
-      <ion-input type="text" [(ngModel)]="event.title"></ion-input>
-    </ion-item>
- 
-    <ion-item>
-      <ion-label>Date and Time</ion-label>
-      <ion-datetime displayFormat="MMM/D/YYYY hh:mm" pickerFormat="MMM D:hhA" [(ngModel)]="event.startTime" [min]="minDate"></ion-datetime>
-    </ion-item>
- 
-    <ion-item>
-      <ion-label>All Day?</ion-label>
-      <ion-checkbox [(ngModel)]="event.allDay"></ion-checkbox>
-    </ion-item>
-  </ion-list>
- 
-  <button ion-button color="lb" block round icon-left (click)="save()">
-    <ion-icon name="save"></ion-icon> Add Schedule
-  </button>
+  
+  <ion-content>
+    <ion-list>
+      <ion-item>
+        <ion-input type="text" placeholder="Title" [(ngModel)]="event.title"></ion-input>
+      </ion-item>
+   
+      <ion-item>
+        <ion-label>Start</ion-label>
+        <ion-datetime displayFormat="MM/DD/YYYY HH:mm" pickerFormat="MMM D:HH:mm" [(ngModel)]="event.startTime" [min]="minDate"></ion-datetime>
+      </ion-item>
+   
+      <ion-item>
+        <ion-label>End</ion-label>
+        <ion-datetime displayFormat="MM/DD/YYYY HH:mm" pickerFormat="MMM D:HH:mm" [(ngModel)]="event.endTime" [min]="minDate"></ion-datetime>
+      </ion-item>
+   
+      <ion-item>
+        <ion-label>All Day?</ion-label>
+        <ion-checkbox [(ngModel)]="event.allDay"></ion-checkbox>
+      </ion-item>
+    </ion-list>
+   
+    <button ion-button full icon-left (click)="save()">
+      <ion-icon name="add"></ion-icon> ADD EVENT
+    </button>
+  </ion-content>
+
 </ion-content>

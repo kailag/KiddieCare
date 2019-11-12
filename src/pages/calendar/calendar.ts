@@ -5,10 +5,10 @@ import { AddSchedulePage } from '../add-schedule/add-schedule';
 
 @IonicPage()
 @Component({
-  selector: 'page-schedule',
-  templateUrl: 'schedule.html',
+  selector: 'page-calendar',
+  templateUrl: 'calendar.html',
 })
-export class SchedulePage {
+export class CalendarPage {
   eventSource = [];
   viewTitle: string;
   selectedDay = new Date();
@@ -65,12 +65,12 @@ export class SchedulePage {
     alert.present();
   }
 
-  onTimeSelected = (ev: { selectedTime: Date, events: any[] }) => {
+  /*onTimeSelected = (ev: { selectedTime: Date, events: any[] }) => {
     console.log('Selected time: ' + ev.selectedTime + ', hasEvents: ' + (ev.events !== undefined && ev.events.length !== 0));
-  };
-  // onTimeSelected(ev) {
-  //   console.log(ev);
-  //   this.selectedDay = ev.selectedTime;
-  // }
+  };*/
+  onTimeSelected(ev) {
+    console.log(ev);
+    this.selectedDay = ev.selectedTime;
+  }
 
 }

@@ -1,9 +1,9 @@
 CREATE TABLE IF NOT EXISTS parent(parent_id INTEGER PRIMARY KEY AUTOINCREMENT, first_name TEXT NOT NULL, middle_name TEXT NOT NULL, last_name TEXT NOT NULL, passcode TEXT NOT NULL);
 
 CREATE TABLE IF NOT EXISTS child(child_id INTEGER PRIMARY KEY AUTOINCREMENT,first_name TEXT NOT NULL, middle_name TEXT NOT NULL, last_name TEXT NOT NULL, birth_date TEXT NOT NULL);
-INSERT INTO child(first_name, last_name, middle_name, birth_date) VALUES ('Test', 'Baby', 'Boy', '2019-12-10');
-INSERT INTO child(first_name, last_name, middle_name, birth_date) VALUES ('Test', 'Baby', 'Girl', '2019-12-01');
-INSERT INTO child(first_name, last_name, middle_name, birth_date) VALUES ('Test', 'Baby', 'Bi', '2019-12-03');
+INSERT INTO child(first_name, last_name, middle_name, birth_date) VALUES ('Maria Kristin', 'Rindon', 'Castillo', '2015-12-10');
+INSERT INTO child(first_name, last_name, middle_name, birth_date) VALUES ('Mark Lorie', 'Oh', 'De Vera', '2015-12-01');
+INSERT INTO child(first_name, last_name, middle_name, birth_date) VALUES ('Leah', 'Kismod', 'Natividad', '2015-12-03');
 
 CREATE TABLE IF NOT EXISTS schedule(schedule_id INTEGER PRIMARY KEY AUTOINCREMENT,schedule_date DATETIME NOT NULL);
 

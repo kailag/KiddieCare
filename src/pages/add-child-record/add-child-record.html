@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>Add Child Record</ion-title>
+    <ion-buttons end>
+      <button ion-button clear icon-only (click)="cancel()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <form [formGroup]="addForm" autocomplete="off" (ngSubmit)="addChildRecord()">
+    <ion-list>
+      <ion-item>
+        <ion-label floating>Type</ion-label>
+        <ion-input type="text" formControlName="consultation_type" [(ngModel)]="consultation.consultation_type"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Description</ion-label>
+        <ion-input type="text" formControlName="consultation_description" [(ngModel)]="consultation.consultation_description"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Date</ion-label>
+        <ion-datetime displayFormat="MMMM D YYYY" pickerFormat="MMMM DD YYYY" [(ngModel)]="consultation.consultation_date"
+          formControlName="consultation_date"></ion-datetime>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Location</ion-label>
+        <ion-input type="text" formControlName="consultation_location" [(ngModel)]="consultation.consultation_location"></ion-input>
+      </ion-item>
+
+    </ion-list>
+    <button ion-button block icon-start type="submit">
+      <ion-icon name="add"></ion-icon> ADD
+    </button>
+
+  </form>  
+</ion-content>
