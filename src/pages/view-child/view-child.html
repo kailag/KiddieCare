@@ -1,17 +1,37 @@
 <ion-header>
-    <ion-navbar color="primary">
-      <ion-title>{{child.first_name}} {{child.middle_name}} {{child.last_name}}</ion-title>
-    </ion-navbar>
-  </ion-header>
-  
-  <ion-content padding>
+  <ion-navbar color="primary">
+    <ion-title>{{child.first_name}}'s Records</ion-title>
+  </ion-navbar>
+</ion-header>
 
-    
-    
-    <!-- FLOATING BUTTON TO ADD NEW CHILD -->
-    <ion-fab right bottom>
-      <button ion-fab color="secondary" (click)="addChildRecord()">
-        <ion-icon name="add"></ion-icon>
-      </button>
-    </ion-fab>
-  </ion-content>
+<ion-content padding>
+
+  <ion-card no-padding *ngFor="let record of records">
+    <ion-card-header>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <h2>{{record.consultation_date}}</h2>
+          </ion-col>
+          <ion-col text-right>
+            <button ion-button icon-only clear (click)="deleteRecord(record.consultation_id)">
+              <ion-icon name="trash"></ion-icon>
+            </button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+    </ion-card-header>
+    <ion-card-content>
+      <p>Type: {{record.consultation_type}}</p>
+      <p>Description: {{record.consultation_description}}</p>
+      <p>Location: {{record.consultation_location}}</p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-fab right bottom>
+    <button ion-fab color="secondary" (click)="addChildRecord()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
+</ion-content>
