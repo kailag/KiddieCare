@@ -42,8 +42,8 @@ export class ConsultationProvider {
       });
   }
 
-  readChildRecords(child_id) {
-    return this.database.executeSql('SELECT * FROM consultation WHERE child_id=?', [child_id])
+  readChildRecords(id) {
+    return this.database.executeSql('SELECT * FROM consultation WHERE child_id=? ORDER BY consultation_id DESC', [id])
       .then((data) => {
         let consultations;
         if (data.rows.length > 0) {
