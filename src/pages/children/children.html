@@ -21,23 +21,29 @@
 
   <!-- VIEW ALL CHILD -->
   <ion-list class="list-content">
+
     <ion-item *ngFor="let child of children">
       <div (click)="viewChild(child)">
         <ion-avatar item-start>
           <img src="assets/imgs/child1.png">
         </ion-avatar>
-
         <h2>{{child.first_name}} {{child.last_name}}</h2>
         <p>Birthdate: {{child.birth_date}}</p>
       </div>
-      <ion-icon name="create" item-end color="secondary" (click)="editChild(child)"></ion-icon>
-      <ion-icon name="trash" item-end color="danger" (click)="deleteChild(child.child_id)"></ion-icon>
+      <ion-icon name="create" item-end color="gray" (click)="editChild(child)"></ion-icon>
+      <ion-icon name="trash" item-end color="gray" (click)="deleteChild(child.child_id)"></ion-icon>
     </ion-item>
+
   </ion-list>
+
+  <!--button ion-button (click)="takePhoto()">Take Photo</button>
+  <button ion-button (click)="getFromGallery()">Get From Gallery</button>
+
+  <p><img src="{{ photo }}"></p-->
 
   <!-- FLOATING BUTTON TO ADD NEW CHILD -->
   <ion-fab right bottom>
-    <button ion-fab color="secondary" (click)="addChild()">
+    <button ion-fab (click)="addChild()">
       <ion-icon name="add"></ion-icon>
     </button>
   </ion-fab>

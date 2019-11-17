@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, AlertController, Platform } from 'ionic-angular';
 import * as moment from 'moment';
 import { AddSchedulePage } from '../add-schedule/add-schedule';
+import { LocalNotifications } from '@ionic-native/local-notifications';
 
 @IonicPage()
 @Component({
@@ -24,8 +25,12 @@ export class CalendarPage {
     return date < current;
   };
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController, private alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController, private alertCtrl: AlertController, private localNotif: LocalNotifications, private platform: Platform) {
     console.log(new Date());
+
+    this.platform.ready().then(() => {
+      this.localNotif.on("click");
+    });
   }
 
   addEvent() {
@@ -71,6 +76,18 @@ export class CalendarPage {
   onTimeSelected(ev) {
     console.log(ev);
     this.selectedDay = ev.selectedTime;
+  }
+
+  push(){
+    this.platform.ready().then(() => {
+      this.localNotif.schedule({
+        id: 1,
+        title: 'My First Notification',
+        text: 'Message here!',
+        trigger: {at: new Date(new Date().getTime())},
+        data: {"id": 1, "name": "Maria Mercades"}
+     });
+    });
   }
 
 }

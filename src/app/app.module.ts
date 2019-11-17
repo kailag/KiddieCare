@@ -32,7 +32,10 @@ import { DatabaseProvider } from '../providers/database/database';
 import { from } from 'rxjs/observable/from';
 import { ConsultationProvider } from '../providers/consultation/consultation';
 import { ProfileProvider } from '../providers/profile/profile';
-//import { LockScreenModule, LockScreenComponent } from 'ionic-simple-lockscreen';
+import { LocalNotifications } from '@ionic-native/local-notifications';
+
+
+import { Camera } from '@ionic-native/camera';
 
 @NgModule({
   declarations: [
@@ -81,6 +84,8 @@ import { ProfileProvider } from '../providers/profile/profile';
   providers: [
     StatusBar,
     SplashScreen,
+    Camera,
+    LocalNotifications,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     SQLite,
     SQLitePorter,

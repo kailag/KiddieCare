@@ -19,6 +19,7 @@ export class AddChildRecordPage {
 
   constructor(private navCtrl: NavController, public navParams: NavParams, public consultationProvider: ConsultationProvider, private fb: FormBuilder, private viewCtrl: ViewController, private alertCtrl: AlertController, private toastCtrl: ToastController) {
     this.addForm = this.fb.group({
+      id: ['', Validators.required],
       consultation_type: ['', Validators.required],
       consultation_description: ['', Validators.required],
       consultation_date: ['', Validators.required],
@@ -32,26 +33,23 @@ export class AddChildRecordPage {
     console.log('ionViewDidLoad AddChildRecordPage');
   }
 
-  addChildRecord(){
-
-    if (this.addForm.invalid) {
-      return;
-    }
-
-    //toast
-    this.viewCtrl.dismiss(this.consultation);
+  presentToast(message) {
     let toast = this.toastCtrl.create({
-      message: 'Consultation was added successfully',
+      message: message,
       duration: 5000,
+      showCloseButton: true
     });
-  
-    toast.onDidDismiss(() => {
-      console.log('Dismissed toast');
-    });
-  
     toast.present();
   }
 
+  addChildRecord(){
+
+    if (this.addForm.invalid) {
+      this.presentToast('Please fill out all required fields!');
+      return;
+    }
+  }
+  
   cancel(){
     this.viewCtrl.dismiss();
   }
