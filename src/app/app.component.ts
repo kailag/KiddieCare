@@ -16,7 +16,7 @@ import { ProfileProvider } from '../providers/profile/profile';
   templateUrl: 'app.html'
 })
 export class MyApp {
-  //rootPage: any;
+  // rootPage: any;
   rootPage: any = TabsPage;
   private database: SQLiteObject;
 
@@ -33,13 +33,14 @@ export class MyApp {
   }
 
   // checkLogin(){
-  //   if(this.profileProvider.readAllParent()){
-  //     this.rootPage = RegisterPage;
-  //   }
-  //   else{
-  //     this.rootPage = TabsPage;
-  //   }
+  //   this.profileProvider.readAllParent().then(data =>{
+  //     if(data.length == null){
+  //       this.rootPage = RegisterPage;
+  //     }
+  //     else{
+  //       this.rootPage = TabsPage;
+  //     }
+  //   });
   // }
-  //count if data exist if none then register
 
 }

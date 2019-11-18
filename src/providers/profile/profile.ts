@@ -21,7 +21,7 @@ export class ProfileProvider {
   }
 
   readAllParent() {
-    return this.database.executeSql('SELECT * FROM parent WHERE parent_id = 1', [])
+    return this.database.executeSql('SELECT * FROM parent')
       .then((data) => {
         let parent = [];
         if (data.rows.length > 0) {
@@ -41,16 +41,18 @@ export class ProfileProvider {
       });
   }
 
-  readParent(parent_id) {
-    return this.database.executeSql('SELECT * FROM parent WHERE parent_id=?', [parent_id])
+  readParent() {
+    return this.database.executeSql('SELECT * FROM parent WHERE parent_id = 1')
       .then((data) => {
-        let parent;
+        let parent = [];
         if (data.rows.length > 0) {
-          parent = {
-            parent_id: data.rows.item(0).parent_id,
-            first_name: data.rows.item(0).first_name,
-            middle_name: data.rows.item(0).middle_name,
-            last_name: data.rows.item(0).last_name
+          for (let i = 0; i < data.rows.length; i++) {
+            parent.push({
+              parent_id: data.rows.item(i).parent_id,
+              first_name: data.rows.item(i).first_name,
+              middle_name: data.rows.item(i).middle_name,
+              last_name: data.rows.item(i).last_name
+            })
           }
         }
         return parent;
@@ -58,7 +60,16 @@ export class ProfileProvider {
         console.log(err);
         return [];
       });
+  }
 
+  count() {
+    return this.database.executeSql('SELECT COUNT(parent_id) FROM parent')
+      .then(data => {
+        return data;
+      }, err => {
+        console.log(err);
+        return err;
+      });
   }
 
   addParent(parent) {

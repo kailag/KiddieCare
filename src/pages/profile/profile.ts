@@ -34,7 +34,7 @@ export class ProfilePage {
   }
 
   readParent(){
-    this.parentProvider.readAllParent()
+    this.parentProvider.readParent()
       .then(data => {
         this.parent = data;
       })
