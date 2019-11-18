@@ -1,9 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
-import { ChildRecordsProvider } from '../../providers/child-records/child-records';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-
-import { ChildrenPage } from '../children/children';
 
 @IonicPage()
 @Component({

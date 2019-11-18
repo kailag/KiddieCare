@@ -1,12 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the EditProfilePage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @IonicPage()
 @Component({
@@ -15,11 +9,30 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class EditProfilePage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  editForm: FormGroup;
+  parent: any
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, private viewCtrl: ViewController, private fb: FormBuilder) {
+    this.parent = this.navParams.get('parent');
+    this.editForm = this.fb.group({
+      first_name: ['', Validators.required],
+      middle_name: ['', Validators.required],
+      last_name: ['', Validators.required]
+    });
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad EditProfilePage');
+  cancel() {
+    this.viewCtrl.dismiss();
+  }
+
+  get f() { return this.editForm.controls }
+
+  updateProfile() {
+    if (this.editForm.invalid) {
+      return;
+    }
+    let updateData = this.parent;
+    this.viewCtrl.dismiss(updateData);
   }
 
 }

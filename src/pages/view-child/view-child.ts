@@ -40,7 +40,7 @@ export class ViewChildPage {
   }
 
   addChildRecord() {
-    let modal = this.modalCtrl.create(AddChildRecordPage, { child_id: this.child.child_id });
+    let modal = this.modalCtrl.create(AddChildRecordPage);
     modal.present();
     modal.onDidDismiss(data => {
       if (data) {
@@ -56,8 +56,8 @@ export class ViewChildPage {
 
   deleteRecord(id) {
     let alert = this.alertCtrl.create({
-      title: 'Delete Record',
-      subTitle: 'Delete this record?',
+      title: 'WARNING!',
+      subTitle: 'Are you sure you want to delete this record?',
       buttons: [
         {
           text: 'Cancel',

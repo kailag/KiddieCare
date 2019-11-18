@@ -1,12 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the RegisterPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { IonicPage, NavController, NavParams, ViewController, AlertController, ToastController } from 'ionic-angular';
+import { ProfileProvider } from '../../providers/profile/profile';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @IonicPage()
 @Component({
@@ -15,11 +10,40 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class RegisterPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  parent = {
+    first_name: '',
+    middle_name: '',
+    last_name: ''
+  }
+  addForm: FormGroup;
+
+  constructor(private navCtrl: NavController, public navParams: NavParams, public profileProvider: ProfileProvider, private fb: FormBuilder, private viewCtrl: ViewController, private alertCtrl: AlertController, private toastCtrl: ToastController) {
+    this.addForm = this.fb.group({
+      first_name: ['', Validators.required],
+      middle_name: ['', Validators.required],
+      last_name: ['', Validators.required]
+    });
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad RegisterPage');
+  }
+
+  presentToast(message) {
+    let toast = this.toastCtrl.create({
+      message: message,
+      duration: 5000,
+      showCloseButton: true
+    });
+    toast.present();
+  }
+
+  addProfile(){
+    if (this.addForm.invalid) {
+      this.presentToast('Please fill out all required fields!');
+      return;
+    }
+    
   }
 
 }
