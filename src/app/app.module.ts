@@ -27,15 +27,14 @@ import { EditProfilePage } from '../pages/edit-profile/edit-profile';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
-
 import { DatabaseProvider } from '../providers/database/database';
-import { from } from 'rxjs/observable/from';
 import { ConsultationProvider } from '../providers/consultation/consultation';
 import { ProfileProvider } from '../providers/profile/profile';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 
 
 import { Camera } from '@ionic-native/camera';
+import { ScheduleProvider } from '../providers/schedule/schedule';
 
 @NgModule({
   declarations: [
@@ -52,8 +51,7 @@ import { Camera } from '@ionic-native/camera';
     EditChildPage,
     AddChildRecordPage,
     AddProfilePage,
-    EditProfilePage/*,
-    LockScreenComponent*/
+    EditProfilePage
   ],
   imports: [
     BrowserModule,
@@ -62,7 +60,6 @@ import { Camera } from '@ionic-native/camera';
     NgCalendarModule,
     HttpClientModule,
     NgPipesModule,
-    // LockScreenModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -92,7 +89,8 @@ import { Camera } from '@ionic-native/camera';
     ChildRecordsProvider,
     DatabaseProvider,
     ConsultationProvider,
-    ProfileProvider
+    ProfileProvider,
+    ScheduleProvider
   ]
 })
 export class AppModule { }

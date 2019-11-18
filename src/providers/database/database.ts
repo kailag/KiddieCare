@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { SQLitePorter } from '@ionic-native/sqlite-porter';
-import 'rxjs/add/operator/map';
 import { BehaviorSubject } from 'rxjs/Rx';
 import { Storage } from '@ionic/storage';
 import { Platform } from 'ionic-angular';
