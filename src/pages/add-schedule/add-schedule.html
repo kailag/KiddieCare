@@ -8,34 +8,42 @@
     <ion-title>Add Schedule</ion-title>
   </ion-navbar>
 </ion-header>
- 
+
 <ion-content padding>
-  
+
   <ion-content>
-    <ion-list>
-      <ion-item>
-        <ion-input type="text" placeholder="Title" [(ngModel)]="event.title"></ion-input>
-      </ion-item>
-   
-      <ion-item>
-        <ion-label>Start</ion-label>
-        <ion-datetime displayFormat="MM/DD/YYYY HH:mm" pickerFormat="MMM D:HH:mm" [(ngModel)]="event.startTime" [min]="minDate"></ion-datetime>
-      </ion-item>
-   
-      <ion-item>
-        <ion-label>End</ion-label>
-        <ion-datetime displayFormat="MM/DD/YYYY HH:mm" pickerFormat="MMM D:HH:mm" [(ngModel)]="event.endTime" [min]="minDate"></ion-datetime>
-      </ion-item>
-   
-      <ion-item>
-        <ion-label>All Day?</ion-label>
-        <ion-checkbox [(ngModel)]="event.allDay"></ion-checkbox>
-      </ion-item>
-    </ion-list>
-   
-    <button ion-button full icon-left (click)="save()">
-      <ion-icon name="add"></ion-icon> ADD EVENT
-    </button>
+    <form (ngSubmit)="addSchedule()">
+      <ion-list>
+        <ion-item>
+          <ion-label floating>Title</ion-label>
+          <ion-input type="text" [(ngModel)]="schedule.title" name="title" required></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label floating>Select Child</ion-label>
+          <ion-select [(ngModel)]="selectedChild" name="child">
+            <ion-option *ngFor="let child of children" value={{child.first_name}}>
+              {{child.first_name}}
+            </ion-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label floating>Date and Time</ion-label>
+          <ion-datetime displayFormat="MMM D, YYYY hh:mmA" pickerFormat="MMM D YYYY hh:mmA" [(ngModel)]="startTime"
+            [min]="minDate" name="startTime"></ion-datetime>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Notify me on date?</ion-label>
+          <ion-toggle color="kiddiBlue" [(ngModel)]="isNotify" name="isNotify"></ion-toggle>
+        </ion-item>
+      </ion-list>
+
+      <button ion-button full icon-left (click)="addSchedule()">
+        <ion-icon name="add"></ion-icon> ADD EVENT
+      </button>
+    </form>
   </ion-content>
 
 </ion-content>

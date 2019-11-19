@@ -27,17 +27,12 @@
       (onTitleChanged)="onViewTitleChanged($event)"
       (onTimeSelected)="onTimeSelected($event)"
       step="30"
-      noEventsLabel="No schedule"
-      allDayLabel="ALL DAY"
+      noEventsLabel="No plotted schedule"
       class="calendar">
     </calendar>
   
     <ion-fab right bottom>
-        <button ion-fab (click)="addEvent()"><ion-icon name="add"></ion-icon></button>
-    </ion-fab>
-    
-    <ion-fab left bottom>
-      <button ion-fab (click)="push()"><ion-icon name="add"></ion-icon></button>
+        <button ion-fab (click)="addSchedule()"><ion-icon name="add"></ion-icon></button>
     </ion-fab>
   
   </ion-content>
