@@ -13,7 +13,8 @@ export class AddChildPage {
     first_name: '',
     middle_name: '',
     last_name: '',
-    birth_date: ''
+    birth_date: '',
+    gender: ''
   }
   addForm: FormGroup;
 
@@ -22,14 +23,25 @@ export class AddChildPage {
       first_name: ['', Validators.required],
       middle_name: ['', Validators.required],
       last_name: ['', Validators.required],
-      birth_date: ['', Validators.required]
+      birth_date: ['', Validators.required],
+      gender: ['', Validators.required]
     });
   }
 
   get f() { return this.addForm.controls; }
 
+  presentToast(message) {
+    let toast = this.toastCtrl.create({
+      message: message,
+      duration: 5000,
+      showCloseButton: true
+    });
+    toast.present();
+  }
+
   addChild() {
     if (this.addForm.invalid) {
+      this.presentToast('Please fill out all required fields!');
       return;
     }
     this.viewCtrl.dismiss(this.child);

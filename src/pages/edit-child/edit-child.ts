@@ -18,7 +18,8 @@ export class EditChildPage {
       first_name: ['', Validators.required],
       middle_name: ['', Validators.required],
       last_name: ['', Validators.required],
-      birth_date: ['', Validators.required]
+      birth_date: ['', Validators.required],
+      gender: ['', Validators.required]
     });
   }
 

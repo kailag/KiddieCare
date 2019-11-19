@@ -30,7 +30,8 @@ export class ChildRecordsProvider {
               first_name: data.rows.item(i).first_name,
               middle_name: data.rows.item(i).middle_name,
               last_name: data.rows.item(i).last_name,
-              birth_date: data.rows.item(i).birth_date
+              birth_date: data.rows.item(i).birth_date,
+              gender: data.rows.item(i).gender
             })
           }
         }
@@ -51,7 +52,8 @@ export class ChildRecordsProvider {
             first_name: data.rows.item(0).first_name,
             middle_name: data.rows.item(0).middle_name,
             last_name: data.rows.item(0).last_name,
-            birth_date: data.rows.item(0).birth_date
+            birth_date: data.rows.item(0).birth_date,
+            gender: data.rows.item(0).gender
           }
         }
         return child;
@@ -63,7 +65,7 @@ export class ChildRecordsProvider {
   }
 
   addChild(child) {
-    return this.database.executeSql('INSERT INTO child(first_name, middle_name, last_name, birth_date) VALUES(?, ?, ?, ?)', [child.first_name, child.middle_name, child.last_name, child.birth_date])
+    return this.database.executeSql('INSERT INTO child(first_name, middle_name, last_name, birth_date, gender) VALUES(?, ?, ?, ?, ?)', [child.first_name, child.middle_name, child.last_name, child.birth_date, child.gender])
       .then(data => {
         return data;
       }, err => {
@@ -73,7 +75,7 @@ export class ChildRecordsProvider {
   }
 
   updateChild(child) {
-    return this.database.executeSql('UPDATE child SET first_name=?, middle_name=?, last_name=?, birth_date=? WHERE child_id=?', [child.first_name, child.middle_name, child.last_name, child.birth_date, child.child_id])
+    return this.database.executeSql('UPDATE child SET first_name=?, middle_name=?, last_name=?, birth_date=?, gender=? WHERE child_id=?', [child.first_name, child.middle_name, child.last_name, child.birth_date, child.gender, child.child_id])
       .then(data => {
         return data;
       }, err => {

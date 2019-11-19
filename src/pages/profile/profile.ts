@@ -43,6 +43,7 @@ export class ProfilePage {
     modal.onDidDismiss(data => {
       if (data) {
         this.storage.set('profile', JSON.stringify(data));
+        this.presentToast('Successfully updated profile!')
         this.loadProfile();
       }
     })

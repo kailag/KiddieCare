@@ -13,8 +13,12 @@
   <form [formGroup]="addForm" autocomplete="off" (ngSubmit)="addChildRecord()">
     <ion-list>
       <ion-item>
-        <ion-label floating>Type</ion-label>
-        <ion-input type="text" formControlName="consultation_type" [(ngModel)]="consultation.consultation_type"></ion-input>
+        <ion-label>Type</ion-label>
+        <ion-select formControlName="consultation_type" [(ngModel)]="consultation.consultation_type" interface="popover">
+          <ion-option value="Check-up/Consultation">Check-up/Consultation</ion-option>
+          <ion-option value="Vaccination">Vaccination</ion-option>
+          <ion-option value="Emergency">Emergency</ion-option>
+        </ion-select>
       </ion-item>
 
       <ion-item>
@@ -31,6 +35,16 @@
       <ion-item>
         <ion-label floating>Physician</ion-label>
         <ion-input type="text" formControlName="consultation_doctor" [(ngModel)]="consultation.consultation_doctor"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Prescription</ion-label>
+        <ion-input type="text" formControlName="consultation_prescription" [(ngModel)]="consultation.consultation_prescription"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>ID</ion-label>
+        <ion-input type="text" formControlName="id" [(ngModel)]="consultation.id"></ion-input>
       </ion-item>
 
     </ion-list>

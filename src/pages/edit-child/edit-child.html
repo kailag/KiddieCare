@@ -34,6 +34,15 @@
           [(ngModel)]="child.birth_date">
         </ion-datetime>
       </ion-item>
+
+      <ion-item>
+        <ion-label>Gender</ion-label>
+        <ion-select formControlName="gender" [(ngModel)]="child.gender">
+          <ion-option value="Male">Male</ion-option>
+          <ion-option value="Female">Female</ion-option>
+        </ion-select>
+      </ion-item>
+
     </ion-list>
 
     <button ion-button block icon-start type="submit" color="secondary">

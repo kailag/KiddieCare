@@ -14,6 +14,8 @@ export class AddChildRecordPage {
     consultation_description: '',
     consultation_date: '',
     consultation_doctor: '',
+    consultation_prescription: '',
+    id: ''
   }
   addForm: FormGroup;
 
@@ -22,7 +24,9 @@ export class AddChildRecordPage {
       consultation_type: ['', Validators.required],
       consultation_description: ['', Validators.required],
       consultation_date: ['', Validators.required],
-      consultation_doctor: ['', Validators.required]
+      consultation_doctor: ['', Validators.required],
+      consultation_prescription: ['', Validators.required],
+      id: ['', Validators.required]
     });
   }
 

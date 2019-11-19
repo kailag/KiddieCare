@@ -47,15 +47,24 @@ export class ViewChildPage {
 
     modal.onDidDismiss(data => {
       if (data) {
-        let newRecord = data;
-        newRecord.child_id = this.child.child_id;
-        console.log(newRecord);
-        this.consultationProvider.addChildRecord(newRecord)
+        // let newRecord = data;
+        // newRecord.child_id = this.child.child_id;
+        // console.log(newRecord);
+        // this.consultationProvider.addChildRecord(newRecord)
+        //   .then(res => {
+        //     this.readChildRecords();
+        //     this.presentToast('Record successfully added!');
+        //   })
+        //   .catch(e => console.log(e));
+        this.consultationProvider.addChildRecord(data)
           .then(res => {
+
             this.readChildRecords();
-            this.presentToast('Record successfully added!');
+            this.presentToast('Record was added successfully!');
+
+          }).catch(err => {
+            console.log(err);
           })
-          .catch(e => console.log(e));
       }
     });
   }
