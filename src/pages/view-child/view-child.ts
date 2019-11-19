@@ -44,7 +44,9 @@ export class ViewChildPage {
     modal.present();
     modal.onDidDismiss(data => {
       if (data) {
-        this.consultationProvider.addChildRecord(data)
+        let newRecord = data;
+        newRecord.child_id = this.child.child_id;
+        this.consultationProvider.addChildRecord(newRecord)
           .then(res => {
             this.readChildRecords();
             this.presentToast('Record successfully added!');

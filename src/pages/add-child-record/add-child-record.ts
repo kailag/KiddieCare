@@ -13,7 +13,7 @@ export class AddChildRecordPage {
     consultation_type: '',
     consultation_description: '',
     consultation_date: '',
-    consultation_location: ''
+    consultation_location: '',
   }
   addForm: FormGroup;
 
@@ -48,6 +48,7 @@ export class AddChildRecordPage {
       this.presentToast('Please fill out all required fields!');
       return;
     }
+    this.viewCtrl.dismiss(this.consultation);
   }
   
   cancel(){
