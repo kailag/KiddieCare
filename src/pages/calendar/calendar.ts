@@ -26,12 +26,6 @@ export class CalendarPage {
     return date < current;
   };
 
-  // seed = [
-  //   { title: 'Title 1', startTime: new Date().toISOString(), endTime: new Date().toISOString(), allDay: false },
-  //   { title: 'Title 2', startTime: new Date().toISOString(), endTime: new Date().toISOString(), allDay: false },
-  //   { title: 'Title 3', startTime: new Date().toISOString(), endTime: new Date().toISOString(), allDay: false }
-  // ]
-
   constructor(public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController, private alertCtrl: AlertController, private toastCtrl: ToastController, private storage: Storage) {
     // this.storage.set('schedules', JSON.stringify(this.seed));
     this.loadEvents();
@@ -44,10 +38,10 @@ export class CalendarPage {
         if (result !== null || typeof (result) !== 'undefined' || result !== '') {
           this.retrievedEvents = result;
           this.eventSource = JSON.parse(this.retrievedEvents);
-          // for(let i=0;i< this.eventSource.length;i++){
-          //   this.eventSource[i].startTime = new Date(this.eventSource[i].startTime);
-          //   this.eventSource[i].endTime = new Date(this.eventSource[i].endTime);
-          // }
+          for(let i=0;i< this.eventSource.length;i++){
+            this.eventSource[i].startTime = new Date(this.eventSource[i].startTime);
+            this.eventSource[i].endTime = new Date(this.eventSource[i].endTime);
+          }
         }
       });
     await console.log('Event Source', this.eventSource);
@@ -99,10 +93,6 @@ export class CalendarPage {
     })
     alert.present();
   }
-
-  /*onTimeSelected = (ev: { selectedTime: Date, events: any[] }) => {
-    console.log('Selected time: ' + ev.selectedTime + ', hasEvents: ' + (ev.events !== undefined && ev.events.length !== 0));
-  };*/
 
   onTimeSelected(ev) {
     console.log(ev);
