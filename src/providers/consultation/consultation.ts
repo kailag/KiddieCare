@@ -20,8 +20,8 @@ export class ConsultationProvider {
     });
   }
 
-  readChildRecords(id) {
-    return this.database.executeSql('SELECT * FROM consultation WHERE child_id=? ORDER BY consultation_id DESC', [id])
+  readChildRecords(child_id) {
+    return this.database.executeSql('SELECT * FROM consultation WHERE child_id=?', [child_id])
       .then((data) => {
         let consultations;
         if (data.rows.length > 0) {
@@ -31,8 +31,9 @@ export class ConsultationProvider {
               consultation_type: data.rows.item(i).consultation_type,
               consultation_description: data.rows.item(i).consultation_description,
               consultation_date: data.rows.item(i).consultation_date,
-              consultation_doctor: data.rows.item(i).consultation_doctor
-            })
+              consultation_doctor: data.rows.item(i).consultation_doctor,
+              child_id: data.rows.item(i).child_id
+            });
           }
         }
         return consultations;

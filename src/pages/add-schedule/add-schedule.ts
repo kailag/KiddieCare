@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angul
 import * as moment from 'moment';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { ChildRecordsProvider } from '../../providers/child-records/child-records';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { DatabaseProvider } from '../../providers/database/database';
 
 @IonicPage()
 @Component({
@@ -15,7 +15,6 @@ export class AddSchedulePage {
   children: any;
   selectedChild: any;
 
-  event = { startTime: new Date().toISOString(), endTime: new Date().toISOString(), allDay: false };
   minDate = new Date().toISOString();
 
   schedule = {
@@ -25,11 +24,15 @@ export class AddSchedulePage {
     allDay: false,
   }
 
-  constructor(public localNotification: LocalNotifications, public navCtrl: NavController, private navParams: NavParams, public viewCtrl: ViewController, private childRecordsProvider: ChildRecordsProvider, private fb: FormBuilder) {
-
+  constructor(public localNotification: LocalNotifications, public navCtrl: NavController, private navParams: NavParams, public viewCtrl: ViewController, private childRecordsProvider: ChildRecordsProvider, private dbProvider: DatabaseProvider) {
     let preselectedDate = moment(this.navParams.get('selectedDay')).format();
     this.schedule.startTime = preselectedDate;
     this.schedule.endTime = preselectedDate;
+    this.dbProvider.getDatabaseState().subscribe(ready => {
+      if (ready) {
+        this.readChildren();
+      }
+    })
   }
 
   cancel() {

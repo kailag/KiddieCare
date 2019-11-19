@@ -23,10 +23,10 @@
   <ion-list class="list-content">
 
     <ion-item *ngFor="let child of children">
+      <ion-avatar item-start>
+        <img src="assets/imgs/child1.png">
+      </ion-avatar>
       <div (click)="viewChild(child)">
-        <ion-avatar item-start>
-          <img src="assets/imgs/child1.png">
-        </ion-avatar>
         <h2>{{child.first_name}} {{child.last_name}}</h2>
         <p>Birthdate: {{child.birth_date}}</p>
       </div>

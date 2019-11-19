@@ -22,23 +22,32 @@ export class CalendarPage {
 
   markDisabled = (date: Date) => {
     var current = new Date();
-    current.setDate(current.getDate());
+    current.setDate(current.getDate() - 1);
     return date < current;
   };
 
+  seed = [
+    { title: 'Title 1', startTime: new Date().toISOString(), endTime: new Date().toISOString(), allDay: false },
+    { title: 'Title 2', startTime: new Date().toISOString(), endTime: new Date().toISOString(), allDay: false },
+    { title: 'Title 3', startTime: new Date().toISOString(), endTime: new Date().toISOString(), allDay: false }
+  ]
+
   constructor(public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController, private alertCtrl: AlertController, private toastCtrl: ToastController, private storage: Storage) {
     // this.storage.set('schedules', JSON.stringify(this.seed));
-    this.loadEvents();
+    this.storage.ready()
+      .then(() => {
+        this.loadEvents();
+      })
   }
 
   async loadEvents() {
     await this.storage.get('schedules')
       .then(result => {
         console.log(result);
-        if (result !== null || typeof (result) !== 'undefined' || result !== '') {
+        if (result) {
           this.retrievedEvents = result;
           this.eventSource = JSON.parse(this.retrievedEvents);
-          for(let i=0;i< this.eventSource.length;i++){
+          for (let i = 0; i < this.eventSource.length; i++) {
             this.eventSource[i].startTime = new Date(this.eventSource[i].startTime);
             this.eventSource[i].endTime = new Date(this.eventSource[i].endTime);
           }
@@ -59,6 +68,7 @@ export class CalendarPage {
   addSchedule() {
     let modal = this.modalCtrl.create(AddSchedulePage, { selectedDay: this.selectedDay });
     modal.present();
+
     modal.onDidDismiss(data => {
       if (data) {
         let scheduleData = data;

@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, ModalController, ToastController, 
 import { ChildRecordsProvider } from '../../providers/child-records/child-records';
 import { AddChildRecordPage } from '../add-child-record/add-child-record';
 import { ConsultationProvider } from '../../providers/consultation/consultation';
+import { DatabaseProvider } from '../../providers/database/database';
 
 @IonicPage()
 @Component({
@@ -12,14 +13,15 @@ import { ConsultationProvider } from '../../providers/consultation/consultation'
 export class ViewChildPage {
 
   child: any;
-  records: any;
+  records: any = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public childRecordsProvider: ChildRecordsProvider, private modalCtrl: ModalController, private consultationProvider: ConsultationProvider, private toastCtrl: ToastController, private alertCtrl: AlertController) {
-    this.child = navParams.data.child;
-  }
-
-  ionViewDidLoad() {
-    this.readChildRecords();
+  constructor(public navCtrl: NavController, public navParams: NavParams, public childRecordsProvider: ChildRecordsProvider, private modalCtrl: ModalController, private consultationProvider: ConsultationProvider, private toastCtrl: ToastController, private alertCtrl: AlertController, private dbProvider: DatabaseProvider) {
+    this.child = this.navParams.get('child');
+    this.dbProvider.getDatabaseState().subscribe(ready => {
+      if (ready) {
+        this.readChildRecords();
+      }
+    });
   }
 
   presentToast(message) {
@@ -42,6 +44,7 @@ export class ViewChildPage {
   addChildRecord() {
     let modal = this.modalCtrl.create(AddChildRecordPage);
     modal.present();
+
     modal.onDidDismiss(data => {
       if (data) {
         let newRecord = data;

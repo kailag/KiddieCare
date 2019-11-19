@@ -19,7 +19,6 @@ export class AddChildRecordPage {
 
   constructor(public navParams: NavParams, public consultationProvider: ConsultationProvider, private fb: FormBuilder, private viewCtrl: ViewController, private alertCtrl: AlertController, private toastCtrl: ToastController) {
     this.addForm = this.fb.group({
-      id: ['', Validators.required],
       consultation_type: ['', Validators.required],
       consultation_description: ['', Validators.required],
       consultation_date: ['', Validators.required],
