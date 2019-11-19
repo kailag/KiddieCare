@@ -1,27 +1,27 @@
 <ion-header>
   <ion-navbar color="primary">
-      <ion-grid>
-          <ion-row>
-            <ion-col>
-              <div>
-                  <img class="logo" src="assets/imgs/logo.png">
-              </div>
-            </ion-col>
-            <ion-col>
-              <div style="align-content: center;">
-                  <ion-title>PROFILE</ion-title>
-              </div>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <div>
+            <img class="logo" src="assets/imgs/logo.png">
+          </div>
+        </ion-col>
+        <ion-col>
+          <div style="align-content: center;">
+            <ion-title>PROFILE</ion-title>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </ion-navbar>
 </ion-header>
 
-<ion-content *ngFor="let parent of parent">
+<ion-content>
   <img src="assets/imgs/parent.png" class="profile-picture">
 
-  <h2>{{parent.first_name}} {{parent.middle_name}} {{parent.last_name}}</h2>
+  <h2>{{fullName}}</h2>
   <br>
-  <button ion-button full color="light" (click)="editProfile(parent)">EDIT PROFILE</button>
-    
+  <button ion-button full color="light" (click)="editProfile()">EDIT PROFILE</button>
+
 </ion-content>

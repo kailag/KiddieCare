@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { NavController, ModalController, AlertController, ToastController, Toast } from 'ionic-angular';
-import { DatabaseProvider } from '../../providers/database/database';
+import { NavController, ModalController, ToastController } from 'ionic-angular';
 import { EditProfilePage } from '../edit-profile/edit-profile';
 import { ProfileProvider } from '../../providers/profile/profile';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'page-profile',
@@ -10,18 +10,21 @@ import { ProfileProvider } from '../../providers/profile/profile';
 })
 export class ProfilePage {
 
-  parent: any = [];
+  profile: any;
+  fullName: any;
 
-  constructor(public navCtrl: NavController, public parentProvider: ProfileProvider, private modalCtrl: ModalController, private dbProvider: DatabaseProvider, private alertCtrl: AlertController, private toastCtrl: ToastController) {
-    this.dbProvider.getDatabaseState().subscribe(ready => {
-      if (ready) {
-        this.readParent();
-      }
-    })
+  constructor(public navCtrl: NavController, public parentProvider: ProfileProvider, private modalCtrl: ModalController, private toastCtrl: ToastController, private storage: Storage) {
+    this.loadProfile();
   }
 
-  ionViewDidLoad() {
-    this.readParent();
+  loadProfile() {
+    this.storage.get('profile')
+      .then(result => {
+        this.profile = JSON.parse(result);
+        console.log(this.profile);
+        this.fullName = `${this.profile.first_name} ${this.profile.middle_name} ${this.profile.last_name}`;
+      })
+      .catch(err => console.log(err));
   }
 
   presentToast(message) {
@@ -33,27 +36,15 @@ export class ProfilePage {
     toast.present();
   }
 
-  readParent(){
-    this.parentProvider.readParent()
-      .then(data => {
-        this.parent = data;
-      })
-      .catch(err => console.log(err));
-  }
-
-  editProfile(parent) {
-    let modal = this.modalCtrl.create(EditProfilePage, { parent: parent });
+  editProfile() {
+    let modal = this.modalCtrl.create(EditProfilePage, { profile: this.profile });
     modal.present();
 
     modal.onDidDismiss(data => {
       if (data) {
-        this.parentProvider.updateProfile(data)
-          .then(res => {
-
-            this.readParent();
-            this.presentToast('Profile updated successfully!')
-          })
-          .catch(e => console.log(e));
+        this.storage.remove('profile');
+        this.storage.set('profile', JSON.stringify(data));
+        this.loadProfile();
       }
     })
   }
