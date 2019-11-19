@@ -10,10 +10,10 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 export class EditProfilePage {
 
   editForm: FormGroup;
-  parent: any
+  profile: any
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private viewCtrl: ViewController, private fb: FormBuilder) {
-    this.parent = this.navParams.get('parent');
+    this.profile = this.navParams.get('profile');
     this.editForm = this.fb.group({
       first_name: ['', Validators.required],
       middle_name: ['', Validators.required],
@@ -31,7 +31,7 @@ export class EditProfilePage {
     if (this.editForm.invalid) {
       return;
     }
-    let updateData = this.parent;
+    let updateData = this.profile;
     this.viewCtrl.dismiss(updateData);
   }
 

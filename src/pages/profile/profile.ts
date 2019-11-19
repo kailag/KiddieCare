@@ -42,7 +42,6 @@ export class ProfilePage {
 
     modal.onDidDismiss(data => {
       if (data) {
-        this.storage.remove('profile');
         this.storage.set('profile', JSON.stringify(data));
         this.loadProfile();
       }

@@ -47,9 +47,8 @@ export class RegisterPage {
       this.presentToast('Please fill out all required fields!');
       return;
     }
-    this.storage.set('first_name', this.parent.first_name);
-    this.storage.set('last_name', this.parent.last_name);
-    this.storage.set('middle_name', this.parent.middle_name);
+    console.log(this.createProfileForm.value);
+    this.storage.set('profile', JSON.stringify(this.parent));
     this.storage.set('welcome', true);
     this.presentToast('Profile Created successfully!');
     this.navCtrl.setRoot(TabsPage);
