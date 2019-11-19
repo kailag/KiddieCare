@@ -46,6 +46,7 @@ export class ViewChildPage {
       if (data) {
         let newRecord = data;
         newRecord.child_id = this.child.child_id;
+        console.log(newRecord);
         this.consultationProvider.addChildRecord(newRecord)
           .then(res => {
             this.readChildRecords();
@@ -53,7 +54,7 @@ export class ViewChildPage {
           })
           .catch(e => console.log(e));
       }
-    })
+    });
   }
 
   deleteRecord(id) {
