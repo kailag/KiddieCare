@@ -17,13 +17,12 @@ export class CalendarPage {
   eventSource = [];
   viewTitle: string;
   selectedDay = new Date();
-  retrievedEvents: any;
+  schedule: any;
 
   calendar = {
     mode: 'month',
     currentDate: new Date()
   };
-
 
   markDisabled = (date: Date) => {
     var current = new Date();
@@ -45,8 +44,8 @@ export class CalendarPage {
       .then(result => {
         console.log(result);
         if (result) {
-          this.retrievedEvents = result;
-          this.eventSource = JSON.parse(this.retrievedEvents);
+          this.schedule = result;
+          this.eventSource = JSON.parse(this.schedule);
           for (let i = 0; i < this.eventSource.length; i++) {
             this.eventSource[i].startTime = new Date(this.eventSource[i].startTime);
             this.eventSource[i].endTime = new Date(this.eventSource[i].endTime);
@@ -56,11 +55,11 @@ export class CalendarPage {
     await console.log('Event Source', this.eventSource);
   }
 
-  presentToast(msg) {
+  presentToast(message) {
     let toast = this.toastCtrl.create({
-      message: msg,
-      showCloseButton: true,
-      closeButtonText: 'Dismiss'
+      message: message,
+      duration: 5000,
+      showCloseButton: true
     });
     toast.present();
   }
@@ -84,6 +83,7 @@ export class CalendarPage {
         setTimeout(() => {
           this.storage.set('schedules', JSON.stringify(events));
           this.eventSource = events;
+          this.presentToast('Successfully added schedule!')
         });
       }
     });
@@ -93,9 +93,27 @@ export class CalendarPage {
     this.viewTitle = title;
   }
 
-  onEventSelected(event) {
-    let modal = this.modalCtrl.create(EditSchedulePage, {event});
+  onEventSelected(eventData) {
+    let calendarData = {
+      title: eventData.title,
+      allDay: eventData.allDay,
+      startTime: eventData.startTime.toISOString(),
+      endTime: eventData.endTime.toISOString()
+    };
+
+    console.log(calendarData)
+
+    let modal = this.modalCtrl.create(EditSchedulePage, {schedule: calendarData});
     modal.present();
+
+    modal.onDidDismiss(data => {
+      if (data) {
+        this.storage.set('schedule', JSON.stringify(data));
+        // this.presentToast('Successfully updated schedule!')
+        this.loadEvents();
+      }
+    })
+
     // let start = moment(event.startTime).format('LLLL');
 
     // let alert = this.alertCtrl.create({

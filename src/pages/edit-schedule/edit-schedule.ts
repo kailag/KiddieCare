@@ -1,12 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the EditSchedulePage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @IonicPage()
 @Component({
@@ -15,11 +9,31 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class EditSchedulePage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  schedule: any;
+  editForm: FormGroup;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, private viewCtrl: ViewController, private fb: FormBuilder) {
+    this.schedule = this.navParams.get('schedule');
+
+    // console.log(this.schedule);
+
+    this.editForm = this.fb.group({
+      title: ['', Validators.required],
+      startTime: ['', Validators.required],
+      endTime: ['', Validators.required],
+      allDay: ['', Validators.required]
+    });
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad EditSchedulePage');
+  cancel() {
+    this.viewCtrl.dismiss();
+  }
+
+  get f() { return this.editForm.controls }
+
+  updateSchedule(){
+    let updateData = this.schedule;
+    this.viewCtrl.dismiss(updateData);
   }
 
 }

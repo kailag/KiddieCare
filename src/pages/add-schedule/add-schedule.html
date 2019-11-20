@@ -10,39 +10,30 @@
   </ion-header>
    
   <ion-content padding>
-
-    <ion-list>
-      <ion-item>
-        <ion-input type="text" placeholder="Title" [(ngModel)]="event.title" name="title" required></ion-input>
-      </ion-item>
-
-      <!--ion-item>
-        <ion-label floating>Select Child</ion-label>
-        <ion-select [(ngModel)]="event.selectedChild" name="selectedChild">
-          <ion-option *ngFor="let child of children" value={{child.child_id}}>
-            {{child.first_name}}
-          </ion-option>
-        </ion-select>
-      </ion-item-->
-  
-      <ion-item>
-        <ion-label>Start Date</ion-label>
-        <ion-datetime displayFormat="MM/DD/YYYY HH:mm" pickerFormat="MMM D:HH:mm" [(ngModel)]="event.startTime" name="startTime" [min]="minDate"></ion-datetime>
-      </ion-item>
-  
-      <ion-item>
-        <ion-label>End Date</ion-label>
-        <ion-datetime displayFormat="MM/DD/YYYY HH:mm" pickerFormat="MMM D:HH:mm" [(ngModel)]="event.endTime" name="endTime" [min]="minDate"></ion-datetime>
-      </ion-item>
-  
-      <ion-item>
-        <ion-label>All Day</ion-label>
-        <ion-toggle color="primary" [(ngModel)]="event.allDay" name="allDay"></ion-toggle>
-      </ion-item>
-    </ion-list>
+    <form [formGroup]="addForm" autocomplete="off" (ngSubmit)="save()">
+      <ion-list>
+        <ion-item>
+          <ion-input type="text" placeholder="Title" formControlName="title" [(ngModel)]="event.title" name="title" required></ion-input>
+        </ion-item>
     
-    <button ion-button full icon-left (click)="save()">
-      <ion-icon name="add"></ion-icon> SAVE EVENT
-    </button>
-  
+        <ion-item>
+          <ion-label>Start Date</ion-label>
+          <ion-datetime displayFormat="MM/DD/YYYY HH:mm" pickerFormat="MMM D:HH:mm" formControlName="startTime" [(ngModel)]="event.startTime" name="startTime" [min]="minDate"></ion-datetime>
+        </ion-item>
+    
+        <ion-item>
+          <ion-label>End Date</ion-label>
+          <ion-datetime displayFormat="MM/DD/YYYY HH:mm" pickerFormat="MMM D:HH:mm" formControlName="endTime" [(ngModel)]="event.endTime" name="endTime" [min]="minDate"></ion-datetime>
+        </ion-item>
+    
+        <ion-item>
+          <ion-label>All Day</ion-label>
+          <ion-toggle color="primary" formControlName="allDay" [(ngModel)]="event.allDay" name="allDay"></ion-toggle>
+        </ion-item>
+      </ion-list>
+    
+      <button ion-button full icon-left type="submit">
+        <ion-icon name="add"></ion-icon> SAVE EVENT
+      </button>
+    </form>
   </ion-content>
