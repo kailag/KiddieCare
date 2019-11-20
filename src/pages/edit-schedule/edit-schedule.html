@@ -1,14 +1,14 @@
 <ion-header>
-    <ion-navbar color="primary">
-      <ion-buttons start>
-        <button ion-button icon-only (click)="cancel()">
+    <ion-navbar color="secondary">
+      <ion-title>Edit Schedule</ion-title>
+      <ion-buttons end>
+        <button ion-button clear icon-only (click)="cancel()">
           <ion-icon name="close"></ion-icon>
         </button>
       </ion-buttons>
-      <ion-title>Add Schedule</ion-title>
     </ion-navbar>
   </ion-header>
-   
+
   <ion-content padding>
 
     <ion-list>
@@ -42,7 +42,7 @@
     </ion-list>
     
     <button ion-button full icon-left (click)="save()">
-      <ion-icon name="add"></ion-icon> SAVE EVENT
+      <ion-icon name="create"></ion-icon> UPDATE EVENT
     </button>
   
   </ion-content>

@@ -22,6 +22,17 @@ export class ViewChildPage {
         this.readChildRecords();
       }
     });
+
+    this.test();
+  }
+
+  test(){
+    let alert = this.alertCtrl.create({
+      title: 'Yo!',
+      subTitle: 'Child ID: ' + this.child.child_id,
+      buttons: ['OK']
+    });
+    alert.present();
   }
 
   presentToast(message) {
@@ -47,24 +58,15 @@ export class ViewChildPage {
 
     modal.onDidDismiss(data => {
       if (data) {
-        // let newRecord = data;
-        // newRecord.child_id = this.child.child_id;
-        // console.log(newRecord);
-        // this.consultationProvider.addChildRecord(newRecord)
-        //   .then(res => {
-        //     this.readChildRecords();
-        //     this.presentToast('Record successfully added!');
-        //   })
-        //   .catch(e => console.log(e));
-        this.consultationProvider.addChildRecord(data)
+        let newRecord = data;
+        newRecord.child_id = this.child.child_id;
+        console.log(newRecord);
+        this.consultationProvider.addChildRecord(newRecord)
           .then(res => {
-
             this.readChildRecords();
-            this.presentToast('Record was added successfully!');
-
-          }).catch(err => {
-            console.log(err);
+            this.presentToast('Record successfully added!');
           })
+          .catch(e => console.log(e));
       }
     });
   }

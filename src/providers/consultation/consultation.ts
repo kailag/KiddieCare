@@ -20,30 +20,6 @@ export class ConsultationProvider {
     });
   }
 
-  readAll() {
-    return this.database.executeSql('SELECT * FROM consultation')
-      .then((data) => {
-        let consultations;
-        if (data.rows.length > 0) {
-          for (let i = 0; i < data.rows.length; i++) {
-            consultations.push({
-              consultation_id: data.rows.item(i).consultation_id,
-              consultation_type: data.rows.item(i).consultation_type,
-              consultation_description: data.rows.item(i).consultation_description,
-              consultation_date: data.rows.item(i).consultation_date,
-              consultation_doctor: data.rows.item(i).consultation_doctor,
-              consultation_prescription: data.rows.item(i).consultation_prescription,
-              child_id: data.rows.item(i).child_id
-            });
-          }
-        }
-        return consultations;
-      }, err => {
-        console.log(err);
-        return [];
-      });
-  }
-
   readChildRecords(child_id) {
     return this.database.executeSql('SELECT * FROM consultation WHERE child_id=?', [child_id])
       .then((data) => {

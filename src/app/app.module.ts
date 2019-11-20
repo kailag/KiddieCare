@@ -23,6 +23,7 @@ import { ChildRecordsProvider } from '../providers/child-records/child-records';
 import { AddChildRecordPage } from '../pages/add-child-record/add-child-record';
 import { AddProfilePage } from '../pages/add-profile/add-profile';
 import { EditProfilePage } from '../pages/edit-profile/edit-profile';
+import { EditSchedulePage } from '../pages/edit-schedule/edit-schedule';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -51,7 +52,8 @@ import { ScheduleProvider } from '../providers/schedule/schedule';
     EditChildPage,
     AddChildRecordPage,
     AddProfilePage,
-    EditProfilePage
+    EditProfilePage,
+    EditSchedulePage
   ],
   imports: [
     BrowserModule,
@@ -76,7 +78,8 @@ import { ScheduleProvider } from '../providers/schedule/schedule';
     EditChildPage,
     AddChildRecordPage,
     AddProfilePage,
-    EditProfilePage
+    EditProfilePage,
+    EditSchedulePage
   ],
   providers: [
     StatusBar,
