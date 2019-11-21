@@ -14,9 +14,8 @@
             <h2><b>{{record.consultation_date_of_visit | date: 'MMMM dd, yyyy'}}</b></h2>
           </ion-col>
           <ion-col text-right>
-            <button ion-button icon-only clear (click)="deleteRecord(record.consultation_id)" color="gray">
-              <ion-icon name="trash"></ion-icon>
-            </button>
+            <ion-icon name="trash" item-end (click)="deleteRecord(record.consultation_id)" color="gray"></ion-icon>
+            <ion-icon name="document" item-end (click)="createPDF()" color="gray"></ion-icon>
           </ion-col>
         </ion-row>
       </ion-grid>

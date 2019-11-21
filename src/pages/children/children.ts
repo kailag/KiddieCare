@@ -75,7 +75,6 @@ export class ChildrenPage {
       if (data) {
         this.childRecordsProvider.updateChild(data)
           .then(res => {
-
             this.readChildren();
             this.presentToast('Child updated successfully!')
           })

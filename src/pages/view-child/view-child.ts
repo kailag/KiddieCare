@@ -74,14 +74,13 @@ export class ViewChildPage {
   }
 
   editRecord(record){
-    let modal = this.modalCtrl.create(EditChildRecordPage, {record: record});
+    let modal = this.modalCtrl.create(EditChildRecordPage, { record: record });
     modal.present();
 
     modal.onDidDismiss(data => {
       if (data) {
         this.consultationProvider.updateChildRecord(data)
           .then(res => {
-
             this.readChildRecords();
             this.presentToast('Successfully updated child record!')
           })
