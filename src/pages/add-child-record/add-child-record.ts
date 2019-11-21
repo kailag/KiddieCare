@@ -10,23 +10,28 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class AddChildRecordPage {
   consultation = {
-    consultation_type: '',
-    consultation_description: '',
-    consultation_date: '',
-    consultation_doctor: '',
+    consultation_id: '', 
+    consultation_type: '', 
     consultation_prescription: '',
-    id: ''
+    consultation_instructions: '', 
+    consultation_findings: '', 
+    consultation_doctor: '', 
+    consultation_date_of_visit: '',     
+    consultation_date_of_next_visit: '',     
+    child_id: ''
   }
   addForm: FormGroup;
 
   constructor(public navParams: NavParams, public consultationProvider: ConsultationProvider, private fb: FormBuilder, private viewCtrl: ViewController, private alertCtrl: AlertController, private toastCtrl: ToastController) {
+    
     this.addForm = this.fb.group({
-      consultation_type: ['', Validators.required],
-      consultation_description: ['', Validators.required],
-      consultation_date: ['', Validators.required],
-      consultation_doctor: ['', Validators.required],
+      consultation_type: ['', Validators.required], 
       consultation_prescription: ['', Validators.required],
-      id: ['', Validators.required]
+      consultation_instructions: ['', Validators.required], 
+      consultation_findings: ['', Validators.required], 
+      consultation_doctor: ['', Validators.required], 
+      consultation_date_of_visit: ['', Validators.required],     
+      consultation_date_of_next_visit: ['', Validators.required],
     });
   }
 

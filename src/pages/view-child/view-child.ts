@@ -16,6 +16,7 @@ export class ViewChildPage {
   records: any = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public childRecordsProvider: ChildRecordsProvider, private modalCtrl: ModalController, private consultationProvider: ConsultationProvider, private toastCtrl: ToastController, private alertCtrl: AlertController, private dbProvider: DatabaseProvider) {
+    
     this.child = this.navParams.get('child');
     this.dbProvider.getDatabaseState().subscribe(ready => {
       if (ready) {
@@ -23,7 +24,7 @@ export class ViewChildPage {
       }
     });
 
-    this.test();
+    // this.test();
   }
 
   test(){
@@ -46,8 +47,8 @@ export class ViewChildPage {
 
   readChildRecords() {
     this.consultationProvider.readChildRecords(this.child.child_id)
-      .then(res => {
-        this.records = res;
+      .then(data => {
+        this.records = data;
       })
       .catch(e => console.log(e));
   }
@@ -65,6 +66,12 @@ export class ViewChildPage {
           .then(res => {
             this.readChildRecords();
             this.presentToast('Record successfully added!');
+            let alert = this.alertCtrl.create({
+              title: 'Yo!',
+              subTitle: 'Type: ' + newRecord.consultation_type + '--' + newRecord.child_id,
+              buttons: ['OK']
+            });
+            alert.present();
           })
           .catch(e => console.log(e));
       }

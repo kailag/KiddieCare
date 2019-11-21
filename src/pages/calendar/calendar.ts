@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, AlertController, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, AlertController, ToastController, Platform } from 'ionic-angular';
 import * as moment from 'moment';
 import { AddSchedulePage } from '../add-schedule/add-schedule';
 import { Storage } from '@ionic/storage';
@@ -30,7 +30,7 @@ export class CalendarPage {
     return date < current;
   };
 
-  constructor(public localNotification: LocalNotifications, public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController, private alertCtrl: AlertController, private childRecordsProvider: ChildRecordsProvider, private dbProvider: DatabaseProvider, private storage: Storage, private toastCtrl: ToastController) {
+  constructor(public localNotification: LocalNotifications, public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController, private alertCtrl: AlertController, private childRecordsProvider: ChildRecordsProvider, private dbProvider: DatabaseProvider, private storage: Storage, private toastCtrl: ToastController, private platform: Platform) {
     console.log(new Date());
 
     this.storage.ready()
@@ -83,7 +83,19 @@ export class CalendarPage {
         setTimeout(() => {
           this.storage.set('schedules', JSON.stringify(events));
           this.eventSource = events;
-          this.presentToast('Successfully added schedule!')
+          this.presentToast('Successfully added schedule!')      
+          // local notification
+          this.platform.ready().then(() => {
+            let scheduleDate = new Date(this.schedule.startTime);
+            this.localNotification.schedule({
+              title: this.schedule.title,
+              text: `${this.schedule.title}`,
+              trigger: { at: scheduleDate, firstAt: scheduleDate },
+              foreground: true,
+              launch: true,
+            });
+          });
+          console.log("HOYOYOY: ")
         });
       }
     });
@@ -93,6 +105,7 @@ export class CalendarPage {
     this.viewTitle = title;
   }
 
+  // Edit Schedule
   onEventSelected(eventData) {
     let calendarData = {
       title: eventData.title,

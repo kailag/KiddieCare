@@ -14,9 +14,6 @@ export class EditSchedulePage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private viewCtrl: ViewController, private fb: FormBuilder) {
     this.schedule = this.navParams.get('schedule');
-
-    // console.log(this.schedule);
-
     this.editForm = this.fb.group({
       title: ['', Validators.required],
       startTime: ['', Validators.required],
@@ -32,6 +29,9 @@ export class EditSchedulePage {
   get f() { return this.editForm.controls }
 
   updateSchedule(){
+    if (this.editForm.invalid) {
+      return;
+    }
     let updateData = this.schedule;
     this.viewCtrl.dismiss(updateData);
   }
