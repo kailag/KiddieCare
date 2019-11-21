@@ -14,7 +14,7 @@
       <ion-list>
         <ion-item>
           <ion-label>Type</ion-label>
-          <ion-select formControlName="consultation_type" [(ngModel)]="consultation.consultation_type" interface="popover">
+          <ion-select formControlName="consultation_type" [(ngModel)]="record.consultation_type" interface="popover">
             <ion-option value="Check-up/Consultation">Check-up/Consultation</ion-option>
             <ion-option value="Vaccination">Vaccination</ion-option>
             <ion-option value="Emergency">Emergency</ion-option>
@@ -23,33 +23,33 @@
   
         <ion-item>
           <ion-label floating>Prescription</ion-label>
-          <ion-input type="text" formControlName="consultation_prescription" [(ngModel)]="consultation.consultation_prescription"></ion-input>
+          <ion-input type="text" formControlName="consultation_prescription" [(ngModel)]="record.consultation_prescription"></ion-input>
         </ion-item>
   
         <ion-item>
           <ion-label floating>Instructions</ion-label>
-          <ion-input type="text" formControlName="consultation_instructions" [(ngModel)]="consultation.consultation_instructions"></ion-input>
+          <ion-input type="text" formControlName="consultation_instructions" [(ngModel)]="record.consultation_instructions"></ion-input>
         </ion-item>
   
         <ion-item>
           <ion-label floating>Findings</ion-label>
-          <ion-input type="text" formControlName="consultation_findings" [(ngModel)]="consultation.consultation_findings"></ion-input>
+          <ion-input type="text" formControlName="consultation_findings" [(ngModel)]="record.consultation_findings"></ion-input>
         </ion-item>
   
         <ion-item>
           <ion-label floating>Physician</ion-label>
-          <ion-input type="text" formControlName="consultation_doctor" [(ngModel)]="consultation.consultation_doctor"></ion-input>
+          <ion-input type="text" formControlName="consultation_doctor" [(ngModel)]="record.consultation_doctor"></ion-input>
         </ion-item>
   
         <ion-item>
           <ion-label floating>Date of Visit</ion-label>
-          <ion-datetime displayFormat="MMMM D YYYY" pickerFormat="MMMM DD YYYY" [(ngModel)]="consultation.consultation_date_of_visit"
+          <ion-datetime displayFormat="MMMM D YYYY" pickerFormat="MMMM DD YYYY" [(ngModel)]="record.consultation_date_of_visit"
             formControlName="consultation_date_of_visit"></ion-datetime>
         </ion-item>
   
         <ion-item>
           <ion-label floating>Date of Next Visit</ion-label>
-          <ion-datetime displayFormat="MMMM D YYYY" pickerFormat="MMMM DD YYYY" [(ngModel)]="consultation.consultation_date_of_next_visit"
+          <ion-datetime displayFormat="MMMM D YYYY" pickerFormat="MMMM DD YYYY" [(ngModel)]="record.consultation_date_of_next_visit"
             formControlName="consultation_date_of_next_visit"></ion-datetime>
         </ion-item>
   

@@ -14,13 +14,13 @@
             <h2><b>{{record.consultation_date_of_visit | date: 'MMMM dd, yyyy'}}</b></h2>
           </ion-col>
           <ion-col text-right>
-            <ion-icon name="trash" item-end (click)="deleteRecord(record.consultation_id)" color="gray"></ion-icon>
+            <ion-icon name="trash" item-end (click)="deleteRecord(record.consultation_id)" color="gray"></ion-icon> <br>
             <ion-icon name="document" item-end (click)="createPDF()" color="gray"></ion-icon>
           </ion-col>
         </ion-row>
       </ion-grid>
     </ion-card-header>
-    <ion-card-content (click)="editRecord(record.consultation_id)">
+    <ion-card-content (click)="editRecord(record)">
       <p><b>Type:</b> {{record.consultation_type}}</p>
       <p><b>Prescription:</b> {{record.consultation_prescription}}</p>
       <p><b>Instruction:</b> {{record.consultation_instructions}}</p>

@@ -6,6 +6,7 @@ import { ConsultationProvider } from '../../providers/consultation/consultation'
 import { DatabaseProvider } from '../../providers/database/database';
 import { EditChildRecordPage } from '../edit-child-record/edit-child-record';
 
+
 @IonicPage()
 @Component({
   selector: 'page-view-child',

@@ -34,6 +34,8 @@ import { ConsultationProvider } from '../providers/consultation/consultation';
 import { ProfileProvider } from '../providers/profile/profile';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 
+import { File } from '@ionic-native/file';
+import { FileOpener } from '@ionic-native/file-opener';
 
 import { Camera } from '@ionic-native/camera';
 import { ScheduleProvider } from '../providers/schedule/schedule';
@@ -97,6 +99,8 @@ import { ScheduleProvider } from '../providers/schedule/schedule';
     ConsultationProvider,
     ProfileProvider,
     ScheduleProvider
+    /*File,
+    FileOpener*/
   ]
 })
 export class AppModule { }

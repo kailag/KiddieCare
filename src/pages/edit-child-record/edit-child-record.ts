@@ -11,10 +11,10 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 export class EditChildRecordPage {
 
   editForm: FormGroup;
-  consultation: any
+  record: any
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private viewCtrl: ViewController, private fb: FormBuilder) {
-    this.consultation = this.navParams.get('record');
+    this.record = this.navParams.get('record');
     this.editForm = this.fb.group({
       consultation_type: ['', Validators.required], 
       consultation_prescription: ['', Validators.required],
