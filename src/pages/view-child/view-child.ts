@@ -4,6 +4,7 @@ import { ChildRecordsProvider } from '../../providers/child-records/child-record
 import { AddChildRecordPage } from '../add-child-record/add-child-record';
 import { ConsultationProvider } from '../../providers/consultation/consultation';
 import { DatabaseProvider } from '../../providers/database/database';
+import { EditChildRecordPage } from '../edit-child-record/edit-child-record';
 
 @IonicPage()
 @Component({
@@ -66,16 +67,27 @@ export class ViewChildPage {
           .then(res => {
             this.readChildRecords();
             this.presentToast('Record successfully added!');
-            let alert = this.alertCtrl.create({
-              title: 'Yo!',
-              subTitle: 'Type: ' + newRecord.consultation_type + '--' + newRecord.child_id,
-              buttons: ['OK']
-            });
-            alert.present();
           })
           .catch(e => console.log(e));
       }
     });
+  }
+
+  editRecord(record){
+    let modal = this.modalCtrl.create(EditChildRecordPage, {record: record});
+    modal.present();
+
+    modal.onDidDismiss(data => {
+      if (data) {
+        this.consultationProvider.updateChildRecord(data)
+          .then(res => {
+
+            this.readChildRecords();
+            this.presentToast('Successfully updated child record!')
+          })
+          .catch(e => console.log(e));
+      }
+    })
   }
 
   deleteRecord(id) {

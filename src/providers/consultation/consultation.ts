@@ -61,7 +61,7 @@ export class ConsultationProvider {
   }
 
   updateChildRecord(consultation) {
-    return this.database.executeSql('UPDATE consultation (consultation_type, consultation_description, consultation_date, consultation_doctor, consultation_prescription) VALUES(?, ?, ?, ?, ?) WHERE consultation_id = ?', [consultation.consultation_type, consultation.consultation_description, consultation.consultation_date, consultation.consultation_doctor, consultation.consultation_prescription, consultation.id])
+    return this.database.executeSql('UPDATE consultation SET consultation_type=?, consultation_prescription=?, consultation_instructions=?, consultation_findings=?, consultation_doctor=?, consultation_date_of_visit=?, consultation_date_of_next_visit=? WHERE consultation_id = ?', [consultation.consultation_type, consultation.consultation_prescription, consultation.consultation_instructions, consultation.consultation_findings, consultation.consultation_doctor, consultation.consultation_date_of_visit, consultation.consultation_date_of_next_visit, consultation.consultation_id])
       .then(data => {
         return data;
       }, err => {

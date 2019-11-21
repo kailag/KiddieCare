@@ -28,7 +28,7 @@
       </ion-avatar>
       <div (click)="viewChild(child)">
         <h2>{{child.first_name}} {{child.last_name}}</h2>
-        <p>Birthdate: {{child.birth_date}}</p>
+        <p>Birthdate: {{child.birth_date | date: 'MMMM dd, yyyy'}}</p>
         <p>Gender: {{child.gender}}</p>
       </div>
       <ion-icon name="create" item-end color="gray" (click)="editChild(child)"></ion-icon>
