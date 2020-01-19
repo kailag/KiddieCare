@@ -22,6 +22,11 @@
       </ion-item>
 
       <ion-item>
+        <ion-label floating>Findings</ion-label>
+        <ion-input type="text" formControlName="consultation_findings" [(ngModel)]="consultation.consultation_findings"></ion-input>
+      </ion-item>
+
+      <ion-item>
         <ion-label floating>Prescription</ion-label>
         <ion-input type="text" formControlName="consultation_prescription" [(ngModel)]="consultation.consultation_prescription"></ion-input>
       </ion-item>
@@ -29,12 +34,7 @@
       <ion-item>
         <ion-label floating>Instructions</ion-label>
         <ion-input type="text" formControlName="consultation_instructions" [(ngModel)]="consultation.consultation_instructions"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label floating>Findings</ion-label>
-        <ion-input type="text" formControlName="consultation_findings" [(ngModel)]="consultation.consultation_findings"></ion-input>
-      </ion-item>
+      </ion-item>      
 
       <ion-item>
         <ion-label floating>Physician</ion-label>

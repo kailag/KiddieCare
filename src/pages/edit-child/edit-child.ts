@@ -16,7 +16,6 @@ export class EditChildPage {
     this.child = this.navParams.get('child');
     this.editForm = this.fb.group({
       first_name: ['', Validators.required],
-      middle_name: ['', Validators.required],
       last_name: ['', Validators.required],
       birth_date: ['', Validators.required],
       gender: ['', Validators.required]

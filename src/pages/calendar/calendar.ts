@@ -95,7 +95,6 @@ export class CalendarPage {
               launch: true,
             });
           });
-          console.log("HOYOYOY: ")
         });
       }
     });
@@ -114,13 +113,14 @@ export class CalendarPage {
       endTime: eventData.endTime.toISOString()
     };
 
-    console.log(calendarData)
+    console.log('event data:', eventData)
 
     let modal = this.modalCtrl.create(EditSchedulePage, {schedule: calendarData});
     modal.present();
 
     modal.onDidDismiss(data => {
       if (data) {
+        console.log('DATA:',JSON.stringify(data))
         this.storage.set('schedule', JSON.stringify(data));
         // this.presentToast('Successfully updated schedule!')
         this.loadEvents();

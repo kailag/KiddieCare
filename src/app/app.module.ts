@@ -98,8 +98,8 @@ import { ScheduleProvider } from '../providers/schedule/schedule';
     DatabaseProvider,
     ConsultationProvider,
     ProfileProvider,
-    ScheduleProvider
-    /*File,
+    ScheduleProvider/*,
+    File,
     FileOpener*/
   ]
 })

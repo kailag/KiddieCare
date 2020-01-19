@@ -1,10 +1,28 @@
 <ion-header>
   <ion-navbar color="primary">
     <ion-title>{{child.first_name}}'s Records</ion-title>
+    <button ion-button clear icon-only (click)="createPDF()">
+      GENERATE
+    </button>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
+
+  <div class="toolbar-content toolbar-content-md">    
+    <ion-segment color="primary" class="segment segment-md segment-md-primary ng-untouched ng-pristine ng-valid">
+      <ion-segment-button class="segment-button" role="button" tappable="" value="featured" aria-pressed="false">
+        Featured
+        <div class="button-effect"></div>
+        
+      </ion-segment-button>
+      <ion-segment-button class="segment-button segment-activated" role="button" tappable="" value="recent" aria-pressed="true">
+        Recent
+          <div class="button-effect"></div>
+          
+      </ion-segment-button>
+    </ion-segment>
+  </div>
 
   <ion-card no-padding *ngFor="let record of records">
     <ion-card-header>
@@ -14,8 +32,7 @@
             <h2><b>{{record.consultation_date_of_visit | date: 'MMMM dd, yyyy'}}</b></h2>
           </ion-col>
           <ion-col text-right>
-            <ion-icon name="trash" item-end (click)="deleteRecord(record.consultation_id)" color="gray"></ion-icon> <br>
-            <ion-icon name="document" item-end (click)="createPDF()" color="gray"></ion-icon>
+            <ion-icon name="trash" item-end (click)="deleteRecord(record.consultation_id)" color="gray"></ion-icon>            
           </ion-col>
         </ion-row>
       </ion-grid>

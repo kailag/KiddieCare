@@ -5,6 +5,18 @@ import { AddChildRecordPage } from '../add-child-record/add-child-record';
 import { ConsultationProvider } from '../../providers/consultation/consultation';
 import { DatabaseProvider } from '../../providers/database/database';
 import { EditChildRecordPage } from '../edit-child-record/edit-child-record';
+// import PdfPrinter from 'pdfmake';
+
+// const fonts = {
+//   Roboto: {
+//     normal: 'fonts/Roboto-Regular.ttf',
+//     bold: 'fonts/Roboto-Medium.ttf',
+//     italics: 'fonts/Roboto-Italic.ttf',
+//     bolditalics: 'fonts/Roboto-MediumItalic.ttf'
+//   }
+// };
+
+// const printer = new PdfPrinter(fonts);
 
 
 @IonicPage()
@@ -113,6 +125,16 @@ export class ViewChildPage {
       ]
     });
     alert.present();
+  }
+
+  createPDF(){
+    // const docDefinition = {
+    //   // ...
+    // };
+    
+    // const pdfDoc = printer.createPdfKitDocument(docDefinition);
+    // pdfDoc.pipe(fs.createWriteStream('document.pdf'));
+    // pdfDoc.end();
   }
 
 }

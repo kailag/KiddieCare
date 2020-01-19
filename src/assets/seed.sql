@@ -8,10 +8,11 @@ CREATE TABLE IF NOT EXISTS parent(
 CREATE TABLE IF NOT EXISTS child(
     child_id INTEGER PRIMARY KEY AUTOINCREMENT,
     first_name TEXT NOT NULL, 
-    middle_name TEXT NOT NULL, 
+    middle_name TEXT NULL, 
     last_name TEXT NOT NULL, 
     birth_date TEXT NOT NULL, 
-    gender TEXT NOT NULL
+    gender TEXT NOT NULL,
+    doctor TEXT NULL
 );
 
 CREATE TABLE IF NOT EXISTS schedule(

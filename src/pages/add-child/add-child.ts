@@ -14,14 +14,14 @@ export class AddChildPage {
     middle_name: '',
     last_name: '',
     birth_date: '',
-    gender: ''
+    gender: '',
+    doctor: ''
   }
   addForm: FormGroup;
 
   constructor(private navCtrl: NavController, public navParams: NavParams, public childRecordsProvider: ChildRecordsProvider, private fb: FormBuilder, private viewCtrl: ViewController, private toastCtrl: ToastController) {
     this.addForm = this.fb.group({
       first_name: ['', Validators.required],
-      middle_name: ['', Validators.required],
       last_name: ['', Validators.required],
       birth_date: ['', Validators.required],
       gender: ['', Validators.required]
