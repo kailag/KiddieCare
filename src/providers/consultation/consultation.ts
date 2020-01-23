@@ -23,17 +23,24 @@ export class ConsultationProvider {
   readChildRecords(child_id) {
     return this.database.executeSql('SELECT * FROM consultation WHERE child_id=?', [child_id])
       .then((data) => {
-        let consultations;
+
+        // To test if data has data
+        // console.log(data);
+
+        let consultations = [];
         if (data.rows.length > 0) {
           for (let i = 0; i < data.rows.length; i++) {
             consultations.push({
               consultation_id: data.rows.item(i).consultation_id,
               consultation_type: data.rows.item(i).consultation_type,
-              consultation_description: data.rows.item(i).consultation_description,
-              consultation_date: data.rows.item(i).consultation_date,
+              consultation_prescription: data.rows.item(i).consultation_prescription,
+              consultation_instructions: data.rows.item(i).consultation_instructions,
+              consultation_findings: data.rows.item(i).consultation_findings,
               consultation_doctor: data.rows.item(i).consultation_doctor,
+              consultation_date_of_visit: data.rows.item(i).consultation_date_of_visit,
+              consultation_date_of_next_visit: data.rows.item(i).consultation_date_of_next_visit,
               child_id: data.rows.item(i).child_id
-            });
+            })
           }
         }
         return consultations;
@@ -41,11 +48,10 @@ export class ConsultationProvider {
         console.log(err);
         return [];
       });
-
   }
 
   addChildRecord(consultation) {
-    return this.database.executeSql('INSERT INTO consultation(consultation_type, consultation_description, consultation_date, consultation_doctor, child_id) VALUES(?, ?, ?, ?)', [consultation.consultation_type, consultation.consultation_description, consultation.consultation_date, consultation.consultation_doctor, consultation.child_id])
+    return this.database.executeSql('INSERT INTO consultation(consultation_type, consultation_prescription, consultation_instructions, consultation_findings, consultation_doctor, consultation_date_of_visit, consultation_date_of_next_visit, child_id) VALUES(?, ?, ?, ?, ?, ?, ?, ?)', [consultation.consultation_type, consultation.consultation_prescription, consultation.consultation_instructions, consultation.consultation_findings, consultation.consultation_doctor, consultation.consultation_date_of_visit, consultation.consultation_date_of_next_visit, consultation.child_id])
       .then(data => {
         return data;
       }, err => {
@@ -55,7 +61,7 @@ export class ConsultationProvider {
   }
 
   updateChildRecord(consultation) {
-    return this.database.executeSql('UPDATE consultation (consultation_type, consultation_description, consultation_date, consultation_doctor) VALUES(?, ?, ?, ?) WHERE consultation_id = ?', [consultation.consultation_type, consultation.consultation_description, consultation.consultation_date, consultation.consultation_doctor, consultation.id])
+    return this.database.executeSql('UPDATE consultation SET consultation_type=?, consultation_prescription=?, consultation_instructions=?, consultation_findings=?, consultation_doctor=?, consultation_date_of_visit=?, consultation_date_of_next_visit=? WHERE consultation_id=?', [consultation.consultation_type, consultation.consultation_prescription, consultation.consultation_instructions, consultation.consultation_findings, consultation.consultation_doctor, consultation.consultation_date_of_visit, consultation.consultation_date_of_next_visit, consultation.consultation_id])
       .then(data => {
         return data;
       }, err => {

@@ -20,7 +20,9 @@
 <ion-content>
 
   <!-- VIEW ALL CHILD -->
-  <ion-list class="list-content">
+  <ion-list class="list-content">    
+
+    <p *ngIf="!entries">Start by pressing the add button below to add your child's information.</p>
 
     <ion-item *ngFor="let child of children">
       <ion-avatar item-start>
@@ -28,7 +30,8 @@
       </ion-avatar>
       <div (click)="viewChild(child)">
         <h2>{{child.first_name}} {{child.last_name}}</h2>
-        <p>Birthdate: {{child.birth_date}}</p>
+        <p>Birthdate: {{child.birth_date | date: 'MMMM dd, yyyy'}}</p>
+        <p>Gender: {{child.gender}}</p>
       </div>
       <ion-icon name="create" item-end color="gray" (click)="editChild(child)"></ion-icon>
       <ion-icon name="trash" item-end color="gray" (click)="deleteChild(child.child_id)"></ion-icon>
@@ -45,6 +48,12 @@
   <ion-fab right bottom>
     <button ion-fab (click)="addChild()">
       <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
+
+  <ion-fab left bottom>
+    <button ion-fab (click)="createPDF()">
+      <ion-icon name="list-box"></ion-icon>
     </button>
   </ion-fab>
 

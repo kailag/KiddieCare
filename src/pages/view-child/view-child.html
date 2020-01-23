@@ -1,37 +1,61 @@
 <ion-header>
   <ion-navbar color="primary">
     <ion-title>{{child.first_name}}'s Records</ion-title>
+    <button ion-button clear icon-only (click)="createPDF()">
+      GENERATE
+    </button>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
+
+  <div class="toolbar-content toolbar-content-md">    
+    <ion-segment color="primary" class="segment segment-md segment-md-primary ng-untouched ng-pristine ng-valid">
+      <ion-segment-button class="segment-button" role="button" tappable="" value="featured" aria-pressed="false">
+        Featured
+        <div class="button-effect"></div>
+        
+      </ion-segment-button>
+      <ion-segment-button class="segment-button segment-activated" role="button" tappable="" value="recent" aria-pressed="true">
+        Recent
+          <div class="button-effect"></div>
+          
+      </ion-segment-button>
+    </ion-segment>
+  </div>
 
   <ion-card no-padding *ngFor="let record of records">
     <ion-card-header>
       <ion-grid>
         <ion-row>
           <ion-col>
-            <h2>{{record.consultation_date}}</h2>
+            <h2><b>{{record.consultation_date_of_visit | date: 'MMMM dd, yyyy'}}</b></h2>
           </ion-col>
           <ion-col text-right>
-            <button ion-button icon-only clear (click)="deleteRecord(record.consultation_id)">
-              <ion-icon name="trash"></ion-icon>
-            </button>
+            <ion-icon name="trash" item-end (click)="deleteRecord(record.consultation_id)" color="gray"></ion-icon>            
           </ion-col>
         </ion-row>
       </ion-grid>
-
     </ion-card-header>
-    <ion-card-content>
-      <p>Type: {{record.consultation_type}}</p>
-      <p>Description: {{record.consultation_description}}</p>
-      <p>Location: {{record.consultation_doctor}}</p>
+    <ion-card-content (click)="editRecord(record)">
+      <p><b>Type:</b> {{record.consultation_type}}</p>
+      <p><b>Prescription:</b> {{record.consultation_prescription}}</p>
+      <p><b>Instruction:</b> {{record.consultation_instructions}}</p>
+      <p><b>Findings:</b> {{record.consultation_findings}}</p>
+      <p><b>Paediatrician:</b> {{record.consultation_doctor}}</p>
+      <p><b>Date of Next Visit:</b> {{record.consultation_date_of_next_visit | date: 'MMMM dd, yyyy'}}</p>
     </ion-card-content>
   </ion-card>
 
   <ion-fab right bottom>
     <button ion-fab (click)="addChildRecord()">
       <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
+
+  <ion-fab left bottom>
+    <button ion-fab (click)="createPDF()">
+      <ion-icon name="list-box"></ion-icon>
     </button>
   </ion-fab>
 </ion-content>

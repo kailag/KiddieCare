@@ -1,8 +1,12 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, AlertController, Platform, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, AlertController, ToastController, Platform } from 'ionic-angular';
 import * as moment from 'moment';
 import { AddSchedulePage } from '../add-schedule/add-schedule';
 import { Storage } from '@ionic/storage';
+import { LocalNotifications } from '@ionic-native/local-notifications';
+import { ChildRecordsProvider } from '../../providers/child-records/child-records';
+import { DatabaseProvider } from '../../providers/database/database';
+import { EditSchedulePage } from '../edit-schedule/edit-schedule';
 
 @IonicPage()
 @Component({
@@ -13,7 +17,7 @@ export class CalendarPage {
   eventSource = [];
   viewTitle: string;
   selectedDay = new Date();
-  retrievedEvents: any;
+  schedule: any;
 
   calendar = {
     mode: 'month',
@@ -26,18 +30,13 @@ export class CalendarPage {
     return date < current;
   };
 
-  seed = [
-    { title: 'Title 1', startTime: new Date().toISOString(), endTime: new Date().toISOString(), allDay: false },
-    { title: 'Title 2', startTime: new Date().toISOString(), endTime: new Date().toISOString(), allDay: false },
-    { title: 'Title 3', startTime: new Date().toISOString(), endTime: new Date().toISOString(), allDay: false }
-  ]
+  constructor(public localNotification: LocalNotifications, public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController, private alertCtrl: AlertController, private childRecordsProvider: ChildRecordsProvider, private dbProvider: DatabaseProvider, private storage: Storage, private toastCtrl: ToastController, private platform: Platform) {
+    console.log(new Date());
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController, private alertCtrl: AlertController, private toastCtrl: ToastController, private storage: Storage) {
-    // this.storage.set('schedules', JSON.stringify(this.seed));
     this.storage.ready()
       .then(() => {
         this.loadEvents();
-      })
+    })
   }
 
   async loadEvents() {
@@ -45,8 +44,8 @@ export class CalendarPage {
       .then(result => {
         console.log(result);
         if (result) {
-          this.retrievedEvents = result;
-          this.eventSource = JSON.parse(this.retrievedEvents);
+          this.schedule = result;
+          this.eventSource = JSON.parse(this.schedule);
           for (let i = 0; i < this.eventSource.length; i++) {
             this.eventSource[i].startTime = new Date(this.eventSource[i].startTime);
             this.eventSource[i].endTime = new Date(this.eventSource[i].endTime);
@@ -56,16 +55,16 @@ export class CalendarPage {
     await console.log('Event Source', this.eventSource);
   }
 
-  presentToast(msg) {
+  presentToast(message) {
     let toast = this.toastCtrl.create({
-      message: msg,
-      showCloseButton: true,
-      closeButtonText: 'Dismiss'
+      message: message,
+      duration: 5000,
+      showCloseButton: true
     });
     toast.present();
   }
 
-  addSchedule() {
+  addEvent() {
     let modal = this.modalCtrl.create(AddSchedulePage, { selectedDay: this.selectedDay });
     modal.present();
 
@@ -84,6 +83,18 @@ export class CalendarPage {
         setTimeout(() => {
           this.storage.set('schedules', JSON.stringify(events));
           this.eventSource = events;
+          this.presentToast('Successfully added schedule!')      
+          // local notification
+          this.platform.ready().then(() => {
+            let scheduleDate = new Date(this.schedule.startTime);
+            this.localNotification.schedule({
+              title: this.schedule.title,
+              text: `${this.schedule.title}`,
+              trigger: { at: scheduleDate, firstAt: scheduleDate },
+              foreground: true,
+              launch: true,
+            });
+          });
         });
       }
     });
@@ -93,15 +104,37 @@ export class CalendarPage {
     this.viewTitle = title;
   }
 
-  onEventSelected(event) {
-    let start = moment(event.startTime).format('LLLL');
+  // Edit Schedule
+  onEventSelected(eventData) {
+    let calendarData = {
+      title: eventData.title,
+      allDay: eventData.allDay,
+      startTime: eventData.startTime.toISOString(),
+      endTime: eventData.endTime.toISOString()
+    };
 
-    let alert = this.alertCtrl.create({
-      title: '' + event.title,
-      subTitle: `Date and Time: ${start}`,
-      buttons: ['Dismiss']
+    console.log('event data:', eventData)
+
+    let modal = this.modalCtrl.create(EditSchedulePage, {schedule: calendarData});
+    modal.present();
+
+    modal.onDidDismiss(data => {
+      if (data) {
+        console.log('DATA:',JSON.stringify(data))
+        this.storage.set('schedule', JSON.stringify(data));
+        // this.presentToast('Successfully updated schedule!')
+        this.loadEvents();
+      }
     })
-    alert.present();
+
+    // let start = moment(event.startTime).format('LLLL');
+
+    // let alert = this.alertCtrl.create({
+    //   title: '' + event.title,
+    //   subTitle: `Date and Time: ${start}`,
+    //   buttons: ['Dismiss']
+    // })
+    // alert.present();
   }
 
   onTimeSelected(ev) {

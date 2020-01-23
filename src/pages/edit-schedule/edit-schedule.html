@@ -1,0 +1,45 @@
+<ion-header>
+    <ion-navbar color="primary">
+      <ion-title>Edit Schedule</ion-title>
+      <ion-buttons end>
+        <button ion-button clear icon-only (click)="cancel()">
+          <ion-icon name="close"></ion-icon>
+        </button>
+      </ion-buttons>
+    </ion-navbar>
+  </ion-header>
+
+  <ion-content padding>
+
+    <form [formGroup]="editForm" autocomplete="off" (ngSubmit)="updateSchedule()">
+      <ion-list>
+        <ion-item>
+          <ion-input type="text" placeholder="Title" formControlName="title" [(ngModel)]="schedule.title" name="title" required></ion-input>
+        </ion-item>
+    
+        <ion-item>
+          <ion-label>Start Date</ion-label>
+          <ion-datetime displayFormat="MM/DD/YYYY HH:mm" formControlName="startTime" pickerFormat="MMM D:HH:mm" [(ngModel)]="schedule.startTime" 
+          name="startTime" [min]="minDate"></ion-datetime>
+        </ion-item>
+    
+        <ion-item>
+          <ion-label>End Date</ion-label>
+          <ion-datetime displayFormat="MM/DD/YYYY HH:mm" formControlName="endTime" pickerFormat="MMM D:HH:mm" [(ngModel)]="schedule.endTime" name="endTime" [min]="minDate"></ion-datetime>
+        </ion-item>
+    
+        <ion-item>
+          <ion-label>All Day</ion-label>
+          <ion-toggle color="primary" [(ngModel)]="schedule.allDay" formControlName="allDay" name="allDay"></ion-toggle>
+        </ion-item>
+      </ion-list>
+    
+      <button ion-button full icon-left type="submit" color="primary">
+        <ion-icon name="create"></ion-icon> UPDATE
+      </button>
+      <button ion-button full icon-left (click)="deleteSchedule()" color="danger">
+        <ion-icon ></ion-icon> DELETE
+      </button>
+    </form>
+  
+  </ion-content>
