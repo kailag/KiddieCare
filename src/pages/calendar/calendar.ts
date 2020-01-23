@@ -36,7 +36,7 @@ export class CalendarPage {
     this.storage.ready()
       .then(() => {
         this.loadEvents();
-    })
+      })
   }
 
   async loadEvents() {
@@ -83,7 +83,7 @@ export class CalendarPage {
         setTimeout(() => {
           this.storage.set('schedules', JSON.stringify(events));
           this.eventSource = events;
-          this.presentToast('Successfully added schedule!')      
+          this.presentToast('Successfully added schedule!')
           // local notification
           this.platform.ready().then(() => {
             let scheduleDate = new Date(this.schedule.startTime);
@@ -100,32 +100,95 @@ export class CalendarPage {
     });
   }
 
+  editEvent(selectedEvent) {
+    let modal = this.modalCtrl.create(EditSchedulePage, { schedule: selectedEvent });
+    modal.present();
+
+    modal.onDidDismiss(data => {
+      if (data) {
+        let scheduleData = data;
+        console.log(data);
+
+        scheduleData.startTime = new Date(data.startTime);
+        scheduleData.endTime = new Date(data.endTime);
+
+        console.log('Edit Data', scheduleData);
+        let events = this.eventSource;
+        events.filter(event => event.title !== selectedEvent.title);
+        events.push(scheduleData);
+        this.eventSource = [];
+        setTimeout(() => {
+          this.storage.set('schedules', JSON.stringify(events));
+          this.eventSource = events;
+          this.presentToast('Successfully edited schedule!')
+        });
+      }
+    });
+  }
+
+  deleteEvent(selectedEvent) {
+    let events = this.eventSource;
+    events.filter(event => event.title !== selectedEvent.title);
+    this.eventSource = [];
+    setTimeout(() => {
+      this.storage.set('schedules', JSON.stringify(events));
+      this.eventSource = events;
+      this.presentToast('Successfully deleted schedule!');
+    });
+  }
+
   onViewTitleChanged(title) {
     this.viewTitle = title;
   }
 
-  // Edit Schedule
   onEventSelected(eventData) {
-    let calendarData = {
+    let selectedEvent = {
       title: eventData.title,
       allDay: eventData.allDay,
       startTime: eventData.startTime.toISOString(),
       endTime: eventData.endTime.toISOString()
     };
 
+    let alert = this.alertCtrl.create({
+      title: selectedEvent.title,
+      subTitle: 'What do you want to do?',
+      buttons: [
+        {
+          text: 'Update',
+          handler: ()=> {
+            this.editEvent(selectedEvent);
+            alert.dismiss();
+          }
+        },
+        {
+          text: 'Delete',
+          handler: ()=> {
+            this.deleteEvent(selectedEvent);
+            alert.dismiss();
+          }
+        },
+        {
+          text: 'Nothing',
+          role: 'cancel'
+        }
+      ]
+    });
+    alert.present();
+
     console.log('event data:', eventData)
 
-    let modal = this.modalCtrl.create(EditSchedulePage, {schedule: calendarData});
-    modal.present();
+    // let modal = this.modalCtrl.create(EditSchedulePage, { schedule: calendarData });
+    // modal.present();
 
-    modal.onDidDismiss(data => {
-      if (data) {
-        console.log('DATA:',JSON.stringify(data))
-        this.storage.set('schedule', JSON.stringify(data));
-        // this.presentToast('Successfully updated schedule!')
-        this.loadEvents();
-      }
-    })
+
+    // modal.onDidDismiss(data => {
+    //   if (data) {
+    //     console.log('DATA:', JSON.stringify(data))
+    //     this.storage.set('schedule', JSON.stringify(data));
+    //     // this.presentToast('Successfully updated schedule!')
+    //     this.loadEvents();
+    //   }
+    // })
 
     // let start = moment(event.startTime).format('LLLL');
 
