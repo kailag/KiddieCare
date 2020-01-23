@@ -1,11 +1,17 @@
 import { Component } from '@angular/core';
-import { NavController, ModalController, AlertController, ToastController } from 'ionic-angular';
+import { NavController, ModalController, AlertController, ToastController, Platform } from 'ionic-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { DatabaseProvider } from '../../providers/database/database';
 import { ChildRecordsProvider } from '../../providers/child-records/child-records';
 import { AddChildPage } from '../add-child/add-child';
 import { ViewChildPage } from '../view-child/view-child';
 import { EditChildPage } from '../edit-child/edit-child';
+//////////////////////////////////////
+import { File } from '@ionic-native/file';
+import { FileOpener } from '@ionic-native/file-opener';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
   selector: 'page-children',
@@ -14,7 +20,8 @@ import { EditChildPage } from '../edit-child/edit-child';
 export class ChildrenPage {
   children: any = [];
   photo: any;
-  
+  entries = false;
+
   constructor(public navCtrl: NavController, public childRecordsProvider: ChildRecordsProvider, private modalCtrl: ModalController, private dbProvider: DatabaseProvider, private alertCtrl: AlertController, private toastCtrl: ToastController, private camera: Camera) {
     this.dbProvider.getDatabaseState().subscribe(ready => {
       if (ready) {
@@ -40,6 +47,9 @@ export class ChildrenPage {
     this.childRecordsProvider.readChildren()
       .then(data => {
         this.children = data;
+        if(this.children.length > 0){
+          this.entries = true;
+        }
       })
       .catch(err => console.log(err));
   }
@@ -110,37 +120,40 @@ export class ChildrenPage {
     alert.present();
   }
 
-  takePhoto(){
+  takePhoto() {
     const options: CameraOptions = {
       quality: 70,
       destinationType: this.camera.DestinationType.FILE_URI,
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE
     }
-    
+
     this.camera.getPicture(options).then((imageData) => {
-     // imageData is either a base64 encoded string or a file URI
-     // If it's base64 (DATA_URL):
-     this.photo = 'data:image/jpeg;base64,' + imageData;
+      // imageData is either a base64 encoded string or a file URI
+      // If it's base64 (DATA_URL):
+      this.photo = 'data:image/jpeg;base64,' + imageData;
     }, (err) => {
-     // Handle error
+      // Handle error
     });
   }
 
-  getFromGallery(){
+  getFromGallery() {
     const options: CameraOptions = {
       quality: 70,
       destinationType: this.camera.DestinationType.FILE_URI,
       sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-      saveToPhotoAlbum:false
+      saveToPhotoAlbum: false
     }
-    
+
     this.camera.getPicture(options).then((imageData) => {
-     // imageData is either a base64 encoded string or a file URI
-     // If it's base64 (DATA_URL):
-     this.photo = 'data:image/jpeg;base64,' + imageData;
+      // imageData is either a base64 encoded string or a file URI
+      // If it's base64 (DATA_URL):
+      this.photo = 'data:image/jpeg;base64,' + imageData;
     }, (err) => {
-     // Handle error
+      // Handle error
     });
   }
+
+  
 }
+

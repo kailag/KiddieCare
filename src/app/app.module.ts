@@ -98,7 +98,9 @@ import { ScheduleProvider } from '../providers/schedule/schedule';
     DatabaseProvider,
     ConsultationProvider,
     ProfileProvider,
-    ScheduleProvider/*,
+    ScheduleProvider,
+    File,
+    FileOpener/*,
     File,
     FileOpener*/
   ]

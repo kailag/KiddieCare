@@ -22,7 +22,7 @@
   <!-- VIEW ALL CHILD -->
   <ion-list class="list-content">    
 
-    <p>Start by pressing the add button below to add your child's information.</p>
+    <p *ngIf="!entries">Start by pressing the add button below to add your child's information.</p>
 
     <ion-item *ngFor="let child of children">
       <ion-avatar item-start>
@@ -48,6 +48,12 @@
   <ion-fab right bottom>
     <button ion-fab (click)="addChild()">
       <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
+
+  <ion-fab left bottom>
+    <button ion-fab (click)="createPDF()">
+      <ion-icon name="list-box"></ion-icon>
     </button>
   </ion-fab>
 

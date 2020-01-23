@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { Storage } from '@ionic/storage';
 import { TabsPage } from '../pages/tabs/tabs';
 import { RegisterPage } from '../pages/register/register';
+import { ViewChildPage } from '../pages/view-child/view-child';
 
 @Component({
   templateUrl: 'app.html'
@@ -19,16 +20,16 @@ export class MyApp {
 
       //this.presentLoadingCustom();
 
-      this.storage.get('welcome').then(result => {
-        if (result) {
-          this.rootPage = TabsPage;
-        } else {
-          this.rootPage = RegisterPage;
-        }
-      })
-    });
+        this.storage.get('welcome').then(result => {
+          if (result) {
+            this.rootPage = TabsPage;
+          } else {
+            this.rootPage = RegisterPage;
+          }
+        })
+      });
 
-  }
+    }
 
   // presentLoadingCustom() {
   //   let loading = this.loadingController.create({
