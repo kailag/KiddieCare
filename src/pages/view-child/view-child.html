@@ -9,43 +9,50 @@
 
 <ion-content padding>
 
-  <div class="toolbar-content toolbar-content-md">    
+  <div class="toolbar-content toolbar-content-md">
     <ion-segment color="primary" class="segment segment-md segment-md-primary ng-untouched ng-pristine ng-valid">
       <ion-segment-button class="segment-button" role="button" tappable="" value="featured" aria-pressed="false">
         Featured
         <div class="button-effect"></div>
-        
+
       </ion-segment-button>
-      <ion-segment-button class="segment-button segment-activated" role="button" tappable="" value="recent" aria-pressed="true">
+      <ion-segment-button class="segment-button segment-activated" role="button" tappable="" value="recent"
+        aria-pressed="true">
         Recent
-          <div class="button-effect"></div>
-          
+        <div class="button-effect"></div>
+
       </ion-segment-button>
     </ion-segment>
   </div>
 
-  <ion-card no-padding *ngFor="let record of records">
-    <ion-card-header>
-      <ion-grid>
-        <ion-row>
-          <ion-col>
-            <h2><b>{{record.consultation_date_of_visit | date: 'MMMM dd, yyyy'}}</b></h2>
-          </ion-col>
-          <ion-col text-right>
-            <ion-icon name="trash" item-end (click)="deleteRecord(record.consultation_id)" color="gray"></ion-icon>            
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-card-header>
-    <ion-card-content (click)="editRecord(record)">
-      <p><b>Type:</b> {{record.consultation_type}}</p>
-      <p><b>Prescription:</b> {{record.consultation_prescription}}</p>
-      <p><b>Instruction:</b> {{record.consultation_instructions}}</p>
-      <p><b>Findings:</b> {{record.consultation_findings}}</p>
-      <p><b>Paediatrician:</b> {{record.consultation_doctor}}</p>
-      <p><b>Date of Next Visit:</b> {{record.consultation_date_of_next_visit | date: 'MMMM dd, yyyy'}}</p>
-    </ion-card-content>
-  </ion-card>
+  <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="getItems($event)" placeholder="Search for records">
+  </ion-searchbar>
+
+  <div id="pdfcontent" #pdfcontent>
+    <ion-card no-padding *ngFor="let record of records">
+      <ion-card-header>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <h2><b>{{record.consultation_date_of_visit | date: 'MMMM dd, yyyy'}}</b></h2>
+            </ion-col>
+            <ion-col text-right>
+              <ion-icon name="trash" item-end (click)="deleteRecord(record.consultation_id)" color="gray"></ion-icon>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-header>
+      <ion-card-content (click)="editRecord(record)">
+        <p><b>Type:</b> {{record.consultation_type}}</p>
+        <p><b>Prescription:</b> {{record.consultation_prescription}}</p>
+        <p><b>Instruction:</b> {{record.consultation_instructions}}</p>
+        <p><b>Findings:</b> {{record.consultation_findings}}</p>
+        <p><b>Paediatrician:</b> {{record.consultation_doctor}}</p>
+        <p><b>Date of Next Visit:</b> {{record.consultation_date_of_next_visit | date: 'MMMM dd, yyyy'}}</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
 
   <ion-fab right bottom>
     <button ion-fab (click)="addChildRecord()">
@@ -54,7 +61,7 @@
   </ion-fab>
 
   <ion-fab left bottom>
-    <button ion-fab (click)="createPDF()">
+    <button ion-fab (click)="generatePDF()">
       <ion-icon name="list-box"></ion-icon>
     </button>
   </ion-fab>

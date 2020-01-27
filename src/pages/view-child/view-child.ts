@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, ToastController, AlertController, Platform } from 'ionic-angular';
+import { Component, ViewChild, ElementRef } from '@angular/core';
+import { IonicPage, NavController, NavParams, ModalController, ToastController, AlertController, LoadingController, Platform } from 'ionic-angular';
 import { ChildRecordsProvider } from '../../providers/child-records/child-records';
 import { AddChildRecordPage } from '../add-child-record/add-child-record';
 import { ConsultationProvider } from '../../providers/consultation/consultation';
@@ -7,24 +7,11 @@ import { DatabaseProvider } from '../../providers/database/database';
 import { EditChildRecordPage } from '../edit-child-record/edit-child-record';
 import { File } from '@ionic-native/file';
 import { FileOpener } from '@ionic-native/file-opener';
-import pdfMake from 'pdfmake/build/pdfmake';
-import pdfFonts from 'pdfmake/build/vfs_fonts';
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
-import moment from 'moment';
-
-// import PdfPrinter from 'pdfmake';
-
-// const fonts = {
-//   Roboto: {
-//     normal: 'fonts/Roboto-Regular.ttf',
-//     bold: 'fonts/Roboto-Medium.ttf',
-//     italics: 'fonts/Roboto-Italic.ttf',
-//     bolditalics: 'fonts/Roboto-MediumItalic.ttf'
-//   }
-// };
-
-// const printer = new PdfPrinter(fonts);
-
+// import pdfMake from 'pdfmake/build/pdfmake';
+// import pdfFonts from 'pdfmake/build/vfs_fonts';
+// pdfMake.vfs = pdfFonts.pdfMake.vfs;
+import * as jsPDF from 'jspdf';
+import * as html2canvas from 'html2canvas';
 
 @IonicPage()
 @Component({
@@ -32,12 +19,12 @@ import moment from 'moment';
   templateUrl: 'view-child.html',
 })
 export class ViewChildPage {
-
+  @ViewChild('pdfcontent') pdfcontent: ElementRef;
   pdfObj = null;
   child: any;
   records: any = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public childRecordsProvider: ChildRecordsProvider, private modalCtrl: ModalController, private consultationProvider: ConsultationProvider, private toastCtrl: ToastController, private alertCtrl: AlertController, private dbProvider: DatabaseProvider, private file: File, private fileOpener: FileOpener, private plt: Platform) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public childRecordsProvider: ChildRecordsProvider, private modalCtrl: ModalController, private consultationProvider: ConsultationProvider, private toastCtrl: ToastController, private loadingCtrl: LoadingController, private alertCtrl: AlertController, private dbProvider: DatabaseProvider, private file: File, private fileOpener: FileOpener, private plt: Platform) {
 
     this.child = this.navParams.get('child');
     this.dbProvider.getDatabaseState().subscribe(ready => {
@@ -56,6 +43,14 @@ export class ViewChildPage {
       buttons: ['OK']
     });
     alert.present();
+  }
+
+  presentLoading(msg){
+    let loading = this.loadingCtrl.create({
+      content: msg,
+      spinner: 'dots'
+    });
+    loading.present();
   }
 
   presentToast(message) {
@@ -135,48 +130,104 @@ export class ViewChildPage {
     alert.present();
   }
 
-  createPDF() {
-    let rows = [];
-    rows.push(['Date of visit', 'Type', 'Prescription', 'Instructions', 'Findings', 'Doctor', 'Date of next Visit']);
-
-   for(let i:any=0;i<this.records.length;i++){
-     for(let j of i){
-       rows.push(j.consultation_date_of_visit, j.consultation_type, j.consultation_prescription, j.consultation_instructions, j.consultation_findings, j.consultation_doctor, j.consultation_date_of_next_visit);
-     }
-   }
-
-    let docDefinition = {
-      pageSize: 'A5',
-      content:
-      {
-        table: {
-          headerRows: 1,
-          widths: ['*', '*', '*', '*', '*', '*', '*'],
-          body: rows
-        }
-      }
-    }
-    if (this.plt.is('cordova')) {
-      const title = 'Records';
-      const fileDirectory = this.file.dataDirectory;
-      this.pdfObj = pdfMake.createPdf(docDefinition);
-      alert(`File will be saved in ${fileDirectory}`);
-      this.pdfObj.getBuffer((buffer) => {
-        var blob = new Blob([buffer], { type: 'application/pdf' });
-        this.file.writeFile(fileDirectory, title, blob, { replace: true })
-          .then(fileEntry => {
-            // this.presentToast(`File Created! ${fileEntry}`)
-            this.fileOpener.open(fileDirectory + title, 'appliction/pdf');
-          })
-          .catch((error) => {
-            this.presentToast(`Unable to create file! ${error}`);
-          });
-      });
-    } else {
-      this.pdfObj = pdfMake.createPdf(docDefinition);
-      this.pdfObj.download();
+  getItems(ev: any) {
+    this.readChildRecords();
+    const val = ev.target.value;
+    if (val && val.trim() != '') {
+      this.records = this.records.filter((item) => {
+        return (item.type.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      })
     }
   }
+
+  generatePDF() {
+    const div = document.getElementById("pdfcontent");
+    const options = { background: "white", height: div.clientHeight, width: div.clientWidth };
+
+    if (this.plt.is('cordova')) {
+      html2canvas(div, options).then((canvas) => {
+        var doc = new jsPDF("p", "mm", "a4");
+
+        let imgData = canvas.toDataURL("image/PNG");
+        doc.addImage(imgData, 'PNG', 20, 20);
+
+        let pdfOutput = doc.output();
+        let buffer = new ArrayBuffer(pdfOutput.length);
+        let array = new Uint8Array(buffer);
+        for (var i = 0; i < pdfOutput.length; i++) {
+          array[i] = pdfOutput.charCodeAt(i);
+        }
+
+        const fileDirectory = this.file.externalApplicationStorageDirectory;
+        const fileName = "Records.pdf";
+
+        this.file.writeFile(fileDirectory, fileName, buffer, { replace: true })
+          .then((success) => {
+            console.log("File created Succesfully" + JSON.stringify(success))
+            this.fileOpener.open(fileDirectory + fileName, 'application/pdf');
+          })
+          .catch((error) => this.presentToast('Unable to create file: ' + error));
+      });
+
+    } else {
+      let doc = new jsPDF();
+      let specialElementHandlers = {
+        '#editor': function (element, renderer) {
+          return true;
+        }
+      };
+      let pdfcontent = this.pdfcontent.nativeElement;
+      doc.fromHTML(pdfcontent.innerHTML, 15, 15, {
+        'width': 170,
+        'elementHandlers': specialElementHandlers
+      });
+      doc.save('sample-file.pdf');
+    }
+
+  }
+
+  // createPDF() {
+  //   let rows = [];
+  //   rows.push(['Date of visit', 'Type', 'Prescription', 'Instructions', 'Findings', 'Doctor', 'Date of next Visit']);
+
+  //  for(let i:any=0;i<this.records.length;i++){
+  //    for(let j of i){
+  //      rows.push(j.consultation_date_of_visit, j.consultation_type, j.consultation_prescription, j.consultation_instructions, j.consultation_findings, j.consultation_doctor, j.consultation_date_of_next_visit);
+  //    }
+  //  }
+
+  //   let docDefinition = {
+  //     pageSize: 'A5',
+  //     content:
+  //     {
+  //       table: {
+  //         headerRows: 1,
+  //         widths: ['*', '*', '*', '*', '*', '*', '*'],
+  //         body: rows
+  //       }
+  //     }
+  //   }
+  //   if (this.plt.is('cordova')) {
+  //     const title = 'Records';
+  //     const fileDirectory = this.file.dataDirectory;
+  //     this.pdfObj = pdfMake.createPdf(docDefinition);
+  //     alert(`File will be saved in ${fileDirectory}`);
+  //     this.pdfObj.getBuffer((buffer) => {
+  //       var blob = new Blob([buffer], { type: 'application/pdf' });
+  //       this.file.writeFile(fileDirectory, title, blob, { replace: true })
+  //         .then(fileEntry => {
+  //           // this.presentToast(`File Created! ${fileEntry}`)
+  //           this.fileOpener.open(fileDirectory + title, 'application/pdf');
+  //         })
+  //         .catch((error) => {
+  //           this.presentToast(`Unable to create file! ${error}`);
+  //         });
+  //     });
+  //   } else {
+  //     this.pdfObj = pdfMake.createPdf(docDefinition);
+  //     this.pdfObj.download();
+  //   }
+  // }
 
 
 }
