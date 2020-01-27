@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController, ToastController } from 'ionic-angular';
+import { IonicPage, NavParams, ViewController, ToastController } from 'ionic-angular';
 import { ChildRecordsProvider } from '../../providers/child-records/child-records';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
@@ -19,12 +19,14 @@ export class AddChildPage {
   }
   addForm: FormGroup;
 
-  constructor(private navCtrl: NavController, public navParams: NavParams, public childRecordsProvider: ChildRecordsProvider, private fb: FormBuilder, private viewCtrl: ViewController, private toastCtrl: ToastController) {
+  constructor(public navParams: NavParams, public childRecordsProvider: ChildRecordsProvider, private fb: FormBuilder, private viewCtrl: ViewController, private toastCtrl: ToastController) {
     this.addForm = this.fb.group({
       first_name: ['', Validators.required],
+      middle_name: [''],
       last_name: ['', Validators.required],
       birth_date: ['', Validators.required],
-      gender: ['', Validators.required]
+      gender: ['', Validators.required],
+      doctor: ['']
     });
   }
 
@@ -47,7 +49,7 @@ export class AddChildPage {
     this.viewCtrl.dismiss(this.child);
   }
 
-  cancel(){
+  cancel() {
     this.viewCtrl.dismiss();
   }
 
