@@ -1,24 +1,25 @@
 <ion-header>
-    <ion-navbar color="primary">
-        <ion-grid>
-            <ion-row>
-              <ion-col>
-                <div>
-                    <img class="logo" src="assets/imgs/logo.png">
-                </div>
-              </ion-col>
-              <ion-col>
-                <div style="align-content: center;">
-                    <ion-title class="month-title">{{ viewTitle }}</ion-title>
-                </div>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-    </ion-navbar>
-  </ion-header>
-   
-  <ion-content>
-    <calendar 
+  <ion-navbar color="primary">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <div>
+            <img class="logo" src="assets/imgs/logo.png">
+          </div>
+        </ion-col>
+        <ion-col>
+          <div style="align-content: center;">
+            <!-- <ion-title class="month-title">{{ viewTitle }}</ion-title> -->
+            <ion-title class="month-title">Upcoming Schedules</ion-title>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <!-- <calendar 
       [eventSource]="eventSource"
       [calendarMode]="calendar.mode"
       [currentDate]="calendar.currentDate"
@@ -29,10 +30,33 @@
       step="30"
       noEventsLabel="No plotted schedule"
       class="calendar">
-    </calendar>
-  
-    <ion-fab right bottom>
-      <button ion-fab (click)="addEvent()"><ion-icon name="add"></ion-icon></button>
-    </ion-fab>
-  
-  </ion-content>
+    </calendar> -->
+
+  <p>{{schedulesJson}}</p>
+  <ion-card *ngFor="let s of schedules">
+    <ion-card-header>
+      {{s.title | ltrim: 'KiddieCare - '}}
+    </ion-card-header>
+    <ion-card-content (click)="openCal(s)">
+      <ion-list no-lines>
+        <ion-item>
+          <ion-icon name="calendar" color="primary"></ion-icon> Date Start: {{s.dtstart | date: 'medium'}}
+        </ion-item>
+        <ion-item>
+          <ion-icon name="calendar" color="danger"></ion-icon> Date End: {{s.dtend | date: 'medium'}}
+        </ion-item>
+        <ion-item>
+          <ion-icon name="locate"></ion-icon> Location:
+          {{s.eventLocation != '' ? s.eventLocation : 'Location not specified'}}
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-fab right bottom>
+    <button ion-fab (click)="addEvent()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
+
+</ion-content>

@@ -39,6 +39,7 @@ export class ConsultationProvider {
               consultation_doctor: data.rows.item(i).consultation_doctor,
               consultation_date_of_visit: data.rows.item(i).consultation_date_of_visit,
               consultation_date_of_next_visit: data.rows.item(i).consultation_date_of_next_visit,
+              consultation_image_path: data.rows.item(i).consultation_image_path,
               child_id: data.rows.item(i).child_id
             })
           }

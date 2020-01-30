@@ -25,6 +25,7 @@ import { AddProfilePage } from '../pages/add-profile/add-profile';
 import { EditProfilePage } from '../pages/edit-profile/edit-profile';
 import { EditSchedulePage } from '../pages/edit-schedule/edit-schedule';
 import { EditChildRecordPage } from '../pages/edit-child-record/edit-child-record';
+import { PlaygroundPage } from '../pages/playground/playground';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -36,9 +37,11 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
 
 import { File } from '@ionic-native/file';
 import { FileOpener } from '@ionic-native/file-opener';
+import { FilePath } from '@ionic-native/file-path';
 
 import { Camera } from '@ionic-native/camera';
 import { ScheduleProvider } from '../providers/schedule/schedule';
+import { Calendar } from '@ionic-native/calendar';
 
 @NgModule({
   declarations: [
@@ -57,7 +60,8 @@ import { ScheduleProvider } from '../providers/schedule/schedule';
     AddProfilePage,
     EditProfilePage,
     EditSchedulePage,
-    EditChildRecordPage
+    EditChildRecordPage,
+    PlaygroundPage
   ],
   imports: [
     BrowserModule,
@@ -84,7 +88,8 @@ import { ScheduleProvider } from '../providers/schedule/schedule';
     AddProfilePage,
     EditProfilePage,
     EditSchedulePage,
-    EditChildRecordPage
+    EditChildRecordPage,
+    PlaygroundPage
   ],
   providers: [
     StatusBar,
@@ -100,9 +105,8 @@ import { ScheduleProvider } from '../providers/schedule/schedule';
     ProfileProvider,
     ScheduleProvider,
     File,
-    FileOpener/*,
-    File,
-    FileOpener*/
+    FilePath,
+    Calendar
   ]
 })
 export class AppModule { }

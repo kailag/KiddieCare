@@ -1,17 +1,11 @@
 import { Component } from '@angular/core';
-import { NavController, ModalController, AlertController, ToastController, Platform } from 'ionic-angular';
+import { NavController, ModalController, AlertController, ToastController } from 'ionic-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { DatabaseProvider } from '../../providers/database/database';
 import { ChildRecordsProvider } from '../../providers/child-records/child-records';
 import { AddChildPage } from '../add-child/add-child';
 import { ViewChildPage } from '../view-child/view-child';
 import { EditChildPage } from '../edit-child/edit-child';
-//////////////////////////////////////
-import { File } from '@ionic-native/file';
-import { FileOpener } from '@ionic-native/file-opener';
-import pdfMake from 'pdfmake/build/pdfmake';
-import pdfFonts from 'pdfmake/build/vfs_fonts';
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
   selector: 'page-children',

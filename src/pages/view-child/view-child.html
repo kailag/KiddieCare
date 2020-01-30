@@ -25,11 +25,33 @@
     </ion-segment>
   </div>
 
-  <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="getItems($event)" placeholder="Search for records">
+  <ion-grid>
+    <ion-row radio-group [(ngModel)]="radioTerm">
+      <ion-col text-center>
+        <ion-label>Checkup</ion-label>
+        <ion-radio value="check-up/consultation" (ionSelect)="onRadioFilter($event)"></ion-radio>
+      </ion-col>
+      <ion-col text-center>
+        <ion-label>Vaccination</ion-label>
+        <ion-radio value="vaccination" (ionSelect)="onRadioFilter($event)"></ion-radio>
+      </ion-col>
+      <ion-col text-center>
+        <ion-label>Emergency</ion-label>
+        <ion-radio value="emergency" (ionSelect)="onRadioFilter($event)"></ion-radio>
+      </ion-col>
+      <ion-col text-center>
+        <ion-label>All</ion-label>
+        <ion-radio value="all" checked (ionSelect)="onRadioFilter($event)"></ion-radio>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="searchByPeriod($event)" placeholder="ex. 'January 2020'">
   </ion-searchbar>
 
   <div id="pdfcontent" #pdfcontent>
-    <ion-card no-padding *ngFor="let record of records">
+    <p>{{recordsJson}}</p>
+    <ion-card no-padding *ngFor="let record of items">
       <ion-card-header>
         <ion-grid>
           <ion-row>
@@ -49,6 +71,8 @@
         <p><b>Findings:</b> {{record.consultation_findings}}</p>
         <p><b>Paediatrician:</b> {{record.consultation_doctor}}</p>
         <p><b>Date of Next Visit:</b> {{record.consultation_date_of_next_visit | date: 'MMMM dd, yyyy'}}</p>
+        <p><b>Image Path:</b>
+          {{record.consultation_image_path != null ? record.consultation.image_path : 'No Image Included'}}</p>
       </ion-card-content>
     </ion-card>
   </div>
@@ -61,7 +85,7 @@
   </ion-fab>
 
   <ion-fab left bottom>
-    <button ion-fab (click)="generatePDF()">
+    <button ion-fab (click)="generatePdf()">
       <ion-icon name="list-box"></ion-icon>
     </button>
   </ion-fab>

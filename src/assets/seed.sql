@@ -31,7 +31,8 @@ CREATE TABLE IF NOT EXISTS consultation(
     consultation_findings TEXT NOT NULL, 
     consultation_doctor TEXT NOT NULL, 
     consultation_date_of_visit TEXT NOT NULL,     
-    consultation_date_of_next_visit TEXT NOT NULL,     
+    consultation_date_of_next_visit TEXT NOT NULL,
+    consultation_image_path TEXT NULL,   
     child_id INTEGER NOT NULL
 );
 
