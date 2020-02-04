@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavParams, ViewController, ToastController } from 'ionic-angular';
+import { IonicPage, NavParams, ViewController, ToastController, AlertController } from 'ionic-angular';
 import { ConsultationProvider } from '../../providers/consultation/consultation';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-
 import { File } from '@ionic-native/file';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 
@@ -21,9 +20,9 @@ export class AddChildRecordPage {
     consultation_doctor: '',
     consultation_date_of_visit: '',
     consultation_date_of_next_visit: '',
-    consultation_image_path: '',
+    consultation_image_file: '',
     child_id: ''
-  }
+  };
 
   addRecordForm: FormGroup;
 
@@ -31,17 +30,18 @@ export class AddChildRecordPage {
   hasPhoto = false;
   imageFileName: any;
   tempBaseFilesystemPath: any;
+  private win: any = window;
 
-  constructor(public navParams: NavParams, public consultationProvider: ConsultationProvider, private fb: FormBuilder, private viewCtrl: ViewController, private toastCtrl: ToastController, private camera: Camera, private file: File) {
+  constructor(public navParams: NavParams, public consultationProvider: ConsultationProvider, private fb: FormBuilder, private viewCtrl: ViewController, private toastCtrl: ToastController, private alertCtrl: AlertController, private camera: Camera, private file: File) {
 
     this.addRecordForm = this.fb.group({
       consultation_type: ['', Validators.required],
-      consultation_prescription: ['', Validators.required],
-      consultation_instructions: ['', Validators.required],
-      consultation_findings: ['', Validators.required],
-      consultation_doctor: ['', Validators.required],
+      consultation_prescription: [''],
+      consultation_instructions: [''],
+      consultation_findings: [''],
+      consultation_doctor: [''],
       consultation_date_of_visit: ['', Validators.required],
-      consultation_date_of_next_visit: ['', Validators.required],
+      consultation_date_of_next_visit: ['']
     });
   }
 
@@ -54,6 +54,16 @@ export class AddChildRecordPage {
       showCloseButton: true
     });
     toast.present();
+  }
+
+  presentAlert(title, msg) {
+    let alert = this.alertCtrl.create({
+      title: title,
+      message: msg,
+      buttons: ['Ok'],
+      enableBackdropDismiss: false
+    });
+    alert.present();
   }
 
   addPhoto() {
@@ -70,16 +80,8 @@ export class AddChildRecordPage {
         this.imageFileName = imagePath.substr(imagePath.lastIndexOf('/') + 1);
         this.tempBaseFilesystemPath = imagePath.substr(0, imagePath.lastIndexOf('/') + 1);
         this.hasPhoto = true;
-        this.imagePreview = this.imageFileName;
+        this.imagePreview = this.win.Ionic.WebView.convertFileSrc(imagePath);
       });
-  }
-
-  previewImage(img) {
-    if (img === null) {
-      return '';
-    } else {
-      return this.tempBaseFilesystemPath + img;
-    }
   }
 
   removePhoto() {
@@ -89,6 +91,12 @@ export class AddChildRecordPage {
     this.hasPhoto = false;
   }
 
+  deleteImage(imagePath: string, fileName: string): void {
+    this.file.removeFile(imagePath, fileName)
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
+  }
+
   addChildRecord() {
     if (this.addRecordForm.invalid) {
       this.presentToast('Please fill out all required fields!');
@@ -96,13 +104,16 @@ export class AddChildRecordPage {
     }
 
     if (this.hasPhoto) {
-      this.file.copyFile(this.tempBaseFilesystemPath, this.imageFileName, this.file.dataDirectory, this.imageFileName)
+      const newFileName = `kc-${this.imageFileName}`;
+      this.file.copyFile(this.tempBaseFilesystemPath, this.imageFileName, this.file.externalDataDirectory, newFileName)
         .then(success => {
-          this.consultation.consultation_image_path = (this.file.dataDirectory + this.imageFileName).toString();
+          this.consultation.consultation_image_file = this.file.externalDataDirectory + newFileName;
+          this.removePhoto();
           this.viewCtrl.dismiss(this.consultation);
+          this.deleteImage(this.tempBaseFilesystemPath, this.imageFileName);
         }, err => this.presentToast(`Error storing image: ${err}`));
     } else {
-      this.consultation.consultation_image_path = null;
+      this.consultation.consultation_image_file = null;
       this.viewCtrl.dismiss(this.consultation);
     }
   }

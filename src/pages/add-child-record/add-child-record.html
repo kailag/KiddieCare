@@ -48,29 +48,29 @@
 
       <ion-item>
         <ion-label floating>Date of Visit</ion-label>
-        <ion-datetime displayFormat="MMMM D YYYY" pickerFormat="MMMM DD YYYY"
+        <ion-datetime displayFormat="MMMM D, YYYY" pickerFormat="MMMM DD YYYY"
           [(ngModel)]="consultation.consultation_date_of_visit" formControlName="consultation_date_of_visit">
         </ion-datetime>
       </ion-item>
 
       <ion-item>
         <ion-label floating>Date of Next Visit</ion-label>
-        <ion-datetime displayFormat="MMMM D YYYY" pickerFormat="MMMM DD YYYY"
+        <ion-datetime displayFormat="MMMM D, YYYY" pickerFormat="MMMM DD YYYY"
           [(ngModel)]="consultation.consultation_date_of_next_visit" formControlName="consultation_date_of_next_visit">
         </ion-datetime>
       </ion-item>
 
       <ion-item text-center>
-        <h3 *ngIf="!imagePreview" (click)="presentCameraActionSheet()">
+        <p color="primary" *ngIf="!imagePreview" (click)="addPhoto()">
           <ion-icon name="camera"></ion-icon> Add Photo (Optional)
-        </h3>
-        <h3 *ngIf="imagePreview" (click)="removePhoto()">
-          <ion-icon color="danger" name="remove-circle"></ion-icon> Remove Photo
-        </h3>
+        </p>
+        <p color="danger" *ngIf="imagePreview" (click)="removePhoto()">
+          <ion-icon name="remove-circle"></ion-icon> Remove Photo
+        </p>
       </ion-item>
 
-      <ion-item [hidden]="imagePreview === null">
-        <img src="{{previewImage(imagePreview)}}" style="width: 100%;" />
+      <ion-item>
+        <img [src]="imagePreview" *ngIf="imagePreview">
       </ion-item>
 
     </ion-list>
