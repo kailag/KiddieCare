@@ -7,12 +7,14 @@ import { DatabaseProvider } from '../../providers/database/database';
 import { EditChildRecordPage } from '../edit-child-record/edit-child-record';
 import { File } from '@ionic-native/file';
 import { FileOpener } from '@ionic-native/file-opener';
-// import pdfMake from 'pdfmake/build/pdfmake';
-// import pdfFonts from 'pdfmake/build/vfs_fonts';
-// pdfMake.vfs = pdfFonts.pdfMake.vfs;
+
 import * as jsPDF from 'jspdf';
 import * as html2canvas from 'html2canvas';
 import moment from 'moment';
+
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @IonicPage()
 @Component({
@@ -21,6 +23,7 @@ import moment from 'moment';
 })
 export class ViewChildPage {
   @ViewChild('pdfcontent') pdfcontent: ElementRef;
+
   pdfObj = null;
   child: any;
   records = [];
@@ -33,6 +36,9 @@ export class ViewChildPage {
   isSearchBar = false;
 
   recordsJson: any;
+  private win: any = window;
+  
+  view: string = 'records';
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public childRecordsProvider: ChildRecordsProvider, private modalCtrl: ModalController, private consultationProvider: ConsultationProvider, private toastCtrl: ToastController, private loadingCtrl: LoadingController, private alertCtrl: AlertController, private dbProvider: DatabaseProvider, private file: File, private fileOpener: FileOpener, private plt: Platform) {
 
@@ -93,6 +99,17 @@ export class ViewChildPage {
           .catch(e => console.log(e));
       }
     });
+  }
+
+  viewImage(imageFile) {
+    this.fileOpener.open(imageFile, 'image/jpeg')
+      .then(res => console.log(res))
+      .catch(err => this.presentToast('Error opening Image: ' + err))
+  }
+  
+  displayImage(imagePath) {
+    let image = this.win.Ionic.WebView.convertFileSrc(imagePath);
+    return image;
   }
 
   editRecord(record) {
@@ -181,73 +198,157 @@ export class ViewChildPage {
     }
   }
 
+  // generatePdf() {
+  //   let alert = this.alertCtrl.create({
+  //     title: 'Generate PDF',
+  //     subTitle: 'Please enter a filename',
+  //     inputs: [
+  //       {
+  //         name: 'fileName',
+  //         label: 'Filename',
+  //         type: 'text',
+  //         placeholder: 'Enter filename',
+  //       }
+  //     ],
+  //     buttons: [
+  //       {
+  //         text: 'Submit',
+  //         handler: data => {
+  //           if (data.fileName == '' || data.fileName == null) {
+  //             this.presentToast('You must provide a filename!');
+  //             return false;
+  //           }
+  //           this.presentLoading(`Creating your PDF file... ${data.fileName}.pdf`);
+  //           const div = document.getElementById("pdfcontent");
+  //           const options = { background: "white", height: div.clientHeight, width: div.clientWidth };
+
+  //           if (this.plt.is('cordova')) {
+  //             html2canvas(div, options).then((canvas) => {
+  //               var doc = new jsPDF("p", "mm", "a4");
+
+  //               let imgData = canvas.toDataURL("image/PNG");
+  //               doc.addImage(imgData, 'PNG', 20, 20);
+
+  //               let pdfOutput = doc.output();
+  //               let buffer = new ArrayBuffer(pdfOutput.length);
+  //               let array = new Uint8Array(buffer);
+  //               for (var i = 0; i < pdfOutput.length; i++) {
+  //                 array[i] = pdfOutput.charCodeAt(i);
+  //               }
+
+  //               // const fileDirectory = this.file.externalApplicationStorageDirectory;
+  //               const fileDirectory = this.file.externalDataDirectory;
+  //               const fileName = data.fileName;
+
+  //               this.file.writeFile(fileDirectory, fileName, buffer, { replace: true })
+  //                 .then((success) => {
+  //                   this.loading.dismiss();
+  //                   this.presentToast('Created PDF file ' + JSON.stringify(success));
+  //                   this.fileOpener.open(fileDirectory + fileName, 'application/pdf');
+  //                 })
+  //                 .catch((error) => {
+  //                   this.loading.dismiss();
+  //                   this.presentToast('Unable to create file: ' + error)
+  //                 });
+  //             });
+
+  //           } else {
+  //             let doc = new jsPDF();
+  //             let specialElementHandlers = {
+  //               '#editor': function (element, renderer) {
+  //                 return true;
+  //               }
+  //             };
+  //             let pdfcontent = this.pdfcontent.nativeElement;
+  //             doc.fromHTML(pdfcontent.innerHTML, 15, 15, {
+  //               'width': 170,
+  //               'elementHandlers': specialElementHandlers
+  //             });
+  //             doc.save(data.fileName);
+  //           }
+  //         }
+  //       },
+  //       {
+  //         text: 'Cancel',
+  //         role: 'cancel'
+  //       }
+  //     ]
+  //   });
+  //   alert.present();
+  // }
+
   generatePdf() {
+    let rows = [];
+    rows.push(['Date of visit', 'Type', 'Prescription', 'Instructions', 'Findings', 'Doctor', 'Date of next Visit']);
+
+    this.items.forEach(item => {
+      rows.push([item.consultation_date_of_visit, item.consultation_type, item.consultation_prescription, item.consultation_instructions, item.consultation_findings, item.consultation_doctor, item.consultation_date_of_next_visit]);
+    });
+
+    let docDefinition = {
+      pageSize: 'A5',
+      pageOrientation: 'landscape',
+      content: [
+        { text: `Generated: ${moment(new Date).format('MMMM DD, YYYY')}`, style: 'header' },
+        {
+          table: {
+            headerRows: 1,
+            widths: ['*', '*', '*', '*', '*', '*', '*'],
+            body: rows
+          }
+        }
+      ],
+      styles: {
+        header: {
+          fontSize: 14,
+          bold: true,
+          alignment: 'center'
+        }
+      }
+    }
+
     let alert = this.alertCtrl.create({
       title: 'Generate PDF',
-      subTitle: 'Please enter a filename',
+      subTitle: 'Generate PDF from records',
       inputs: [
         {
+          type: 'text',
           name: 'fileName',
           label: 'Filename',
-          type: 'text',
-          placeholder: 'Enter filename',
+          placeholder: 'Enter a filename'
         }
       ],
       buttons: [
         {
           text: 'Submit',
-          handler: alertInputData => {
-            if (alertInputData.fileName == '' || alertInputData.fileName == null) {
+          handler: data => {
+            if (data.fileName == '' || data.fileName == null) {
               this.presentToast('You must provide a filename!');
               return false;
             }
-            this.presentLoading('Creating PDF file...');
-            const div = document.getElementById("pdfcontent");
-            const options = { background: "white", height: div.clientHeight, width: div.clientWidth };
 
+            this.presentLoading(`Creating your file... ${data.fileName}`);
             if (this.plt.is('cordova')) {
-              html2canvas(div, options).then((canvas) => {
-                var doc = new jsPDF("p", "mm", "a4");
-
-                let imgData = canvas.toDataURL("image/PNG");
-                doc.addImage(imgData, 'PNG', 20, 20);
-
-                let pdfOutput = doc.output();
-                let buffer = new ArrayBuffer(pdfOutput.length);
-                let array = new Uint8Array(buffer);
-                for (var i = 0; i < pdfOutput.length; i++) {
-                  array[i] = pdfOutput.charCodeAt(i);
-                }
-
-                // const fileDirectory = this.file.externalApplicationStorageDirectory;
-                const fileDirectory = this.file.dataDirectory;
-                const fileName = alertInputData.fileName;
-
-                this.file.writeFile(fileDirectory, fileName, buffer, { replace: true })
-                  .then((success) => {
+              const fileDirectory = this.file.externalDataDirectory;
+              const fileName = data.fileName;
+              this.pdfObj = pdfMake.createPdf(docDefinition);
+              this.pdfObj.getBuffer((buffer) => {
+                var blob = new Blob([buffer], { type: 'application/pdf' });
+                this.file.writeFile(fileDirectory, fileName, blob, { replace: true })
+                  .then(fileEntry => {
                     this.loading.dismiss();
-                    this.presentToast('Created PDF file ' + JSON.stringify(success));
                     this.fileOpener.open(fileDirectory + fileName, 'application/pdf');
+                    console.log(JSON.stringify(fileEntry));
                   })
                   .catch((error) => {
                     this.loading.dismiss();
-                    this.presentToast('Unable to create file: ' + error)
+                    this.presentToast(`Unable to create file: ${error}`);
                   });
               });
-
             } else {
-              let doc = new jsPDF();
-              let specialElementHandlers = {
-                '#editor': function (element, renderer) {
-                  return true;
-                }
-              };
-              let pdfcontent = this.pdfcontent.nativeElement;
-              doc.fromHTML(pdfcontent.innerHTML, 15, 15, {
-                'width': 170,
-                'elementHandlers': specialElementHandlers
-              });
-              doc.save(alertInputData.fileName);
+              this.pdfObj = pdfMake.createPdf(docDefinition);
+              this.pdfObj.download();
+              this.loading.dismiss();
             }
           }
         },
@@ -258,52 +359,7 @@ export class ViewChildPage {
       ]
     });
     alert.present();
-
-
   }
-
-  // createPDF() {
-  //   let rows = [];
-  //   rows.push(['Date of visit', 'Type', 'Prescription', 'Instructions', 'Findings', 'Doctor', 'Date of next Visit']);
-
-  //  for(let i:any=0;i<this.records.length;i++){
-  //    for(let j of i){
-  //      rows.push(j.consultation_date_of_visit, j.consultation_type, j.consultation_prescription, j.consultation_instructions, j.consultation_findings, j.consultation_doctor, j.consultation_date_of_next_visit);
-  //    }
-  //  }
-
-  //   let docDefinition = {
-  //     pageSize: 'A5',
-  //     content:
-  //     {
-  //       table: {
-  //         headerRows: 1,
-  //         widths: ['*', '*', '*', '*', '*', '*', '*'],
-  //         body: rows
-  //       }
-  //     }
-  //   }
-  //   if (this.plt.is('cordova')) {
-  //     const title = 'Records';
-  //     const fileDirectory = this.file.dataDirectory;
-  //     this.pdfObj = pdfMake.createPdf(docDefinition);
-  //     alert(`File will be saved in ${fileDirectory}`);
-  //     this.pdfObj.getBuffer((buffer) => {
-  //       var blob = new Blob([buffer], { type: 'application/pdf' });
-  //       this.file.writeFile(fileDirectory, title, blob, { replace: true })
-  //         .then(fileEntry => {
-  //           // this.presentToast(`File Created! ${fileEntry}`)
-  //           this.fileOpener.open(fileDirectory + title, 'application/pdf');
-  //         })
-  //         .catch((error) => {
-  //           this.presentToast(`Unable to create file! ${error}`);
-  //         });
-  //     });
-  //   } else {
-  //     this.pdfObj = pdfMake.createPdf(docDefinition);
-  //     this.pdfObj.download();
-  //   }
-  // }
 
 
 }
