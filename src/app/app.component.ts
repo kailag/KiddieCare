@@ -15,14 +15,13 @@ export class MyApp {
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private storage: Storage, public loadingController: LoadingController) {
     platform.ready().then(() => {
+
       statusBar.styleDefault();
       splashScreen.hide();
 
-      //this.presentLoadingCustom();
-
       this.storage.get('welcome').then(result => {
         if (result) {
-          this.rootPage = PlaygroundPage;
+          this.rootPage = TabsPage;
         } else {
           this.rootPage = RegisterPage;
         }
@@ -30,17 +29,5 @@ export class MyApp {
     });
 
   }
-
-  // presentLoadingCustom() {
-  //   let loading = this.loadingController.create({
-  //     spinner: 'hide',
-  //     content: `
-  //       <div class="custom-spinner-container">
-  //         <div class="custom-spinner-box"></div>
-  //       </div>`,
-  //     duration: 5000
-  //   });  
-  //   loading.present();
-  // }
 
 }

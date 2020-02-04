@@ -37,7 +37,7 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
 
 import { File } from '@ionic-native/file';
 import { FileOpener } from '@ionic-native/file-opener';
-import { FilePath } from '@ionic-native/file-path';
+// import { FilePath } from '@ionic-native/file-path';
 
 import { Camera } from '@ionic-native/camera';
 import { ScheduleProvider } from '../providers/schedule/schedule';
@@ -105,7 +105,7 @@ import { Calendar } from '@ionic-native/calendar';
     ProfileProvider,
     ScheduleProvider,
     File,
-    FilePath,
+    FileOpener,
     Calendar
   ]
 })

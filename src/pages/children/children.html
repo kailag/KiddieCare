@@ -19,7 +19,6 @@
 
 <ion-content>
 
-  <!-- VIEW ALL CHILD -->
   <ion-list class="list-content">    
 
     <p *ngIf="!entries">Start by pressing the add button below to add your child's information.</p>
@@ -46,7 +45,7 @@
 
   <!-- FLOATING BUTTON TO ADD NEW CHILD -->
   <ion-fab right bottom>
-    <button ion-fab (click)="addChild()">
+    <button ion-fab (click)="addChild()" mini>
       <ion-icon name="add"></ion-icon>
     </button>
   </ion-fab>
