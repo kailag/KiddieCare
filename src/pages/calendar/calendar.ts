@@ -83,19 +83,38 @@ export class CalendarPage {
   }
 
   openCal(schedule) {
-    this.calendar.openCalendar(schedule.dtstart)
+    this.calendar.openCalendar(new Date(schedule.dtstart))
       .then(res => console.log(res))
       .catch(err => console.log(err));
   }
 
   deleteSchedule(schedule) {
-    this.calendar.deleteEvent(schedule.title, schedule.eventLocation, schedule.notes, schedule.dtstart, schedule.detend)
-      .then(res => {
-        setTimeout(() => {
-          this.listCalendarEvents();
-        });
-      })
-      .catch(err => this.presentToast(err));
+    let alert = this.alertCtrl.create({
+      title: 'Delete Schedule',
+      subTitle: 'Are you sure you want to delete the selected event?',
+      buttons: [
+        {
+          text: 'Agree',
+          handler: () => {
+            this.calendar.deleteEvent(schedule.title, schedule.eventLocation, schedule.notes, new Date(schedule.dtstart), new Date(schedule.dtend))
+              .then(res => {
+                setTimeout(() => {
+                  console.log(res);
+                  this.presentToast('Event successfully deleted');
+                  this.listCalendarEvents();
+                });
+              })
+              .catch(err => this.presentToast(err));
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        }
+      ]
+    });
+    alert.present();
+
   }
 
   addEvent() {

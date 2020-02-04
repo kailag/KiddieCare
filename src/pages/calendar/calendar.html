@@ -10,7 +10,7 @@
         <ion-col>
           <div style="align-content: center;">
             <!-- <ion-title class="month-title">{{ viewTitle }}</ion-title> -->
-            <ion-title class="month-title">Upcoming Schedules</ion-title>
+            <ion-title class="month-title">UPCOMING SCHEDULES</ion-title>
           </div>
         </ion-col>
       </ion-row>
@@ -19,6 +19,7 @@
 </ion-header>
 
 <ion-content>
+  
   <!-- <calendar 
       [eventSource]="eventSource"
       [calendarMode]="calendar.mode"
@@ -32,29 +33,33 @@
       class="calendar">
     </calendar> -->
 
-  <p>{{schedulesJson}}</p>
-  <ion-card *ngFor="let s of schedules">
+  <!-- <p>{{schedulesJson}}</p> -->
+  <ion-card *ngFor="let schedule of schedules">
     <ion-card-header>
-      {{s.title | ltrim: 'KiddieCare - '}}
+      <ion-item>
+        {{schedule.title | ltrim: "KiddieCare-"}}
+        <ion-icon name="trash" color="gray" (click)="deleteSchedule(schedule)" item-right></ion-icon>
+      </ion-item>
+
     </ion-card-header>
-    <ion-card-content (click)="openCal(s)">
+    <ion-card-content (click)="openCal(schedule)">
       <ion-list no-lines>
         <ion-item>
-          <ion-icon name="calendar" color="primary"></ion-icon> Date Start: {{s.dtstart | date: 'medium'}}
+          <ion-icon name="calendar" color="primary"></ion-icon> Date Start: {{schedule.dtstart | date: 'medium'}}
         </ion-item>
         <ion-item>
-          <ion-icon name="calendar" color="danger"></ion-icon> Date End: {{s.dtend | date: 'medium'}}
+          <ion-icon name="calendar" color="danger"></ion-icon> Date End: {{schedule.dtend | date: 'medium'}}
         </ion-item>
         <ion-item>
           <ion-icon name="locate"></ion-icon> Location:
-          {{s.eventLocation != '' ? s.eventLocation : 'Location not specified'}}
+          {{schedule.eventLocation != '' ? schedule.eventLocation : 'Location not specified'}}
         </ion-item>
       </ion-list>
     </ion-card-content>
   </ion-card>
 
   <ion-fab right bottom>
-    <button ion-fab (click)="addEvent()">
+    <button ion-fab (click)="addEvent()" mini>
       <ion-icon name="add"></ion-icon>
     </button>
   </ion-fab>

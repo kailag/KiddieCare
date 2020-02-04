@@ -24,7 +24,6 @@ export class AddSchedulePage {
     allDay: false
   };
 
-  minDate = new Date().toISOString();
   children: any;
   selectedChild: any;
 
@@ -32,7 +31,6 @@ export class AddSchedulePage {
   addScheduleForm: FormGroup;
 
   constructor(public navParams: NavParams, public navCtrl: NavController, public viewCtrl: ViewController, private fb: FormBuilder, ) {
-
     // let preselectedDate = moment(this.navParams.get('selectedDay')).format();
     // this.event.startTime = preselectedDate;
     // this.event.endTime = preselectedDate;
@@ -65,7 +63,7 @@ export class AddSchedulePage {
       return;
     }
     // this.viewCtrl.dismiss(this.event);
-    this.schedule.title = `KiddieCare - ${this.schedule.title}`;
+    this.schedule.title = `KiddieCare-${this.schedule.title}`;
     this.viewCtrl.dismiss(this.schedule);
   }
 
