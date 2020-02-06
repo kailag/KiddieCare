@@ -1,62 +1,90 @@
 <ion-header>
-    <ion-navbar color="primary">
-      <ion-title>Edit Child Record</ion-title>
-      <ion-buttons end>
-        <button ion-button clear icon-only (click)="cancel()">
-          <ion-icon name="close"></ion-icon>
-        </button>
-      </ion-buttons>
-    </ion-navbar>
-  </ion-header>
-  
-  <ion-content padding>
-    <form [formGroup]="editForm" autocomplete="off" (ngSubmit)="updateChildRecord()">
-      <ion-list>
-        <ion-item>
-          <ion-label>Type</ion-label>
-          <ion-select formControlName="consultation_type" [(ngModel)]="record.consultation_type" interface="popover">
-            <ion-option value="Check-up/Consultation">Check-up/Consultation</ion-option>
-            <ion-option value="Vaccination">Vaccination</ion-option>
-            <ion-option value="Emergency">Emergency</ion-option>
-          </ion-select>
-        </ion-item>
-  
-        <ion-item>
-          <ion-label floating>Prescription</ion-label>
-          <ion-input type="text" formControlName="consultation_prescription" [(ngModel)]="record.consultation_prescription"></ion-input>
-        </ion-item>
-  
-        <ion-item>
-          <ion-label floating>Instructions</ion-label>
-          <ion-input type="text" formControlName="consultation_instructions" [(ngModel)]="record.consultation_instructions"></ion-input>
-        </ion-item>
-  
-        <ion-item>
-          <ion-label floating>Findings</ion-label>
-          <ion-input type="text" formControlName="consultation_findings" [(ngModel)]="record.consultation_findings"></ion-input>
-        </ion-item>
-  
-        <ion-item>
-          <ion-label floating>Physician</ion-label>
-          <ion-input type="text" formControlName="consultation_doctor" [(ngModel)]="record.consultation_doctor"></ion-input>
-        </ion-item>
-  
-        <ion-item>
-          <ion-label floating>Date of Visit</ion-label>
-          <ion-datetime displayFormat="MMMM D YYYY" pickerFormat="MMMM DD YYYY" [(ngModel)]="record.consultation_date_of_visit"
-            formControlName="consultation_date_of_visit"></ion-datetime>
-        </ion-item>
-  
-        <ion-item>
-          <ion-label floating>Date of Next Visit</ion-label>
-          <ion-datetime displayFormat="MMMM D YYYY" pickerFormat="MMMM DD YYYY" [(ngModel)]="record.consultation_date_of_next_visit"
-            formControlName="consultation_date_of_next_visit"></ion-datetime>
-        </ion-item>
-  
-      </ion-list>
-      <button ion-button block icon-start type="submit">
-        <ion-icon name="create"></ion-icon> UPDATE
+  <ion-navbar color="primary">
+    <ion-title>Edit Child Record</ion-title>
+    <ion-buttons end>
+      <button ion-button clear icon-only (click)="cancel()">
+        <ion-icon name="close"></ion-icon>
       </button>
-  
-    </form>  
-  </ion-content>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <form [formGroup]="editForm" autocomplete="off" (ngSubmit)="updateChildRecord()">
+    <ion-list>
+      <ion-item>
+        <ion-label>Type</ion-label>
+        <ion-select formControlName="consultation_type" [(ngModel)]="record.consultation_type" interface="popover">
+          <ion-option value="Check-up/Consultation">Check-up/Consultation</ion-option>
+          <ion-option value="Vaccination">Vaccination</ion-option>
+          <ion-option value="Emergency">Emergency</ion-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Prescription</ion-label>
+        <ion-input type="text" formControlName="consultation_prescription"
+          [(ngModel)]="record.consultation_prescription"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Instructions</ion-label>
+        <ion-input type="text" formControlName="consultation_instructions"
+          [(ngModel)]="record.consultation_instructions"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Findings</ion-label>
+        <ion-input type="text" formControlName="consultation_findings" [(ngModel)]="record.consultation_findings">
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Physician</ion-label>
+        <ion-input type="text" formControlName="consultation_doctor" [(ngModel)]="record.consultation_doctor">
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Date of Visit</ion-label>
+        <ion-datetime displayFormat="MMMM D YYYY" pickerFormat="MMMM DD YYYY"
+          [(ngModel)]="record.consultation_date_of_visit" formControlName="consultation_date_of_visit"></ion-datetime>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Date of Next Visit</ion-label>
+        <ion-datetime displayFormat="MMMM D YYYY" pickerFormat="MMMM DD YYYY"
+          [(ngModel)]="record.consultation_date_of_next_visit" formControlName="consultation_date_of_next_visit">
+        </ion-datetime>
+      </ion-item>
+
+      <ion-item>
+        <ion-grid>
+          <ion-row>
+            <ion-col text-center>
+              <p color="primary" (click)="addPhoto()" icon-start>
+                <ion-icon name="camera"></ion-icon> {{imagePreview == null || imagePreview == '' ? 'Attach Photo (Optional)' : 'Change Photo'}}
+              </p>
+            </ion-col>
+            <ion-col text-center>
+              <p color="danger" (click)="removePhoto()" icon-start *ngIf="imagePreview">
+                <ion-icon name="remove-circle"></ion-icon> Remove Photo
+              </p>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+
+      </ion-item>
+
+      <ion-item>
+        <img [src]="imagePreview" *ngIf="imagePreview">
+      </ion-item>
+
+    </ion-list>
+    <button ion-button block icon-start type="submit">
+      <ion-icon name="create"></ion-icon> UPDATE
+    </button>
+
+  </form>
+</ion-content>

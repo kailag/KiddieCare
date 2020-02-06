@@ -1,67 +1,91 @@
 <ion-header>
   <ion-navbar color="primary">
     <ion-title>{{child.first_name}}'s Records</ion-title>
-    <button ion-button clear icon-only (click)="createPDF()">
-      GENERATE
-    </button>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
 
-  <div class="toolbar-content toolbar-content-md">
-    <ion-segment color="primary" class="segment segment-md segment-md-primary ng-untouched ng-pristine ng-valid">
-      <ion-segment-button class="segment-button" role="button" tappable="" value="featured" aria-pressed="false">
-        Featured
-        <div class="button-effect"></div>
+  <ion-segment [(ngModel)]="view" no-padding no-margin color="primary">
+    <ion-segment-button value="records">Records</ion-segment-button>
+    <ion-segment-button value="boosters">Boosters</ion-segment-button>
+  </ion-segment>
 
-      </ion-segment-button>
-      <ion-segment-button class="segment-button segment-activated" role="button" tappable="" value="recent"
-        aria-pressed="true">
-        Recent
-        <div class="button-effect"></div>
+  <div [ngSwitch]="view">
 
-      </ion-segment-button>
-    </ion-segment>
-  </div>
+    <!-- RECORDS -->
+    <div *ngSwitchCase="'records'">
+      <ion-grid>
+        <ion-row radio-group [(ngModel)]="radioTerm">
+          <ion-col text-center>
+            <ion-label>Checkup</ion-label>
+            <ion-radio value="check-up/consultation" (ionSelect)="onRadioFilter($event)"></ion-radio>
+          </ion-col>
+          <ion-col text-center>
+            <ion-label>Vaccination</ion-label>
+            <ion-radio value="vaccination" (ionSelect)="onRadioFilter($event)"></ion-radio>
+          </ion-col>
+          <ion-col text-center>
+            <ion-label>Emergency</ion-label>
+            <ion-radio value="emergency" (ionSelect)="onRadioFilter($event)"></ion-radio>
+          </ion-col>
+          <ion-col text-center>
+            <ion-label>All</ion-label>
+            <ion-radio value="all" (ionSelect)="onRadioFilter($event)" checked></ion-radio>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
 
-  <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="getItems($event)" placeholder="Search for records">
-  </ion-searchbar>
+      <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="searchByPeriod($event)" placeholder="ex. 'January 2020'">
+      </ion-searchbar>
 
-  <div id="pdfcontent" #pdfcontent>
-    <ion-card no-padding *ngFor="let record of records">
-      <ion-card-header>
-        <ion-grid>
-          <ion-row>
-            <ion-col>
+      <div id="pdfcontent" #pdfcontent>
+
+        <!-- <p>{{recordsJson}}</p> -->
+
+        <ion-card no-padding *ngFor="let record of items">
+          <ion-card-header>
+
+            <ion-item no-padding>
               <h2><b>{{record.consultation_date_of_visit | date: 'MMMM dd, yyyy'}}</b></h2>
-            </ion-col>
-            <ion-col text-right>
+              <ion-icon name="create" item-end (click)="editRecord(record)"></ion-icon>
               <ion-icon name="trash" item-end (click)="deleteRecord(record.consultation_id)" color="gray"></ion-icon>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-header>
-      <ion-card-content (click)="editRecord(record)">
-        <p><b>Type:</b> {{record.consultation_type}}</p>
-        <p><b>Prescription:</b> {{record.consultation_prescription}}</p>
-        <p><b>Instruction:</b> {{record.consultation_instructions}}</p>
-        <p><b>Findings:</b> {{record.consultation_findings}}</p>
-        <p><b>Paediatrician:</b> {{record.consultation_doctor}}</p>
-        <p><b>Date of Next Visit:</b> {{record.consultation_date_of_next_visit | date: 'MMMM dd, yyyy'}}</p>
-      </ion-card-content>
-    </ion-card>
+            </ion-item>
+          </ion-card-header>
+          <ion-card-content>
+            <p><b>Type:</b> {{record.consultation_type}}</p>
+            <p><b>Prescription:</b> {{record.consultation_prescription}}</p>
+            <p><b>Instruction:</b> {{record.consultation_instructions}}</p>
+            <p><b>Findings:</b> {{record.consultation_findings}}</p>
+            <p><b>Pediatrician:</b> {{record.consultation_doctor}}</p>
+            <p><b>Date of Next Visit:</b> {{record.consultation_date_of_next_visit | date: 'MMMM dd, yyyy'}}</p>
+            <p *ngIf="record.consultation_image_file" ion-text text-center color="primary"
+              (click)="viewImage(record.consultation_image_file)">View Attached Image</p>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </div>
+
+    <!-- BOOSTERS -->
+    <div *ngSwitchCase="'boosters'" margin-top>
+      <ion-list>
+        <ion-item></ion-item>
+        <button ion-item></button>
+      </ion-list>
+    </div>
+
   </div>
+
 
 
   <ion-fab right bottom>
-    <button ion-fab (click)="addChildRecord()">
+    <button ion-fab (click)="addChildRecord()" mini>
       <ion-icon name="add"></ion-icon>
     </button>
   </ion-fab>
 
   <ion-fab left bottom>
-    <button ion-fab (click)="generatePDF()">
+    <button ion-fab (click)="generatePdf()" mini>
       <ion-icon name="list-box"></ion-icon>
     </button>
   </ion-fab>

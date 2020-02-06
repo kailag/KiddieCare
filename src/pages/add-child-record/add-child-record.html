@@ -10,11 +10,12 @@
 </ion-header>
 
 <ion-content padding>
-  <form [formGroup]="addForm" autocomplete="off" (ngSubmit)="addChildRecord()">
+  <form [formGroup]="addRecordForm" autocomplete="off" (ngSubmit)="addChildRecord()">
     <ion-list>
       <ion-item>
         <ion-label>Type</ion-label>
-        <ion-select formControlName="consultation_type" [(ngModel)]="consultation.consultation_type" interface="popover">
+        <ion-select formControlName="consultation_type" [(ngModel)]="consultation.consultation_type"
+          interface="popover">
           <ion-option value="Check-up/Consultation">Check-up/Consultation</ion-option>
           <ion-option value="Vaccination">Vaccination</ion-option>
           <ion-option value="Emergency">Emergency</ion-option>
@@ -23,40 +24,59 @@
 
       <ion-item>
         <ion-label floating>Findings</ion-label>
-        <ion-input type="text" formControlName="consultation_findings" [(ngModel)]="consultation.consultation_findings"></ion-input>
+        <ion-input type="text" formControlName="consultation_findings" [(ngModel)]="consultation.consultation_findings">
+        </ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label floating>Prescription</ion-label>
-        <ion-input type="text" formControlName="consultation_prescription" [(ngModel)]="consultation.consultation_prescription"></ion-input>
+        <ion-input type="text" formControlName="consultation_prescription"
+          [(ngModel)]="consultation.consultation_prescription"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label floating>Instructions</ion-label>
-        <ion-input type="text" formControlName="consultation_instructions" [(ngModel)]="consultation.consultation_instructions"></ion-input>
-      </ion-item>      
+        <ion-input type="text" formControlName="consultation_instructions"
+          [(ngModel)]="consultation.consultation_instructions"></ion-input>
+      </ion-item>
 
       <ion-item>
         <ion-label floating>Physician</ion-label>
-        <ion-input type="text" formControlName="consultation_doctor" [(ngModel)]="consultation.consultation_doctor"></ion-input>
+        <ion-input type="text" formControlName="consultation_doctor" [(ngModel)]="consultation.consultation_doctor">
+        </ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label floating>Date of Visit</ion-label>
-        <ion-datetime displayFormat="MMMM D YYYY" pickerFormat="MMMM DD YYYY" [(ngModel)]="consultation.consultation_date_of_visit"
-          formControlName="consultation_date_of_visit"></ion-datetime>
+        <ion-datetime displayFormat="MMMM D, YYYY" pickerFormat="MMMM DD YYYY"
+          [(ngModel)]="consultation.consultation_date_of_visit" formControlName="consultation_date_of_visit">
+        </ion-datetime>
       </ion-item>
 
       <ion-item>
         <ion-label floating>Date of Next Visit</ion-label>
-        <ion-datetime displayFormat="MMMM D YYYY" pickerFormat="MMMM DD YYYY" [(ngModel)]="consultation.consultation_date_of_next_visit"
-          formControlName="consultation_date_of_next_visit"></ion-datetime>
+        <ion-datetime displayFormat="MMMM D, YYYY" pickerFormat="MMMM DD YYYY"
+          [(ngModel)]="consultation.consultation_date_of_next_visit" formControlName="consultation_date_of_next_visit">
+        </ion-datetime>
+      </ion-item>
+
+      <ion-item text-center>
+        <p color="primary" *ngIf="!imagePreview" (click)="addPhoto()">
+          <ion-icon name="camera"></ion-icon> Add Photo (Optional)
+        </p>
+        <p color="danger" *ngIf="imagePreview" (click)="removePhoto()">
+          <ion-icon name="remove-circle"></ion-icon> Remove Photo
+        </p>
+      </ion-item>
+
+      <ion-item>
+        <img [src]="imagePreview" *ngIf="imagePreview">
       </ion-item>
 
     </ion-list>
-    <button ion-button block icon-start type="submit">
+    <button ion-button block icon-start type="submit" [disabled]="!addRecordForm.valid">
       <ion-icon name="add"></ion-icon> SAVE
     </button>
 
-  </form>  
+  </form>
 </ion-content>

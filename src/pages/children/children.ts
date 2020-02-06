@@ -1,17 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController, ModalController, AlertController, ToastController, Platform } from 'ionic-angular';
-import { Camera, CameraOptions } from '@ionic-native/camera';
+import { NavController, ModalController, AlertController, ToastController } from 'ionic-angular';
 import { DatabaseProvider } from '../../providers/database/database';
 import { ChildRecordsProvider } from '../../providers/child-records/child-records';
 import { AddChildPage } from '../add-child/add-child';
 import { ViewChildPage } from '../view-child/view-child';
 import { EditChildPage } from '../edit-child/edit-child';
-//////////////////////////////////////
-import { File } from '@ionic-native/file';
-import { FileOpener } from '@ionic-native/file-opener';
-import pdfMake from 'pdfmake/build/pdfmake';
-import pdfFonts from 'pdfmake/build/vfs_fonts';
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
   selector: 'page-children',
@@ -22,16 +15,12 @@ export class ChildrenPage {
   photo: any;
   entries = false;
 
-  constructor(public navCtrl: NavController, public childRecordsProvider: ChildRecordsProvider, private modalCtrl: ModalController, private dbProvider: DatabaseProvider, private alertCtrl: AlertController, private toastCtrl: ToastController, private camera: Camera) {
+  constructor(public navCtrl: NavController, public childRecordsProvider: ChildRecordsProvider, private modalCtrl: ModalController, private dbProvider: DatabaseProvider, private alertCtrl: AlertController, private toastCtrl: ToastController) {
     this.dbProvider.getDatabaseState().subscribe(ready => {
       if (ready) {
         this.readChildren();
       }
     })
-  }
-
-  ionViewDidLoad() {
-    this.readChildren();
   }
 
   presentToast(message) {
@@ -47,7 +36,7 @@ export class ChildrenPage {
     this.childRecordsProvider.readChildren()
       .then(data => {
         this.children = data;
-        if(this.children.length > 0){
+        if (this.children.length > 0) {
           this.entries = true;
         }
       })
@@ -74,7 +63,7 @@ export class ChildrenPage {
   }
 
   viewChild(child) {
-    this.navCtrl.push(ViewChildPage, { child: child });
+    this.navCtrl.push(ViewChildPage, {child: child});
   }
 
   editChild(child) {
@@ -94,8 +83,6 @@ export class ChildrenPage {
   }
 
   deleteChild(id: any) {
-
-    //alert
     let alert = this.alertCtrl.create({
       title: 'WARNING!',
       subTitle: 'Are you sure you want to delete this child?',
@@ -120,40 +107,6 @@ export class ChildrenPage {
     alert.present();
   }
 
-  takePhoto() {
-    const options: CameraOptions = {
-      quality: 70,
-      destinationType: this.camera.DestinationType.FILE_URI,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE
-    }
 
-    this.camera.getPicture(options).then((imageData) => {
-      // imageData is either a base64 encoded string or a file URI
-      // If it's base64 (DATA_URL):
-      this.photo = 'data:image/jpeg;base64,' + imageData;
-    }, (err) => {
-      // Handle error
-    });
-  }
-
-  getFromGallery() {
-    const options: CameraOptions = {
-      quality: 70,
-      destinationType: this.camera.DestinationType.FILE_URI,
-      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-      saveToPhotoAlbum: false
-    }
-
-    this.camera.getPicture(options).then((imageData) => {
-      // imageData is either a base64 encoded string or a file URI
-      // If it's base64 (DATA_URL):
-      this.photo = 'data:image/jpeg;base64,' + imageData;
-    }, (err) => {
-      // Handle error
-    });
-  }
-
-  
 }
 

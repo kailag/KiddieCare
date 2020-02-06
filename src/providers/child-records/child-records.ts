@@ -86,6 +86,17 @@ export class ChildRecordsProvider {
       });
   }
 
+  updateBoosters(boosters, childId) {
+    return this.database.executeSql('UPDATE child SET boosters=? WHERE child_id=?', [boosters, childId])
+      .then(data => {
+        return data;
+      })
+      .catch(err => {
+        console.log(err);
+        return err;
+      });
+  }
+
   deleteChild(id) {
     return this.database.executeSql('DELETE FROM child WHERE child_id=?', [id])
       .then(data => {
@@ -96,5 +107,5 @@ export class ChildRecordsProvider {
       });
   }
 
-  
+
 }
