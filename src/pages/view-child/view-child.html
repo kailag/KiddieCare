@@ -2,14 +2,15 @@
   <ion-navbar color="primary">
     <ion-title>{{child.first_name}}'s Records</ion-title>
   </ion-navbar>
+  <ion-toolbar color="primary">
+    <ion-segment [(ngModel)]="view" no-padding no-margin color="light">
+      <ion-segment-button value="records" (click)="isRecords()">Record Entries</ion-segment-button>
+      <ion-segment-button value="boosters" (click)="isBoosters()">Booster Shots</ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
-  <ion-segment [(ngModel)]="view" no-padding no-margin color="primary">
-    <ion-segment-button value="records">Records</ion-segment-button>
-    <ion-segment-button value="boosters">Boosters</ion-segment-button>
-  </ion-segment>
 
   <div [ngSwitch]="view">
 
@@ -36,16 +37,13 @@
         </ion-row>
       </ion-grid>
 
-      <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="searchByPeriod($event)" placeholder="ex. 'January 2020'">
+      <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="searchByPeriod($event)" placeholder="ex. 'January 2020'" animated>
       </ion-searchbar>
 
       <div id="pdfcontent" #pdfcontent>
-
-        <!-- <p>{{recordsJson}}</p> -->
-
+        <h5 text-center *ngIf="items.length <= 0">NO RECORDS TO SHOW</h5>
         <ion-card no-padding *ngFor="let record of items">
           <ion-card-header>
-
             <ion-item no-padding>
               <h2><b>{{record.consultation_date_of_visit | date: 'MMMM dd, yyyy'}}</b></h2>
               <ion-icon name="create" item-end (click)="editRecord(record)"></ion-icon>
@@ -69,24 +67,38 @@
     <!-- BOOSTERS -->
     <div *ngSwitchCase="'boosters'" margin-top>
       <ion-list>
-        <ion-item></ion-item>
-        <button ion-item></button>
+        <ion-item *ngFor="let booster of boosterList">
+          <ion-label>{{booster.booster_name}}</ion-label>
+          <ion-checkbox (ionChange)="addToChecked($event, booster.booster_id)" [checked]="booster.booster_stat">
+          </ion-checkbox>
+          <ion-icon item-end name="trash" *ngIf="booster.boosterType" (click)="deleteBooster(booster.booster_id)">
+          </ion-icon>
+        </ion-item>
+        <ion-item (click)="addBoosterToList()" tooltip="Add a booster shot not on the list" mobileEvent="press"
+          duration="2000" positionV="top" arrow>
+          <ion-icon item-start name="add-circle" color="primary"></ion-icon>
+          <ion-label color="primary">Add a Booster Shot</ion-label>
+        </ion-item>
       </ion-list>
-    </div>
 
+      <div padding>
+        <button ion-button block (click)="updateChildBoosters()">Update</button>
+      </div>
+    </div>
   </div>
 
-
-
-  <ion-fab right bottom>
-    <button ion-fab (click)="addChildRecord()" mini>
+  <ion-fab right bottom *ngIf="isRecordEntries">
+    <button ion-fab (click)="addChildRecord()" mini tooltip="Add a new RECORD ENTRY for this child" mobileEvent="press"
+      duration="2000" positionH="right" positionV="top" arrow>
       <ion-icon name="add"></ion-icon>
     </button>
   </ion-fab>
 
-  <ion-fab left bottom>
-    <button ion-fab (click)="generatePdf()" mini>
-      <ion-icon name="list-box"></ion-icon>
+  <ion-fab left bottom *ngIf="isRecordEntries">
+    <button ion-fab (click)="generatePdf()" mini tooltip="Generate a PDF of RECORD ENTRIES based on filters result"
+      mobileEvent="press" duration="2000" positionH="right" positionV="top" arrow>
+      <ion-icon name="document"></ion-icon>
     </button>
   </ion-fab>
+
 </ion-content>

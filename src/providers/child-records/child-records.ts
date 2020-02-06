@@ -55,7 +55,8 @@ export class ChildRecordsProvider {
             last_name: data.rows.item(0).last_name,
             birth_date: data.rows.item(0).birth_date,
             gender: data.rows.item(0).gender,
-            doctor: data.rows.item(0).doctor
+            doctor: data.rows.item(0).doctor,
+            boosters: data.rows.item(0).boosters
           }
         }
         return child;
@@ -63,7 +64,6 @@ export class ChildRecordsProvider {
         console.log(err);
         return [];
       });
-
   }
 
   addChild(child) {
@@ -86,17 +86,6 @@ export class ChildRecordsProvider {
       });
   }
 
-  updateBoosters(boosters, childId) {
-    return this.database.executeSql('UPDATE child SET boosters=? WHERE child_id=?', [boosters, childId])
-      .then(data => {
-        return data;
-      })
-      .catch(err => {
-        console.log(err);
-        return err;
-      });
-  }
-
   deleteChild(id) {
     return this.database.executeSql('DELETE FROM child WHERE child_id=?', [id])
       .then(data => {
@@ -106,6 +95,35 @@ export class ChildRecordsProvider {
         return err;
       });
   }
+
+  readChildBoosters(childId) {
+    return this.database.executeSql('SELECT boosters FROM child WHERE child_id=?', [childId])
+      .then(data => {
+        let boosters;
+        if(data.rows.length > 0){
+          boosters = {
+            boosters: data.rows.item(0).boosters
+          }
+        }
+        console.log('PROVIDER BOOSTERS', boosters);
+        return boosters;
+      }, err => {
+        console.log(err);
+        return err;
+      });
+  }
+
+  updateBoosters(boosters, childId) {
+    return this.database.executeSql('UPDATE child SET boosters=? WHERE child_id=?', [boosters, childId])
+      .then(data => {
+        return data;
+      })
+      .catch(err => {
+        console.log(err);
+        return [];
+      });
+  }
+
 
 
 }

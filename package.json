@@ -56,6 +56,7 @@
     "intl": "^1.2.5",
     "ionic-angular": "3.9.5",
     "ionic-simple-lockscreen": "0.0.4",
+    "ionic-tooltips": "^3.1.0",
     "ionic2-calendar": "^0.4.0",
     "ionicons": "3.0.0",
     "jspdf": "^1.5.3",

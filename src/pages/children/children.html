@@ -21,16 +21,17 @@
 
   <ion-list class="list-content">    
 
-    <p *ngIf="!entries">Start by pressing the add button below to add your child's information.</p>
+    <h5 *ngIf="children.length <= 0">Start by pressing the add button below to add a child.</h5>
 
     <ion-item *ngFor="let child of children">
-      <ion-avatar item-start>
-        <img src="assets/imgs/child1.png">
+      <ion-avatar item-start (click)="viewChild(child)" tappable>
+        <img src="assets/imgs/child-icon.png">
       </ion-avatar>
-      <div (click)="viewChild(child)">
+      <div (click)="viewChild(child)" tappable>
         <h2>{{child.first_name}} {{child.last_name}}</h2>
         <p>Birthdate: {{child.birth_date | date: 'MMMM dd, yyyy'}}</p>
         <p>Gender: {{child.gender}}</p>
+        <p>Age: {{returnAge(child.birth_date)}}</p>
       </div>
       <ion-icon name="create" item-end color="gray" (click)="editChild(child)"></ion-icon>
       <ion-icon name="trash" item-end color="gray" (click)="deleteChild(child.child_id)"></ion-icon>
@@ -38,14 +39,8 @@
 
   </ion-list>
 
-  <!--button ion-button (click)="takePhoto()">Take Photo</button>
-  <button ion-button (click)="getFromGallery()">Get From Gallery</button>
-
-  <p><img src="{{ photo }}"></p-->
-
-  <!-- FLOATING BUTTON TO ADD NEW CHILD -->
   <ion-fab right bottom>
-    <button ion-fab (click)="addChild()" mini>
+    <button ion-fab (click)="addChild()" mini tooltip="Add a child to children list" mobileEvent="press" duration="2000" positionH="right" positionV="top" arrow>
       <ion-icon name="add"></ion-icon>
     </button>
   </ion-fab>

@@ -9,7 +9,6 @@
         </ion-col>
         <ion-col>
           <div style="align-content: center;">
-            <!-- <ion-title class="month-title">{{ viewTitle }}</ion-title> -->
             <ion-title class="month-title">UPCOMING SCHEDULES</ion-title>
           </div>
         </ion-col>
@@ -19,21 +18,7 @@
 </ion-header>
 
 <ion-content>
-  
-  <!-- <calendar 
-      [eventSource]="eventSource"
-      [calendarMode]="calendar.mode"
-      [currentDate]="calendar.currentDate"
-      [markDisabled]="markDisabled"
-      (onEventSelected)="onEventSelected($event)"
-      (onTitleChanged)="onViewTitleChanged($event)"
-      (onTimeSelected)="onTimeSelected($event)"
-      step="30"
-      noEventsLabel="No plotted schedule"
-      class="calendar">
-    </calendar> -->
-
-  <!-- <p>{{schedulesJson}}</p> -->
+  <h5 *ngIf="schedules.length <= 0" text-center>No Upcoming Schedules</h5>
   <ion-card *ngFor="let schedule of schedules">
     <ion-card-header>
       <ion-item>
@@ -59,7 +44,7 @@
   </ion-card>
 
   <ion-fab right bottom>
-    <button ion-fab (click)="addEvent()" mini>
+    <button ion-fab (click)="addEvent()" mini tooltip="Add/Set a schedule" mobileEvent="press" duration="2000" positionH="right" positionV="top" arrow>
       <ion-icon name="add"></ion-icon>
     </button>
   </ion-fab>
