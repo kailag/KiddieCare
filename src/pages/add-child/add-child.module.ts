@@ -4,7 +4,7 @@ import { AddChildPage } from './add-child';
 
 @NgModule({
   declarations: [
-    AddChildPage,
+    // AddChildPage,
   ],
   imports: [
     IonicPageModule.forChild(AddChildPage),

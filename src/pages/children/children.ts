@@ -5,6 +5,7 @@ import { ChildRecordsProvider } from '../../providers/child-records/child-record
 import { AddChildPage } from '../add-child/add-child';
 import { ViewChildPage } from '../view-child/view-child';
 import { EditChildPage } from '../edit-child/edit-child';
+import moment from 'moment';
 
 @Component({
   selector: 'page-children',
@@ -13,7 +14,6 @@ import { EditChildPage } from '../edit-child/edit-child';
 export class ChildrenPage {
   children: any = [];
   photo: any;
-  entries = false;
 
   constructor(public navCtrl: NavController, public childRecordsProvider: ChildRecordsProvider, private modalCtrl: ModalController, private dbProvider: DatabaseProvider, private alertCtrl: AlertController, private toastCtrl: ToastController) {
     this.dbProvider.getDatabaseState().subscribe(ready => {
@@ -36,9 +36,6 @@ export class ChildrenPage {
     this.childRecordsProvider.readChildren()
       .then(data => {
         this.children = data;
-        if (this.children.length > 0) {
-          this.entries = true;
-        }
       })
       .catch(err => console.log(err));
   }
@@ -105,6 +102,16 @@ export class ChildrenPage {
       ]
     });
     alert.present();
+  }
+
+  returnAge(birthdate) {
+    let today = moment();
+    let birthday = moment(birthdate);
+    let years = today.diff(birthday, 'year');
+    birthday.add(years, 'years');
+    let months = today.diff(birthday, 'months');
+    birthday.add(months, 'months');
+    return `${years} years, ${months} months`;
   }
 
 

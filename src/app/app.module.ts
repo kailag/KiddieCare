@@ -8,6 +8,16 @@ import { IonicStorageModule } from '@ionic/storage';
 import { HttpClientModule } from '@angular/common/http';
 import { SQLitePorter } from '@ionic-native/sqlite-porter';
 import { NgPipesModule } from 'ngx-pipes';
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { File } from '@ionic-native/file';
+import { FileOpener } from '@ionic-native/file-opener';
+import { Camera } from '@ionic-native/camera';
+import { ScheduleProvider } from '../providers/schedule/schedule';
+import { Calendar } from '@ionic-native/calendar';
+import { TooltipsModule } from 'ionic-tooltips';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 import { AboutPage } from '../pages/about/about';
 import { ProfilePage } from '../pages/profile/profile';
@@ -25,23 +35,12 @@ import { AddProfilePage } from '../pages/add-profile/add-profile';
 import { EditProfilePage } from '../pages/edit-profile/edit-profile';
 import { EditSchedulePage } from '../pages/edit-schedule/edit-schedule';
 import { EditChildRecordPage } from '../pages/edit-child-record/edit-child-record';
-import { PlaygroundPage } from '../pages/playground/playground';
-
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { DatabaseProvider } from '../providers/database/database';
 import { ConsultationProvider } from '../providers/consultation/consultation';
 import { ProfileProvider } from '../providers/profile/profile';
+import { BoosterProvider } from '../providers/booster/booster';
 import { LocalNotifications } from '@ionic-native/local-notifications';
-
-import { File } from '@ionic-native/file';
-import { FileOpener } from '@ionic-native/file-opener';
-// import { FilePath } from '@ionic-native/file-path';
-
-import { Camera } from '@ionic-native/camera';
-import { ScheduleProvider } from '../providers/schedule/schedule';
-import { Calendar } from '@ionic-native/calendar';
 
 @NgModule({
   declarations: [
@@ -60,8 +59,7 @@ import { Calendar } from '@ionic-native/calendar';
     AddProfilePage,
     EditProfilePage,
     EditSchedulePage,
-    EditChildRecordPage,
-    PlaygroundPage
+    EditChildRecordPage
   ],
   imports: [
     BrowserModule,
@@ -70,6 +68,8 @@ import { Calendar } from '@ionic-native/calendar';
     NgCalendarModule,
     HttpClientModule,
     NgPipesModule,
+    TooltipsModule.forRoot(),
+    BrowserAnimationsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -88,8 +88,7 @@ import { Calendar } from '@ionic-native/calendar';
     AddProfilePage,
     EditProfilePage,
     EditSchedulePage,
-    EditChildRecordPage,
-    PlaygroundPage
+    EditChildRecordPage
   ],
   providers: [
     StatusBar,
@@ -104,6 +103,7 @@ import { Calendar } from '@ionic-native/calendar';
     ConsultationProvider,
     ProfileProvider,
     ScheduleProvider,
+    BoosterProvider,
     File,
     FileOpener,
     Calendar
