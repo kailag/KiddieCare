@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavParams, ViewController, ToastController, AlertController } from 'ionic-angular';
+import { IonicPage, NavParams, ViewController, ToastController, AlertController, Events } from 'ionic-angular';
 import { ConsultationProvider } from '../../providers/consultation/consultation';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { File } from '@ionic-native/file';
 import { Camera, CameraOptions } from '@ionic-native/camera';
+import { Calendar } from '@ionic-native/calendar';
 
 @IonicPage()
 @Component({
@@ -11,6 +12,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
   templateUrl: 'add-child-record.html',
 })
 export class AddChildRecordPage {
+
   consultation = {
     consultation_id: '',
     consultation_type: '',
@@ -24,6 +26,8 @@ export class AddChildRecordPage {
     child_id: ''
   };
 
+  childName: any;
+
   addRecordForm: FormGroup;
 
   imagePreview: any;
@@ -32,13 +36,14 @@ export class AddChildRecordPage {
   tempBaseFilesystemPath: any;
   private win: any = window;
 
-  constructor(public navParams: NavParams, public consultationProvider: ConsultationProvider, private fb: FormBuilder, private viewCtrl: ViewController, private toastCtrl: ToastController, private alertCtrl: AlertController, private camera: Camera, private file: File) {
+  constructor(public navParams: NavParams, public consultationProvider: ConsultationProvider, private fb: FormBuilder, private viewCtrl: ViewController, private toastCtrl: ToastController, private alertCtrl: AlertController, private camera: Camera, private file: File, private calendar: Calendar, public events: Events) {
+    this.childName = this.navParams.get('childName');
 
     this.addRecordForm = this.fb.group({
       consultation_type: ['', Validators.required],
+      consultation_findings: ['', this.consultation.consultation_type === 'Vaccination' ? Validators.required : ''],
       consultation_prescription: [''],
       consultation_instructions: [''],
-      consultation_findings: [''],
       consultation_doctor: [''],
       consultation_date_of_visit: ['', Validators.required],
       consultation_date_of_next_visit: ['']
@@ -84,7 +89,41 @@ export class AddChildRecordPage {
       });
   }
 
-  removePhoto() {
+  savePhoto() {
+    const newFileName = `kc-${this.imageFileName}`;
+    this.file.copyFile(this.tempBaseFilesystemPath, this.imageFileName, this.file.externalDataDirectory, newFileName)
+      .then(success => {
+        console.log(JSON.stringify(success));
+        this.consultation.consultation_image_file = this.file.externalDataDirectory + newFileName;
+        this.clearPhoto();
+        this.deleteImage(this.tempBaseFilesystemPath, this.imageFileName);
+      })
+      .catch(err => {
+        console.log(err);
+        this.presentToast(`Error storing image: ${err}`)
+      });
+  }
+
+  saveNextVisit() {
+    let start = new Date(this.consultation.consultation_date_of_next_visit);
+    let end = new Date();
+    end.setDate(start.getDate());
+    end.setHours(start.getHours());
+    let suffix = this.consultation.consultation_type === 'Vaccination' ? 'Next Dose' : 'Next Visit';
+    let eventTitle = `KiddieCare-${this.childName} - ${this.consultation.consultation_findings} - ${suffix}`;
+    const options = { firstReminderMinutes: 15, secondReminderMinutes: 5, id: 'childRecord' }
+    this.calendar.createEventWithOptions(eventTitle, '', '', start, end, options)
+      .then(success => {
+        console.log(success)
+        this.events.publish('next-visit');
+      })
+      .catch(err => {
+        console.log(err)
+        this.presentToast(err);
+      });
+  }
+
+  clearPhoto() {
     this.imageFileName = '';
     this.tempBaseFilesystemPath = '';
     this.imagePreview = '';
@@ -98,24 +137,28 @@ export class AddChildRecordPage {
   }
 
   addChildRecord() {
+    console.log(this.consultation);
     if (this.addRecordForm.invalid) {
       this.presentToast('Please fill out all required fields!');
       return;
     }
+    let hasNextVisit = this.consultation.consultation_date_of_next_visit !== '' ? true : false;
+    
 
-    if (this.hasPhoto) {
-      const newFileName = `kc-${this.imageFileName}`;
-      this.file.copyFile(this.tempBaseFilesystemPath, this.imageFileName, this.file.externalDataDirectory, newFileName)
-        .then(success => {
-          this.consultation.consultation_image_file = this.file.externalDataDirectory + newFileName;
-          this.removePhoto();
-          this.viewCtrl.dismiss(this.consultation);
-          this.deleteImage(this.tempBaseFilesystemPath, this.imageFileName);
-        }, err => this.presentToast(`Error storing image: ${err}`));
-    } else {
-      this.consultation.consultation_image_file = null;
-      this.viewCtrl.dismiss(this.consultation);
+    if (hasNextVisit && !this.hasPhoto) {
+      this.saveNextVisit();
     }
+
+    if (!hasNextVisit && this.hasPhoto){
+      this.savePhoto();
+    }
+
+    if (hasNextVisit && this.hasPhoto) {
+      this.savePhoto();
+      this.saveNextVisit();
+    }
+
+    this.viewCtrl.dismiss(this.consultation);
   }
 
   cancel() {

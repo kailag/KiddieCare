@@ -10,32 +10,6 @@
 </ion-header>
 
 <ion-content padding>
-  <!-- <form [formGroup]="addForm" autocomplete="off" (ngSubmit)="save()">
-      <ion-list>
-        <ion-item>
-          <ion-input type="text" placeholder="Title" formControlName="title" [(ngModel)]="event.title" name="title" required></ion-input>
-        </ion-item>
-    
-        <ion-item>
-          <ion-label>Start Date</ion-label>
-          <ion-datetime displayFormat="MM/DD/YYYY hh:mm" pickerFormat="MMM D:hh:mmA" formControlName="startTime" [(ngModel)]="event.startTime" name="startTime" [min]="minDate"></ion-datetime>
-        </ion-item>
-    
-        <ion-item>
-          <ion-label>End Date</ion-label>
-          <ion-datetime displayFormat="MM/DD/YYYY hh:mm" pickerFormat="MMM D:hh:mmA" formControlName="endTime" [(ngModel)]="event.endTime" name="endTime" [min]="minDate"></ion-datetime>
-        </ion-item>
-    
-        <ion-item>
-          <ion-label>All Day</ion-label>
-          <ion-toggle color="primary" formControlName="allDay" [(ngModel)]="event.allDay" name="allDay"></ion-toggle>
-        </ion-item>
-      </ion-list>
-    
-      <button ion-button full icon-left type="submit">
-        <ion-icon name="add"></ion-icon> SAVE EVENT
-      </button>
-    </form> -->
 
   <form [formGroup]="addScheduleForm" autocomplete="off" (ngSubmit)="save()">
     <ion-list>
@@ -46,20 +20,15 @@
       </ion-item>
 
       <ion-item>
-        <ion-textarea placeholder="Place important notes here" formControlName="notes" [(ngModel)]="schedule.notes"
+        <ion-label floating>Notes (Optional)</ion-label>
+        <ion-textarea formControlName="notes" [(ngModel)]="schedule.notes"
           name="notes" required></ion-textarea>
       </ion-item>
 
       <ion-item>
-        <ion-label floating>Start Date</ion-label>
-        <ion-datetime displayFormat="MM/DD/YYYY hh:mm A" pickerFormat="MMM D h mm A" formControlName="startDate"
-          [(ngModel)]="schedule.startDate" name="startDate"></ion-datetime>
-      </ion-item>
-
-      <ion-item>
-        <ion-label floating>End Date</ion-label>
-        <ion-datetime displayFormat="MM/DD/YYYY hh:mm A" pickerFormat="MMM D h mm A" formControlName="endDate"
-          [(ngModel)]="schedule.endDate" name="endDate"></ion-datetime>
+        <ion-label floating>Date and Time</ion-label>
+        <ion-datetime displayFormat="MMMM DD, YYYY, hh:mm A" pickerFormat="MMM D YYYY hh mm A" formControlName="startDate"
+          [(ngModel)]="schedule.startDate" name="startDate" [min]="minDate" [max]="maxDate"></ion-datetime>
       </ion-item>
 
       <ion-item>
