@@ -27,11 +27,11 @@ export class ViewChildPage {
   child: any;
   records = [];
   searchTerm: any;
-  radioTerm: any;
+  selectTerm = 'all';
   items = [];
   loading: any;
 
-  isRadio = false;
+  isDropDown = false;
   isSearchBar = false;
 
   view: string = 'records';
@@ -82,7 +82,7 @@ export class ViewChildPage {
   }
 
   addChildRecord() {
-    let modal = this.modalCtrl.create(AddChildRecordPage);
+    let modal = this.modalCtrl.create(AddChildRecordPage, { childName: this.child.first_name });
     modal.present();
 
     modal.onDidDismiss(data => {
@@ -147,7 +147,7 @@ export class ViewChildPage {
     alert.present();
   }
 
-  isRecords(){
+  isRecords() {
     this.isRecordEntries = true;
   }
 
@@ -306,10 +306,10 @@ export class ViewChildPage {
     alert.present();
   }
 
-  onRadioFilter(type: string): void {
+  filterByType(type: string): void {
     this.initializeItems();
     if (type.trim() !== 'all') {
-      this.isRadio = true;
+      this.isDropDown = true;
       if (this.isSearchBar) {
         this.items = this.items.filter((item) => {
           return (item.consultation_type.toLowerCase().indexOf(type.toLowerCase()) > -1 && moment(item.consultation_date).format('MMMM YYYY').toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1);
@@ -320,43 +320,43 @@ export class ViewChildPage {
         })
       }
     } else {
-      this.isRadio = false;
+      this.isDropDown = false;
       if (this.isSearchBar) {
         this.items = this.items.filter((item) => {
-          return moment(item.consultation_date).format('MMMM YYYY').toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1;
+          return moment(item.consultation_date).format('MMMM DD, YYYY').toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1;
         })
       }
     }
   }
 
-  searchByPeriod(ev: any) {
+  filterByPeriod(ev: any) {
     this.initializeItems();
     const val = ev.target.value;
     if (val && val.trim() != '') {
       this.isSearchBar = true;
-      if (this.isRadio) {
+      if (this.isDropDown) {
         this.items = this.items.filter((item) => {
-          return (moment(item.consultation_date).format('MMMM YYYY').toLowerCase().indexOf(val.toLowerCase()) > -1);
+          return (moment(item.consultation_date).format('MMMM DD, YYYY').toLowerCase().indexOf(val.toLowerCase()) > -1 && item.consultation_type.toLowerCase().indexOf(this.selectTerm.toLowerCase()) > -1);
         });
       } else {
         this.items = this.items.filter((item) => {
-          return moment(item.consultation_date).format('MMMM YYYY').toLowerCase().indexOf(val.toLowerCase()) > -1;
+          return moment(item.consultation_date).format('MMMM DD, YYYY').toLowerCase().indexOf(val.toLowerCase()) > -1;
         });
       }
     } else {
       this.isSearchBar = false;
-      if (this.isRadio) {
-        this.onRadioFilter(this.radioTerm);
+      if (this.isDropDown) {
+        this.filterByType(this.selectTerm);
       }
     }
   }
 
   generatePdf() {
-    if(this.items.length <= 0){
+    if (this.items.length <= 0) {
       this.presentToast('No Records to write on PDF report');
       return;
     }
-    
+
     let rows = [];
     rows.push(['Date of visit', 'Type', 'Prescription', 'Instructions', 'Findings', 'Doctor', 'Date of next Visit']);
 
