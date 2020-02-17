@@ -16,28 +16,19 @@
 
     <!-- RECORDS -->
     <div *ngSwitchCase="'records'">
-      <ion-grid>
-        <ion-row radio-group [(ngModel)]="radioTerm">
-          <ion-col text-center>
-            <ion-label>Checkup</ion-label>
-            <ion-radio value="check-up/consultation" (ionSelect)="onRadioFilter($event)"></ion-radio>
-          </ion-col>
-          <ion-col text-center>
-            <ion-label>Vaccination</ion-label>
-            <ion-radio value="vaccination" (ionSelect)="onRadioFilter($event)"></ion-radio>
-          </ion-col>
-          <ion-col text-center>
-            <ion-label>Emergency</ion-label>
-            <ion-radio value="emergency" (ionSelect)="onRadioFilter($event)"></ion-radio>
-          </ion-col>
-          <ion-col text-center>
-            <ion-label>All</ion-label>
-            <ion-radio value="all" (ionSelect)="onRadioFilter($event)" checked></ion-radio>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
 
-      <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="searchByPeriod($event)" placeholder="ex. 'January 2020'" animated>
+      <ion-item>
+        <ion-label>Type</ion-label>
+        <ion-select [(ngModel)]="selectTerm" (ionChange)="filterByType($event)" interface="popover">
+          <ion-option value="check-up/consultation">Check-up/Consultation</ion-option>
+          <ion-option value="vaccination">Vaccination</ion-option>
+          <ion-option value="emergency">Emergency</ion-option>
+          <ion-option value="all" selected>All</ion-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="filterByPeriod($event)" placeholder="Search by Date..."
+        animated>
       </ion-searchbar>
 
       <div id="pdfcontent" #pdfcontent>
@@ -52,9 +43,11 @@
           </ion-card-header>
           <ion-card-content>
             <p><b>Type:</b> {{record.consultation_type}}</p>
-            <p><b>Prescription:</b> {{record.consultation_prescription}}</p>
-            <p><b>Instruction:</b> {{record.consultation_instructions}}</p>
-            <p><b>Findings:</b> {{record.consultation_findings}}</p>
+            <p><b>{{record.consultation_type === 'Vaccination' ? 'Vaccine Name:' : 'Findings:'}}</b>
+              {{record.consultation_findings}}</p>
+            <p *ngIf="record.consultation_type !== 'Vaccination'"><b>Prescription:</b>
+              {{record.consultation_prescription}}</p>
+            <p><b>Instructions:</b> {{record.consultation_instructions}}</p>
             <p><b>Pediatrician:</b> {{record.consultation_doctor}}</p>
             <p><b>Date of Next Visit:</b> {{record.consultation_date_of_next_visit | date: 'MMMM dd, yyyy'}}</p>
             <p *ngIf="record.consultation_image_file" ion-text text-center color="primary"
