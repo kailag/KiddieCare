@@ -4,7 +4,7 @@ Child Record Monitoring Mobile Application using [Ionic Framework](https://ionic
 
 ## Getting Started
 
-Clone or download this repository.
+Clone or download this repository.\
 Run ``` npm install ``` to install all dependencies.
 
 ## Running
