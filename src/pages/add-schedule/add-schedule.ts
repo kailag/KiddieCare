@@ -11,18 +11,14 @@ export class AddSchedulePage {
 
   schedule = {
     title: '',
-    startDate: new Date().toISOString(),
-    endDate: new Date().toISOString(),
+    startDate: '',
+    endDate: new Date(),
     notes: '',
     location: '',
     options: { firstReminderMinutes: 15, secondReminderMinutes: 5, id: 'childRecord' }
   }
-
-  event = {
-    startTime: new Date().toISOString(),
-    endTime: new Date().toISOString(),
-    allDay: false
-  };
+  minDate = new Date().getFullYear();
+  maxDate = new Date().getFullYear() + 10;
 
   children: any;
   selectedChild: any;
@@ -31,21 +27,10 @@ export class AddSchedulePage {
   addScheduleForm: FormGroup;
 
   constructor(public navParams: NavParams, public navCtrl: NavController, public viewCtrl: ViewController, private fb: FormBuilder, ) {
-    // let preselectedDate = moment(this.navParams.get('selectedDay')).format();
-    // this.event.startTime = preselectedDate;
-    // this.event.endTime = preselectedDate;
-
-    // this.addForm = this.fb.group({
-    //   title: ['', Validators.required],
-    //   startTime: ['', Validators.required],
-    //   endTime: ['', Validators.required],
-    //   allDay: ['', Validators.required]
-    // });
 
     this.addScheduleForm = this.fb.group({
       title: ['', Validators.required],
       startDate: ['', Validators.required],
-      endDate: ['', Validators.required],
       notes: ['', Validators.required],
       location: ['']
     });
@@ -55,15 +40,19 @@ export class AddSchedulePage {
     this.viewCtrl.dismiss();
   }
 
-  // get f() { return this.addForm.controls }
   get f() { return this.addScheduleForm.controls };
 
   save() {
     if (this.addScheduleForm.invalid) {
       return;
     }
-    // this.viewCtrl.dismiss(this.event);
+    let start = new Date(this.schedule.startDate);
+    let end = new Date();
+    end.setDate(start.getDate());
+    end.setHours(start.getHours())
+    this.schedule.endDate = end;
     this.schedule.title = `KiddieCare-${this.schedule.title}`;
+    console.log(this.schedule);
     this.viewCtrl.dismiss(this.schedule);
   }
 
