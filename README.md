@@ -1,6 +1,6 @@
 # KiddieCare
 
-Child Record Monitoring Mobile Application using [Ionic Framework](https://ionicframework.com/docs/v3/){target=_blank}
+Child Record Monitoring Mobile Application using [Ionic Framework](https://ionicframework.com/docs/v3/)
 
 ## Getting Started
 
