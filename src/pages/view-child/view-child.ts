@@ -192,6 +192,7 @@ export class ViewChildPage {
     this.boosterProvider.readBoosterList()
       .then(data => {
         this.boosterList = data;
+        console.log(this.boosterList);
       })
       .then(() => {
         this.checkBoosterItems();

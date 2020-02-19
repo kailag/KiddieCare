@@ -1,11 +1,11 @@
 # KiddieCare
 
-Child Record Monitoring Mobile Application using [Ionic Framework](https://ionicframework.com/docs/v3/) 
+Child Record Monitoring Mobile Application using [Ionic Framework](https://ionicframework.com/docs/v3/){target=_blank}
 
 ## Getting Started
 
 Clone or download this repository.\
-Run ``` npm install ``` to install all dependencies.
+Run `npm install` to install all dependencies.
 
 ## Running
 Browser:

@@ -1,12 +1,5 @@
 page-view-child {
-  .filters{
-    list-style: none;
-    display: flex;
-    flex-flow: row wrap;
-
-    li {
-      width: 24.33%;
-      text-align: center;
-   }
+  ion-checkbox .item-cover{
+    display:none;
   }
 }
