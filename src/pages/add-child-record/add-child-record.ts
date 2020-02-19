@@ -143,13 +143,12 @@ export class AddChildRecordPage {
       return;
     }
     let hasNextVisit = this.consultation.consultation_date_of_next_visit !== '' ? true : false;
-    
 
     if (hasNextVisit && !this.hasPhoto) {
       this.saveNextVisit();
     }
 
-    if (!hasNextVisit && this.hasPhoto){
+    if (!hasNextVisit && this.hasPhoto) {
       this.savePhoto();
     }
 

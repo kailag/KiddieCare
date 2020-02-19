@@ -47,9 +47,9 @@
               {{record.consultation_findings}}</p>
             <p *ngIf="record.consultation_type !== 'Vaccination'"><b>Prescription:</b>
               {{record.consultation_prescription}}</p>
-            <p><b>Instructions:</b> {{record.consultation_instructions}}</p>
+            <p *ngIf="record.consultation_type !== 'Vaccination'"><b>Instructions:</b> {{record.consultation_instructions}}</p>
             <p><b>Pediatrician:</b> {{record.consultation_doctor}}</p>
-            <p><b>Date of Next Visit:</b> {{record.consultation_date_of_next_visit | date: 'MMMM dd, yyyy'}}</p>
+            <p><b>Date of Next {{record.consultation_type === 'Vaccination' ? 'Dose' : 'Visit'}}</b> {{record.consultation_date_of_next_visit | date: 'MMMM dd, yyyy'}}</p>
             <p *ngIf="record.consultation_image_file" ion-text text-center color="primary"
               (click)="viewImage(record.consultation_image_file)">View Attached Image</p>
           </ion-card-content>
@@ -60,11 +60,11 @@
     <!-- BOOSTERS -->
     <div *ngSwitchCase="'boosters'" margin-top>
       <ion-list>
-        <ion-item *ngFor="let booster of boosterList">
+        <ion-item *ngFor="let booster of boosterList" text-wrap>
           <ion-label>{{booster.booster_name}}</ion-label>
           <ion-checkbox (ionChange)="addToChecked($event, booster.booster_id)" [checked]="booster.booster_stat">
           </ion-checkbox>
-          <ion-icon item-end name="trash" *ngIf="booster.boosterType" (click)="deleteBooster(booster.booster_id)">
+          <ion-icon name="trash" *ngIf="booster.booster_type" (click)="deleteBooster(booster.booster_id)" item-end>
           </ion-icon>
         </ion-item>
         <ion-item (click)="addBoosterToList()" tooltip="Add a booster shot not on the list" mobileEvent="press"

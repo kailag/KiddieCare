@@ -21,7 +21,7 @@
 
   <ion-list class="list-content">    
 
-    <h5 *ngIf="children.length <= 0">Start by pressing the add button below to add a child.</h5>
+    <h5 *ngIf="children.length <= 0" text-center>Start by pressing the add button below to add a child.</h5>
 
     <ion-item *ngFor="let child of children">
       <ion-avatar item-start (click)="viewChild(child)" tappable>
