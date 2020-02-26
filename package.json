@@ -1,5 +1,5 @@
 {
-  "name": "Kiddie Care",
+  "name": "KiddieCare",
   "version": "0.0.1",
   "author": "Ionic Framework",
   "homepage": "http://ionicframework.com/",
@@ -70,7 +70,7 @@
     "zone.js": "0.8.29"
   },
   "devDependencies": {
-    "@ionic/app-scripts": "3.2.2",
+    "@ionic/app-scripts": "^3.2.4",
     "@ionic/lab": "2.0.13",
     "typescript": "~2.6.2"
   },
