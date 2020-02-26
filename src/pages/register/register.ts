@@ -21,9 +21,9 @@ export class RegisterPage {
 
   constructor(private navCtrl: NavController, public navParams: NavParams, public profileProvider: ProfileProvider, private fb: FormBuilder, private alertCtrl: AlertController, private toastCtrl: ToastController, private storage: Storage) {
     this.createProfileForm = this.fb.group({
-      first_name: ['', Validators.required],
-      middle_name: ['', Validators.required],
-      last_name: ['', Validators.required]
+      first_name: ['Please enter your firstname', Validators.compose([Validators.pattern('[a-zA-Z ]*'), Validators.required])],
+      middle_name: [''],
+      last_name: ['Please enter your lastname', Validators.compose([Validators.pattern('[a-zA-Z ]*'), Validators.required])],
     });
   }
 
@@ -44,7 +44,7 @@ export class RegisterPage {
 
   addProfile() {
     if (this.createProfileForm.invalid) {
-      this.presentToast('Please fill out all required fields!');
+      this.presentToast('Please fill out all required fields correctly!');
       return;
     }
     console.log(this.createProfileForm.value);

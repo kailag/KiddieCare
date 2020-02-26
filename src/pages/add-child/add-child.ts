@@ -21,9 +21,9 @@ export class AddChildPage {
 
   constructor(public navParams: NavParams, public childRecordsProvider: ChildRecordsProvider, private fb: FormBuilder, private viewCtrl: ViewController, private toastCtrl: ToastController) {
     this.addForm = this.fb.group({
-      first_name: ['', Validators.required],
+      first_name: ['Please enter your firstname', Validators.compose([Validators.pattern('[a-zA-Z ]*'), Validators.required])],
       middle_name: [''],
-      last_name: ['', Validators.required],
+      last_name: ['Please enter your lastname', Validators.compose([Validators.pattern('[a-zA-Z ]*'), Validators.required])],
       birth_date: ['', Validators.required],
       gender: ['', Validators.required],
       doctor: ['']
@@ -43,7 +43,7 @@ export class AddChildPage {
 
   addChild() {
     if (this.addForm.invalid) {
-      this.presentToast('Please fill out all required fields!');
+      this.presentToast('Please fill out all required fields correctly!');
       return;
     }
     this.viewCtrl.dismiss(this.child);

@@ -21,7 +21,7 @@
 
   <ion-list class="list-content">    
 
-    <h5 *ngIf="children.length <= 0">Start by pressing the add button below to add a child.</h5>
+    <h5 *ngIf="children.length <= 0"></h5>
 
     <ion-item *ngFor="let child of children">
       <ion-avatar item-start (click)="viewChild(child)" tappable>
@@ -39,10 +39,18 @@
 
   </ion-list>
 
-  <ion-fab right bottom>
+  <!--ion-fab right bottom>
     <button ion-fab (click)="addChild()" mini tooltip="Add a child to children list" mobileEvent="press" duration="2000" positionH="right" positionV="top" arrow>
-      <ion-icon name="add"></ion-icon>
+      <ion-icon name="add"></ion-icon> Add new child
     </button>
-  </ion-fab>
+  </ion-fab-->
+
+  
+
+  <ion-buttons class="bottom">
+    <button ion-button round icon-start (click)="addChild()">
+      <ion-icon name="add"></ion-icon>Add New Child
+    </button>
+  </ion-buttons>
 
 </ion-content>
