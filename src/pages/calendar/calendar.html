@@ -9,7 +9,7 @@
         </ion-col>
         <ion-col>
           <div style="align-content: center;">
-            <ion-title class="month-title">UPCOMING SCHEDULES</ion-title>
+            <ion-title class="month-title" text-center>UPCOMING SCHEDULES</ion-title>
           </div>
         </ion-col>
       </ion-row>
@@ -23,8 +23,8 @@
   <ion-card *ngFor="let schedule of schedules">
     <ion-card-header>
       <ion-item>
-        {{schedule.title | ltrim: "KiddieCare-"}}
-        <ion-icon name="trash" color="gray" (click)="deleteSchedule(schedule)" item-right></ion-icon>
+        <strong>{{schedule.title | ltrim: "KiddieCare-"}}</strong>
+        <button color="danger" ion-button round outline item-end (click)="deleteSchedule(schedule)">DELETE</button>
       </ion-item>
     </ion-card-header>
 
@@ -43,11 +43,10 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-fab right bottom>
-    <button ion-fab (click)="addEvent()" mini tooltip="Add/Set a schedule" mobileEvent="press" duration="2000"
-      positionH="right" positionV="top" arrow>
-      <ion-icon name="add"></ion-icon>
+  <ion-buttons class="bottom">
+    <button ion-button round icon-start (click)="addEvent()">
+      <ion-icon name="add"></ion-icon>Add New schedule
     </button>
-  </ion-fab>
+  </ion-buttons>
 
 </ion-content>

@@ -15,18 +15,18 @@
     <ion-list>
 
       <ion-item>
-        <ion-label floating>Event/Title</ion-label>
+        <ion-label floating>*Title of Event</ion-label>
           <ion-input type="text" formControlName="title" [(ngModel)]="schedule.title" name="title" required></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label floating>Notes (Optional)</ion-label>
         <ion-textarea formControlName="notes" [(ngModel)]="schedule.notes"
-          name="notes" required></ion-textarea>
+          name="notes"></ion-textarea>
       </ion-item>
 
       <ion-item>
-        <ion-label floating>Date and Time</ion-label>
+        <ion-label floating>*Date and Time</ion-label>
         <ion-datetime displayFormat="MMMM DD, YYYY, hh:mm A" pickerFormat="MMM D YYYY hh mm A" formControlName="startDate"
           [(ngModel)]="schedule.startDate" name="startDate" [min]="minDate" [max]="maxDate"></ion-datetime>
       </ion-item>
@@ -38,7 +38,7 @@
     </ion-list>
 
     <button ion-button full icon-left type="submit">
-      <ion-icon name="add"></ion-icon> Add Schedule
+      <ion-icon name="checkmark"></ion-icon> Save
     </button>
   </form>
 </ion-content>

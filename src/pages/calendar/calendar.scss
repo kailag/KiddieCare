@@ -11,4 +11,10 @@ page-calendar{
     .month-title{
         text-transform: capitalize;
     }
+
+    .bottom{
+        position:absolute;
+        bottom: 15px;
+        right: 0;
+    }
 }

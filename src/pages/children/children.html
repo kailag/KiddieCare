@@ -23,9 +23,27 @@
 
     <h5 *ngIf="children.length <= 0"></h5>
 
+    
+    <!--ion-item>
+      <ion-avatar item-start tappable>
+        <img src="assets/imgs/child_male.png">
+      </ion-avatar>
+      <div tappable>
+        <h2>Kaisha B. Lagsaman</h2>
+        <p>Birthdate: June 19, 1998</p>
+        <p>Gender: Female</p>
+        <p>Age: 21</p>
+      </div>
+      
+      <button ion-button round outline item-end>EDIT</button>
+      <button ion-button round outline item-end>DELETE</button>
+      <h5 text-center><ion-icon name="eye"></ion-icon> View child records</h5>
+    </ion-item-->
+
     <ion-item *ngFor="let child of children">
       <ion-avatar item-start (click)="viewChild(child)" tappable>
-        <img src="assets/imgs/child-icon.png">
+        <img *ngIf="child.gender == 'Male'" src="assets/imgs/child_male.png">
+        <img *ngIf="child.gender == 'Female'" src="assets/imgs/child_female.png">
       </ion-avatar>
       <div (click)="viewChild(child)" tappable>
         <h2>{{child.first_name}} {{child.last_name}}</h2>
@@ -33,8 +51,10 @@
         <p>Gender: {{child.gender}}</p>
         <p>Age: {{returnAge(child.birth_date)}}</p>
       </div>
-      <ion-icon name="create" item-end color="gray" (click)="editChild(child)"></ion-icon>
-      <ion-icon name="trash" item-end color="gray" (click)="deleteChild(child.child_id)"></ion-icon>
+      
+      <button color="kiddieGreen" ion-button round outline item-end (click)="editChild(child)">EDIT</button>
+      <button color="danger" ion-button round outline item-end (click)="deleteChild(child.child_id)">DELETE</button>
+      <h5 text-center style="color: #96bff7;" (click)="viewChild(child)"><ion-icon name="eye"></ion-icon> View child records</h5>
     </ion-item>
 
   </ion-list>

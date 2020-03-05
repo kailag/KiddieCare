@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar color="secondary">
+  <ion-navbar color="primary">
     <ion-title>Edit Child</ion-title>
     <ion-buttons end>
       <button ion-button clear icon-only (click)="cancel()">
@@ -14,29 +14,29 @@
   <form [formGroup]="editForm" autocomplete="off" (ngSubmit)="updateChild()">
     <ion-list>
       <ion-item>
-        <ion-label floating>First Name</ion-label>
+        <ion-label floating>*First Name</ion-label>
         <ion-input type="text" formControlName="first_name" [(ngModel)]="child.first_name"></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-label floating>Middle Name</ion-label>
+        <ion-label floating>Middle Name (optional)</ion-label>
         <ion-input type="text" formControlName="middle_name" [(ngModel)]="child.middle_name"></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-label floating>Last Name</ion-label>
+        <ion-label floating>*Last Name</ion-label>
         <ion-input type="text" formControlName="last_name" [(ngModel)]="child.last_name"></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-label floating>Birthdate</ion-label>
+        <ion-label floating>*Birthdate</ion-label>
         <ion-datetime displayFormat="MMMM D, YYYY" pickerFormat="MMMM DD YYYY" formControlName="birth_date"
           [(ngModel)]="child.birth_date">
         </ion-datetime>
       </ion-item>
 
       <ion-item>
-        <ion-label floating>Gender</ion-label>
+        <ion-label floating>*Gender</ion-label>
         <ion-select formControlName="gender" [(ngModel)]="child.gender">
           <ion-option value="Male">Male</ion-option>
           <ion-option value="Female">Female</ion-option>
@@ -44,14 +44,14 @@
       </ion-item>
 
       <ion-item>
-        <ion-label floating>Doctor</ion-label>
+        <ion-label floating>Doctor (optional)</ion-label>
         <ion-input type="text" formControlName="doctor" [(ngModel)]="child.doctor"></ion-input>
       </ion-item>
 
     </ion-list>
 
-    <button ion-button block icon-start type="submit" color="secondary">
-      <ion-icon name="create"></ion-icon> UPDATE
+    <button ion-button block icon-start type="submit">
+      <ion-icon name="checkmark"></ion-icon> SAVE CHANGES
     </button>
   </form>
 

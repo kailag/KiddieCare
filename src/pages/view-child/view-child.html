@@ -20,10 +20,10 @@
       <ion-item>
         <ion-label>Type</ion-label>
         <ion-select [(ngModel)]="selectTerm" (ionChange)="filterByType($event)" interface="popover">
+          <ion-option value="all" selected>All</ion-option>
           <ion-option value="check-up/consultation">Check-up/Consultation</ion-option>
           <ion-option value="vaccination">Vaccination</ion-option>
           <ion-option value="emergency">Emergency</ion-option>
-          <ion-option value="all" selected>All</ion-option>
         </ion-select>
       </ion-item>
 
@@ -37,8 +37,8 @@
           <ion-card-header>
             <ion-item no-padding>
               <h2><b>{{record.consultation_date_of_visit | date: 'MMMM dd, yyyy'}}</b></h2>
-              <ion-icon name="create" item-end (click)="editRecord(record)"></ion-icon>
-              <ion-icon name="trash" item-end (click)="deleteRecord(record.consultation_id)" color="gray"></ion-icon>
+              <button color="kiddieGreen" ion-button round outline item-end (click)="editRecord(record)">EDIT</button>
+              <button color="danger" ion-button round outline item-end (click)="deleteRecord(record.consultation_id)">DELETE</button>
             </ion-item>
           </ion-card-header>
           <ion-card-content>
@@ -55,6 +55,15 @@
           </ion-card-content>
         </ion-card>
       </div>
+
+      <ion-fab right bottom>
+        <button ion-fab mini><ion-icon name="arrow-dropleft"></ion-icon></button>
+        <ion-fab-list side="left">
+          <button ion-button round outline (click)="addChildRecord()"><ion-icon name="add"></ion-icon> New Record</button>
+          <button ion-button round outline (click)="generatePdf()"><ion-icon name="document"></ion-icon> Create PDF</button>
+        </ion-fab-list>
+      </ion-fab>
+
     </div>
 
     <!-- BOOSTERS -->
@@ -74,24 +83,10 @@
         </ion-item>
       </ion-list>
 
-      <div padding>
-        <button ion-button block (click)="updateChildBoosters()">Update</button>
-      </div>
+        <button ion-button block (click)="updateChildBoosters()"><ion-icon name="checkmark"></ion-icon> Save Changes</button>
     </div>
   </div>
 
-  <ion-fab right bottom *ngIf="isRecordEntries">
-    <button ion-fab (click)="addChildRecord()" mini tooltip="Add a new RECORD ENTRY for this child" mobileEvent="press"
-      duration="2000" positionH="right" positionV="top" arrow>
-      <ion-icon name="add"></ion-icon>
-    </button>
-  </ion-fab>
-
-  <ion-fab left bottom *ngIf="isRecordEntries">
-    <button ion-fab (click)="generatePdf()" mini tooltip="Generate a PDF of RECORD ENTRIES based on filters result"
-      mobileEvent="press" duration="2000" positionH="right" positionV="top" arrow>
-      <ion-icon name="document"></ion-icon>
-    </button>
-  </ion-fab>
+  
 
 </ion-content>

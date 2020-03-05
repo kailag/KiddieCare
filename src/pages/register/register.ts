@@ -57,7 +57,7 @@ export class RegisterPage {
   presentAlert() {
     let alert = this.alertCtrl.create({
       title: 'Welcome to KiddieCare!',
-      subTitle: 'Please set up your profile to continue using the app',
+      subTitle: 'Please set up your profile to continue using the app. All fields with an asterisk (*) are required.',
       enableBackdropDismiss: false,
       buttons: [
         {

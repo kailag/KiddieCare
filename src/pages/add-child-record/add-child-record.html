@@ -13,7 +13,7 @@
   <form [formGroup]="addRecordForm" autocomplete="off" (ngSubmit)="addChildRecord()">
     <ion-list>
       <ion-item>
-        <ion-label>Type</ion-label>
+        <ion-label>*Type</ion-label>
         <ion-select formControlName="consultation_type" [(ngModel)]="consultation.consultation_type"
           interface="popover">
           <ion-option value="Check-up/Consultation">Check-up/Consultation</ion-option>
@@ -24,7 +24,7 @@
 
       <div *ngIf="consultation.consultation_type">
         <ion-item>
-          <ion-label floating>{{consultation.consultation_type === 'Vaccination' ? 'Vaccine Name' : 'Findings'}}</ion-label>
+          <ion-label floating>*{{consultation.consultation_type === 'Vaccination' ? 'Vaccine Name' : 'Findings'}}</ion-label>
           <ion-input type="text" formControlName="consultation_findings"
             [(ngModel)]="consultation.consultation_findings">
           </ion-input>
@@ -80,7 +80,7 @@
 
     </ion-list>
     <button ion-button block icon-start type="submit" [disabled]="!addRecordForm.valid">
-      <ion-icon name="add"></ion-icon> SAVE
+      <ion-icon name="checkmark"></ion-icon> SAVE
     </button>
 
   </form>

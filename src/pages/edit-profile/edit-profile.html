@@ -14,17 +14,17 @@
     <form [formGroup]="editForm" autocomplete="off" (ngSubmit)="updateProfile()">
       <ion-list>
         <ion-item>
-          <ion-label floating>First Name</ion-label>
+          <ion-label floating>*First Name</ion-label>
           <ion-input type="text" formControlName="first_name" [(ngModel)]="profile.first_name"></ion-input>
         </ion-item>
   
         <ion-item>
-          <ion-label floating>Middle Name</ion-label>
+          <ion-label floating>Middle Name (optional)</ion-label>
           <ion-input type="text" formControlName="middle_name" [(ngModel)]="profile.middle_name"></ion-input>
         </ion-item>
   
         <ion-item>
-          <ion-label floating>Last Name</ion-label>
+          <ion-label floating>*Last Name</ion-label>
           <ion-input type="text" formControlName="last_name" [(ngModel)]="profile.last_name"></ion-input>
         </ion-item>
       </ion-list>
