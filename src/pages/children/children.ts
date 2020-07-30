@@ -50,7 +50,7 @@ export class ChildrenPage {
           .then(res => {
 
             this.readChildren();
-            this.presentToast('Child was added successfully!');
+            this.presentToast('Successfully added child profile!');
 
           }).catch(err => {
             console.log(err);
@@ -72,7 +72,7 @@ export class ChildrenPage {
         this.childRecordsProvider.updateChild(data)
           .then(res => {
             this.readChildren();
-            this.presentToast('Child updated successfully!')
+            this.presentToast('Successfully updated child profile!')
           })
           .catch(e => console.log(e));
       }
@@ -82,7 +82,7 @@ export class ChildrenPage {
   deleteChild(id: any) {
     let alert = this.alertCtrl.create({
       title: 'WARNING!',
-      subTitle: 'Are you sure you want to delete this child?',
+      subTitle: 'Are you sure you want to delete this child profile?',
       buttons: [
         {
           text: 'Cancel',
@@ -94,7 +94,7 @@ export class ChildrenPage {
             this.childRecordsProvider.deleteChild(id)
               .then(res => {
                 this.readChildren();
-                this.presentToast('Child deleted successfully!');
+                this.presentToast('Successfully deleted child profile!');
               })
               .catch(e => console.log(e));
           }

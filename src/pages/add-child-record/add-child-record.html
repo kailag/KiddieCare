@@ -31,32 +31,32 @@
         </ion-item>
 
         <ion-item *ngIf="consultation.consultation_type !== 'Vaccination'">
-          <ion-label floating>Prescription</ion-label>
+          <ion-label floating>Prescription (optional)</ion-label>
           <ion-textarea formControlName="consultation_prescription"
             [(ngModel)]="consultation.consultation_prescription"></ion-textarea>
         </ion-item>
 
         <ion-item *ngIf="consultation.consultation_type !== 'Vaccination'">
-          <ion-label floating>Instructions/Notes</ion-label>
+          <ion-label floating>Instructions / Notes (optional)</ion-label>
           <ion-textarea formControlName="consultation_instructions"
             [(ngModel)]="consultation.consultation_instructions"></ion-textarea>
         </ion-item>
 
         <ion-item>
-          <ion-label floating>Physician</ion-label>
+          <ion-label floating>Doctor (optional)</ion-label>
           <ion-input type="text" formControlName="consultation_doctor" [(ngModel)]="consultation.consultation_doctor">
           </ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-label floating>Date of Visit</ion-label>
+          <ion-label floating>*Date of Visit</ion-label>
           <ion-datetime displayFormat="MMMM D, YYYY" pickerFormat="MMM DD YYYY"
             [(ngModel)]="consultation.consultation_date_of_visit" formControlName="consultation_date_of_visit">
           </ion-datetime>
         </ion-item>
 
         <ion-item>
-          <ion-label floating>{{consultation.consultation_type === 'Vaccination' ? 'Date of Next Dose' : 'Date of Next Visit'}}</ion-label>
+          <ion-label floating>{{consultation.consultation_type === 'Vaccination' ? 'Date of Next Dose' : 'Date of Next Visit'}} (optional)</ion-label>
           <ion-datetime displayFormat="MMMM D, YYYY, hh:mmA" pickerFormat="MMM D YYYY hh mm A"
             [(ngModel)]="consultation.consultation_date_of_next_visit"
             formControlName="consultation_date_of_next_visit">
@@ -65,7 +65,7 @@
 
         <ion-item text-center>
           <p color="primary" *ngIf="!imagePreview" (click)="addPhoto()">
-            <ion-icon name="camera"></ion-icon> Add Photo (Optional)
+            <ion-icon name="camera"></ion-icon> Add Photo (optional)
           </p>
           <p color="danger" *ngIf="imagePreview" (click)="removePhoto()">
             <ion-icon name="remove-circle"></ion-icon> Remove Photo

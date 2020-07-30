@@ -21,24 +21,7 @@
 
   <ion-list class="list-content">    
 
-    <h5 *ngIf="children.length <= 0"></h5>
-
-    
-    <!--ion-item>
-      <ion-avatar item-start tappable>
-        <img src="assets/imgs/child_male.png">
-      </ion-avatar>
-      <div tappable>
-        <h2>Kaisha B. Lagsaman</h2>
-        <p>Birthdate: June 19, 1998</p>
-        <p>Gender: Female</p>
-        <p>Age: 21</p>
-      </div>
-      
-      <button ion-button round outline item-end>EDIT</button>
-      <button ion-button round outline item-end>DELETE</button>
-      <h5 text-center><ion-icon name="eye"></ion-icon> View child records</h5>
-    </ion-item-->
+    <h5 *ngIf="children.length <= 0" style="margin-top: 20px; color: gray;" text-center>No child profile to show</h5>
 
     <ion-item *ngFor="let child of children">
       <ion-avatar item-start (click)="viewChild(child)" tappable>
@@ -50,8 +33,7 @@
         <p>Birthdate: {{child.birth_date | date: 'MMMM dd, yyyy'}}</p>
         <p>Gender: {{child.gender}}</p>
         <p>Age: {{returnAge(child.birth_date)}}</p>
-      </div>
-      
+      </div>      
       <button color="kiddieGreen" ion-button round outline item-end (click)="editChild(child)">EDIT</button>
       <button color="danger" ion-button round outline item-end (click)="deleteChild(child.child_id)">DELETE</button>
       <h5 text-center style="color: #96bff7;" (click)="viewChild(child)"><ion-icon name="eye"></ion-icon> View child records</h5>
@@ -59,17 +41,9 @@
 
   </ion-list>
 
-  <!--ion-fab right bottom>
-    <button ion-fab (click)="addChild()" mini tooltip="Add a child to children list" mobileEvent="press" duration="2000" positionH="right" positionV="top" arrow>
-      <ion-icon name="add"></ion-icon> Add new child
-    </button>
-  </ion-fab-->
-
-  
-
   <ion-buttons class="bottom">
     <button ion-button round icon-start (click)="addChild()">
-      <ion-icon name="add"></ion-icon>Add New Child
+      <ion-icon name="add"></ion-icon> Add New Child Profile
     </button>
   </ion-buttons>
 

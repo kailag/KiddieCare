@@ -22,7 +22,7 @@
       <ion-item>
         <ion-label floating>Notes (Optional)</ion-label>
         <ion-textarea formControlName="notes" [(ngModel)]="schedule.notes"
-          name="notes"></ion-textarea>
+          name="notes" required></ion-textarea>
       </ion-item>
 
       <ion-item>
@@ -38,7 +38,7 @@
     </ion-list>
 
     <button ion-button full icon-left type="submit">
-      <ion-icon name="checkmark"></ion-icon> Save
+      <ion-icon name="add"></ion-icon> Add Schedule
     </button>
   </form>
 </ion-content>

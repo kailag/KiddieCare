@@ -10,7 +10,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content padding>
 
   <div [ngSwitch]="view">
 
@@ -18,7 +18,7 @@
     <div *ngSwitchCase="'records'">
 
       <ion-item>
-        <ion-label>Type</ion-label>
+        <ion-label>View by type</ion-label>
         <ion-select [(ngModel)]="selectTerm" (ionChange)="filterByType($event)" interface="popover">
           <ion-option value="all" selected>All</ion-option>
           <ion-option value="check-up/consultation">Check-up/Consultation</ion-option>
@@ -32,11 +32,11 @@
       </ion-searchbar>
 
       <div id="pdfcontent" #pdfcontent>
-        <h5 text-center *ngIf="items.length <= 0">NO RECORDS TO SHOW</h5>
+        <h5 text-center *ngIf="items.length <= 0" style="margin-top: 15px; color: gray;">No records to show</h5>
         <ion-card no-padding *ngFor="let record of items">
           <ion-card-header>
             <ion-item no-padding>
-              <h2><b>{{record.consultation_date_of_visit | date: 'MMMM dd, yyyy'}}</b></h2>
+              <h4><b>{{record.consultation_date_of_visit | date: 'MMMM dd, yyyy'}}</b></h4>
               <button color="kiddieGreen" ion-button round outline item-end (click)="editRecord(record)">EDIT</button>
               <button color="danger" ion-button round outline item-end (click)="deleteRecord(record.consultation_id)">DELETE</button>
             </ion-item>
@@ -51,23 +51,23 @@
             <p><b>Pediatrician:</b> {{record.consultation_doctor}}</p>
             <p><b>Date of Next Visit:</b> {{record.consultation_date_of_next_visit | date: 'MMMM dd, yyyy'}}</p>
             <p *ngIf="record.consultation_image_file" ion-text text-center color="primary"
-              (click)="viewImage(record.consultation_image_file)">View Attached Image</p>
+              (click)="viewImage(record.consultation_image_file)"><ion-icon name="eye"></ion-icon> View Attached Image</p>
           </ion-card-content>
         </ion-card>
       </div>
 
-      <ion-fab right bottom>
+      <ion-fab right bottom class="bottom">
         <button ion-fab mini><ion-icon name="arrow-dropleft"></ion-icon></button>
         <ion-fab-list side="left">
-          <button ion-button round outline (click)="addChildRecord()"><ion-icon name="add"></ion-icon> New Record</button>
-          <button ion-button round outline (click)="generatePdf()"><ion-icon name="document"></ion-icon> Create PDF</button>
+          <button ion-button round (click)="addChildRecord()"><ion-icon name="add"></ion-icon> New Record</button>
+          <button ion-button round (click)="generatePdf()"><ion-icon name="document"></ion-icon> Create PDF</button>
         </ion-fab-list>
       </ion-fab>
 
     </div>
 
     <!-- BOOSTERS -->
-    <div *ngSwitchCase="'boosters'" margin-top>
+    <div *ngSwitchCase="'boosters'">
       <ion-list>
         <ion-item *ngFor="let booster of boosterList">
           <ion-label>{{booster.booster_name}}</ion-label>
