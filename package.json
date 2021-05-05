@@ -59,7 +59,7 @@
     "ionic-tooltips": "^3.1.0",
     "ionic2-calendar": "^0.4.0",
     "ionicons": "3.0.0",
-    "jspdf": "^1.5.3",
+    "jspdf": "^2.3.1",
     "moment": "^2.24.0",
     "ngx-pipes": "^2.6.0",
     "pdfmake": "^0.1.38",
